@@ -1,0 +1,24 @@
+h1 {
+    color: black;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.info-feed{
+    width: 70%;
+    height: auto;
+    justify-content: center;
+}
+
+.info-card{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+
+}
+
+.info-card p{
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
