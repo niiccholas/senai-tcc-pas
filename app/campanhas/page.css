@@ -1,24 +1,43 @@
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
+}
+
 h1 {
-    color: black;
+    color: #0B2A46;
     font-size: 32px;
     font-weight: bold;
 }
 
 .info-feed{
+    display: flex;
+    flex-direction: column;
     width: 70%;
     height: auto;
     justify-content: center;
+    gap: 20px;
 }
 
 .info-card{
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: auto;
     justify-content: center;
-
 }
 
 .info-card p{
     font-size: 24px;
     font-weight: bold;
-    color: black;
+    color: #094175;
+}
+
+.info-card img{
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    cursor: pointer;
 }
