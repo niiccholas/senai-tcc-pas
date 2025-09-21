@@ -1,6 +1,6 @@
 "use client";
 import SearchBar from "../components/searchbar/SearchBar";
-import InfoCard from "../components/infocard/infoCard";
+import InfoCard from "../components/infocard/InfoCard";
 import "./page.css";
 
 export default function HomePage() {
