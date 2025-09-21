@@ -33,6 +33,13 @@ h1 {
     font-size: 24px;
     font-weight: bold;
     color: #094175;
+    display: none;
+}
+
+
+.info-card:hover p {
+     transition:  3.0s;
+     display: block;
 }
 
 .info-card img{
