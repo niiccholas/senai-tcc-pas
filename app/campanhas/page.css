@@ -11,3 +11,12 @@ h1 {
     font-size: 32px;
     font-weight: bold;
 }
+
+.info-feed{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: auto;
+    justify-content: center;
+    gap: 20px;
+}

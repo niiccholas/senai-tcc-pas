@@ -1,12 +1,3 @@
-.info-feed{
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    height: auto;
-    justify-content: center;
-    gap: 20px;
-}
-
 .info-card{
     display: flex;
     flex-direction: column;
