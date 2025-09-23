@@ -81,7 +81,7 @@ label .checkmark:hover {
   background-color: #73a2d1;
 }
 
-label input:checked + .checkmark::after {
+label input:not(:checked) + .checkmark::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -121,4 +121,20 @@ label input:checked + .checkmark::after {
 
 a{
     text-decoration: none;
+}
+
+.onErrorCheck{
+    color: red;
+    text-align: start;
+    align-self: flex-start;
+    padding-top: 0.2vh;
+    font-size: 1.5vh;
+}
+
+.dontDisplay{
+    display: none;
+}
+
+label div{
+    display: flex;
 }
