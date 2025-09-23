@@ -1,0 +1,28 @@
+.divInput{
+    height: 6vh;
+    width: 100%;
+    border: 3px solid #8CC6FF;
+    border-radius: 1vw;
+    box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+.divInput img{
+    margin-inline: 1vw;
+    margin-inline-end: 0.8vw;
+    width: 5%;
+}
+
+.divInput input{
+    all: unset;
+    height: 100%;
+    width: 100%;
+    margin-left: 0.5vw;
+}
+
+.divInput span{
+    color: black;
+    opacity: 65%;
+    font-weight: 600
+}
