@@ -7,10 +7,13 @@ import './page.css'
 import { loginUsuario } from "../api/usuario"
 import React from 'react'
 import { useRouter } from "next/navigation";
+import test from 'node:test'
 
 const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [onErrorCheckmark, setErrorCheckmark] = React.useState(false)
+
   const router = useRouter()
 
   async function handleLogin(formData: FormData) { // teste
@@ -18,7 +21,7 @@ const Page: NextPage<{}> = ({}) => {
     const cpf = formData.get("cpf") as string
     const rawCpf = cpf.replace(/\D/g, "") // as duas barras querem dizer q é uma regex, uma variável especial q coloca padrões para detectar na string, como D para não-digitos.
                                             // o g significa q é para substituir todas as ocorrências, não só a primeira
-    const senha = formData.get("senha") as string;
+    const senha = formData.get("senha") as string
 
     const data = await loginUsuario(rawCpf, senha)
 
@@ -29,6 +32,14 @@ const Page: NextPage<{}> = ({}) => {
     }
 
     console.log(data)
+  }
+
+  function errorCheckmark(){
+    if(onErrorCheckmark){
+      alert('nao erro')
+    }else{
+      alert('sim erro')
+    }
   }
 
   return (
@@ -46,17 +57,18 @@ const Page: NextPage<{}> = ({}) => {
         <Input name='senha' srcImg='https://files.svgcdn.io/fa6-solid/lock.svg' heightImg='60%' value={password} onChange={setPassword} type='password'></Input>
 
         <label>
-            <input type="checkbox" name="accept" required/>
+            <input type="checkbox" name="accept" onChange={(e) => setErrorCheckmark(prev => !prev)} required/>
              <span className="checkmark"></span>
-           <p>
-            Li e aceito os{" "}
-            <span style={{ color: "#298BE6" }}>Termos de Uso</span>{" "}
-            e a{" "}
-            <span style={{ color: "#298BE6" }}>Política de Privacidade</span>
-          </p>
+              <p className='termos'>
+                Li e aceito os{" "}
+                <span style={{ color: "#298BE6" }}>Termos de Uso</span>{" "}
+                e a{" "}
+                <span style={{ color: "#298BE6" }}>Política de Privacidade</span>
+              </p>
+          
         </label>
 
-        <button type="submit">ENTRAR</button>
+        <button type="submit" onClick={errorCheckmark}>ENTRAR</button>
       </Form>
 
       <p style={{color: "#298BE6", paddingTop: "3vh"}}>Não tem conta? <a href="https://sso.acesso.gov.br/" style={{ color: "#0B2A46", fontWeight: "500"}}>Cadastre-se</a></p>
