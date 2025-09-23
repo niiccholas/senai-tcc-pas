@@ -2,14 +2,34 @@
 
 import { NextPage } from 'next'
 import Input from '../components/inputLogin/input'
-import Form from "next/form";
+import Form from "next/form"
 import './page.css'
-import React from 'react';
+import { loginUsuario } from "../api/usuario"
+import React from 'react'
+import { useRouter } from "next/navigation";
 
-interface Props {}
-
-const Page: NextPage<Props> = ({}) => {
+const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
+  const [password, setPassword] = React.useState("")
+  const router = useRouter()
+
+  async function handleLogin(formData: FormData) { // teste
+
+    const cpf = formData.get("cpf") as string
+    const rawCpf = cpf.replace(/\D/g, "") // as duas barras querem dizer q é uma regex, uma variável especial q coloca padrões para detectar na string, como D para não-digitos.
+                                            // o g significa q é para substituir todas as ocorrências, não só a primeira
+    const senha = formData.get("senha") as string;
+
+    const data = await loginUsuario(rawCpf, senha)
+
+    if(data.status){
+      router.push("/inicio")
+    }else{
+      alert("Login inválido")
+    }
+
+    console.log(data)
+  }
 
   return (
     <main>
@@ -21,9 +41,9 @@ const Page: NextPage<Props> = ({}) => {
          <img src="/images/govlogo.png" alt="gov.br logo"/>
       </div>
 
-      <Form action="" className='form'>
+      <Form action={handleLogin} className='form'>
         <Input name='cpf' srcImg='https://files.svgcdn.io/solar/card-2-outline.svg' heightImg='80%' isCPF={true} value={cpf} onChange={setCpf} type='text'></Input>
-        <Input name='senha' srcImg='https://files.svgcdn.io/fa6-solid/lock.svg' heightImg='60%' type='password'></Input>
+        <Input name='senha' srcImg='https://files.svgcdn.io/fa6-solid/lock.svg' heightImg='60%' value={password} onChange={setPassword} type='password'></Input>
 
         <label>
             <input type="checkbox" name="accept" required/>
@@ -41,7 +61,7 @@ const Page: NextPage<Props> = ({}) => {
 
       <p style={{color: "#298BE6", paddingTop: "3vh"}}>Não tem conta? <a href="https://sso.acesso.gov.br/" style={{ color: "#0B2A46", fontWeight: "500"}}>Cadastre-se</a></p>
 
-      <button className='noLogin'>Continuar sem login</button>
+      <button className='noLogin' onClick={() => router.push("/inicio")}>Continuar sem login</button>
      
     </main>
   )
