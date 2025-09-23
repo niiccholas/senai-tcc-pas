@@ -1,0 +1,124 @@
+:root{
+    --cor-primaria-texto: #0B2A46;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 92%;
+    padding-top: 8vh;
+    color: var(--cor-primaria-texto);
+}
+
+.logoLogin{
+    height: 15vh;
+}
+
+h1{
+    padding-top: 2vh;
+    font-size: 4vh;
+}
+
+.containerGov{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-block: 1vh;
+    padding-block-end: 3vh;
+}
+
+.containerGov h2{
+    font-weight: 400;
+    font-size: 2.2vh;
+}
+
+.containerGov img{
+    height: 2vh;
+    margin-left: 0.3vw;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 30%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form input{
+    width: 100%;
+}
+
+label{
+    display: flex;
+    align-items: center;
+}
+/* escondendo checkbox original */
+label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+label .checkmark {
+  position: relative;
+  width: 1.2em;     
+  height: 1.2em;
+  background-color: #8CC6FF;
+  border-radius: 50%; 
+  display: inline-block;
+  transition: background-color 0.2s;
+  margin-right: 0.5vw;
+  cursor: pointer;
+}
+
+label .checkmark:hover {
+  background-color: #73a2d1;
+}
+
+label input:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;         
+  height: 60%;
+  background-color: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s;
+}
+
+.form button{
+    width: 20%;
+    height: 4vh;
+    border: none;
+    border-radius: 3vw;
+    background-color: #8CC6FF;
+    box-shadow:  0px 5px 7px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+}
+
+.noLogin{
+    width: 15%;
+    height: 4vh;
+    border: none;
+    border-radius: 3vw;
+    background-color: #8CC6FF;
+    box-shadow:  0px 5px 7px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    margin-top: 2vh;
+}
+
+a{
+    text-decoration: none;
+}
