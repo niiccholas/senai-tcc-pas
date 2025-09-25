@@ -1,22 +1,25 @@
-main{
+.main{
+    background-color: aqua;
+    height: 92%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 30px;
-}
-
-h1 {
-    color: #0B2A46;
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.info-feed{
-    display: flex;
     flex-direction: column;
-    width: 70%;
-    height: auto;
+}
+
+.main .infoFeed{
+    background-color: blue;
+    height: 100%;
+    width: 100%;
+    display: flex;
     justify-content: center;
-    gap: 20px;
+}
+
+.main ul {
+    width: 75%;
+    height: 100%;
+    background-color: pink;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
