@@ -1,9 +1,8 @@
 import SearchBar from "../components/searchbar/SearchBar"
 import InfoCard from "../components/infocard/InfoCard"
-import "./page.css"
+import styles from "./page.module.css"
 import { getCampanhas } from "../api/campanha"
 import React from 'react';
-
 export default async function HomePage() {
 
   const campanhas = await getCampanhas()
@@ -23,8 +22,8 @@ export default async function HomePage() {
        />
         )}
         </ul>
-        
-      </div>
+
+      </div> 
     </main>
   )
 }
