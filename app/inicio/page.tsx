@@ -14,11 +14,12 @@ export default async function HomePage() {
       <h1>Informações</h1>
       <div className="info-feed">
         <ul>
-        {campanhas.map ((campanha) => 
+        {campanhas.map ((campanha, index) => 
          <InfoCard
-         image="/images/vacina.png"
+         image={campanha.foto}
          alt={campanha.nome}
          text={campanha.descricao}
+         key={index}
        />
         )}
         </ul>
