@@ -27,8 +27,7 @@ const Page: NextPage<{}> = ({}) => {
     }else{
       alert("Login inválido")
     }
-
-    console.log(data)
+    
   }
 
   return (

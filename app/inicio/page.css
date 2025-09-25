@@ -1,22 +1,18 @@
-main{
+.main{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 30px;
+    background-color: blue;
 }
 
-h1 {
+.main h1 {
     color: #0B2A46;
-    font-size: 32px;
+    font-size: 3vh;
     font-weight: bold;
 }
 
-.info-feed{
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    height: auto;
-    justify-content: center;
-    gap: 20px;
+.main ul{
+    height: 100%;
+    width: 50%;
 }
