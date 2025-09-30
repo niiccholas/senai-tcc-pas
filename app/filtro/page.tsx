@@ -11,35 +11,10 @@ export default function FilterPage(){
             <h1>SELECIONE O QUE PRECISA:</h1>
             <div className="filter-card">
                 <div className="section-1">
-                    <div className="specialties">
+                    <div id="specialties" className="filter-list">
                         <h2>Especialidades</h2>
-                    </div>
-                    <div className="specialty-list">
+                        <div className="specialty-list">
                         <ul>
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
                         <IconText
                             img = "../../../public/images/clinica-geral.png"
                             text = "Clínica geral"
@@ -50,9 +25,10 @@ export default function FilterPage(){
                         />
                         </ul>
                     </div>
-                    <div className="24h-service">
+                    </div>
+                    <div id="24h-service" className="filter-list">
                         <h2>Atendimento 24h</h2>
-                        <div className="option-row">
+                        <div className="option-row" >
                             <ul>
                             <IconText
                                 img = "../../../public/images/clinica-geral.png"
@@ -67,7 +43,7 @@ export default function FilterPage(){
                     </div>
                 </div>
                 <div className="section-2">
-                    <div className="area-radius">
+                    <div id="area-radius" className="filter-list">
                         <h2>Localização</h2>
                         <ul>
                             <IconText
@@ -79,11 +55,11 @@ export default function FilterPage(){
                                 text = "Distância"
                             />
                         </ul>
-                        <div className="randius-bar"></div>
+                        <div className="randius-bar" ></div>
                     </div>
-                    <div className="public-units">
+                    <div id="public-units" className="filter-list">
                         <h2>Unidades Públicas</h2>
-                        <div className="unity-list">
+                        <div id="unity-list">
                             <IconText
                                 img = "../../../public/images/clinica-geral.png"
                                 text = "Hospital geral"
