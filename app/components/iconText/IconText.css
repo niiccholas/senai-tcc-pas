@@ -1,0 +1,22 @@
+.icon-text{
+    display: flex;
+    flex-direction: row;
+    max-width: 400px;
+    height: auto;
+    width: auto;
+    justify-content: start;
+    gap: 10px;
+
+}
+
+.icon-text img{
+    size: 20px;
+}
+
+.icon-text span{
+    width: auto;
+    height: 100%;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+}

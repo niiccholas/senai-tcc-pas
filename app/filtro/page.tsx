@@ -12,7 +12,7 @@ export default function FilterPage(){
             <div className="filter-card">
                 <div className="section-1">
                     <div className="specialties">
-
+                        <h2>Especialidades</h2>
                     </div>
                     <div className="24h-service">
                         
