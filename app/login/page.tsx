@@ -3,51 +3,71 @@
 import { NextPage } from 'next'
 import Input from '../components/inputLogin/input'
 import Form from "next/form"
-import './page.css'
+import styles from './page.module.css'
 import { loginUsuario } from "../api/usuario"
 import React from 'react'
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [onErrorCheckmark, setErrorCheckmark] = React.useState(false)
+
   const router = useRouter()
 
-  async function handleLogin(formData: FormData) { // teste
-
+  async function handleLogin(formData: FormData) {
     const cpf = formData.get("cpf") as string
-    const rawCpf = cpf.replace(/\D/g, "") // as duas barras querem dizer q é uma regex, uma variável especial q coloca padrões para detectar na string, como D para não-digitos.
-                                            // o g significa q é para substituir todas as ocorrências, não só a primeira
-    const senha = formData.get("senha") as string;
+    const rawCpf = cpf.replace(/\D/g, "")
+    const senha = formData.get("senha") as string
 
     const data = await loginUsuario(rawCpf, senha)
 
-    if(data.status){
+    if (data.status) {
       router.push("/inicio")
-    }else{
+    } else {
       alert("Login inválido")
     }
     
   }
 
   return (
-    <main>
-      <img src="/images/paslogo.png" alt="PAS Logo" className='logoLogin'/>
-      <h1>Login</h1>
+    <main className={styles.main}>
+      <img src="/images/paslogo.png" alt="PAS Logo" className={styles.logoLogin} />
+      <h1 className={styles.title}>Login</h1>
 
-      <div className='containerGov'>
-         <h2>Entre com a conta</h2>   
-         <img src="/images/govlogo.png" alt="gov.br logo"/>
+      <div className={styles.containerGov}>
+        <h2>Entre com a conta</h2>
+        <img src="/images/govlogo.png" alt="gov.br logo" />
       </div>
 
-      <Form action={handleLogin} className='form'>
-        <Input name='cpf' srcImg='https://files.svgcdn.io/solar/card-2-outline.svg' heightImg='80%' isCPF={true} value={cpf} onChange={setCpf} type='text'></Input>
-        <Input name='senha' srcImg='https://files.svgcdn.io/fa6-solid/lock.svg' heightImg='60%' value={password} onChange={setPassword} type='password'></Input>
+      <Form action={handleLogin} className={styles.form}>
+        <Input
+          name="cpf"
+          srcImg="https://files.svgcdn.io/solar/card-2-outline.svg"
+          heightImg="80%"
+          isCPF={true}
+          value={cpf}
+          onChange={setCpf}
+          type="text"
+        />
+        <Input
+          name="senha"
+          srcImg="https://files.svgcdn.io/fa6-solid/lock.svg"
+          heightImg="60%"
+          value={password}
+          onChange={setPassword}
+          type="password"
+        />
 
-        <label>
-            <input type="checkbox" name="accept" required/>
-             <span className="checkmark"></span>
-           <p>
+        <label className={styles.label}>
+          <input
+            type="checkbox"
+            name="accept"
+            onChange={() => setErrorCheckmark(prev => !prev)}
+            required
+          />
+          <span className={styles.checkmark}></span>
+          <p className={styles.termos}>
             Li e aceito os{" "}
             <span style={{ color: "#298BE6" }}>Termos de Uso</span>{" "}
             e a{" "}
@@ -58,12 +78,20 @@ const Page: NextPage<{}> = ({}) => {
         <button type="submit">ENTRAR</button>
       </Form>
 
-      <p style={{color: "#298BE6", paddingTop: "3vh"}}>Não tem conta? <a href="https://sso.acesso.gov.br/" style={{ color: "#0B2A46", fontWeight: "500"}}>Cadastre-se</a></p>
+      <p style={{ color: "#298BE6", paddingTop: "3vh" }}>
+        Não tem conta?{" "}
+        <a
+          href="https://sso.acesso.gov.br/"
+          className={styles.link}
+          style={{ color: "#0B2A46", fontWeight: "500" }}
+        >
+          Cadastre-se
+        </a>
+      </p>
 
-      <button className='noLogin' onClick={() => router.push("/inicio")}>Continuar sem login</button>
-     
+      <button className={styles.noLogin} onClick={() => router.push("/inicio")}>
+        Continuar sem login
+      </button>
     </main>
   )
 }
-
-export default Page
