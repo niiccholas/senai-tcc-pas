@@ -1,4 +1,4 @@
-main{
+.main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,35 +8,34 @@ main{
     padding-top: 30px;
 }
 
-h1 {
+.h1 {
     color: black;
     font-size: 32px;
     font-weight: medium;
 }
 
-h2{
+.h2 {
     font-size: 24px;
     color: black;
 }
 
-.icon-text span{
+.iconText span {
     color: black;
 }
 
-span{
+.span {
     font-size: 24px;
     font-weight: lighter;
 }
 
-.availabity-checkbox{
+.availabilityCheckbox {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: space-between;
-
 }
 
-.filter-card{
+.filterCard {
     display: flex;  
     flex-direction: row;
     width: 70%;
@@ -46,28 +45,28 @@ span{
     gap: 20px;
 }
 
-.section-1, .section-2{
+.section1, .section2 {
     display: flex;
     height: 100%;
     flex-direction: column;
     justify-content: flex-start;
-
 }
 
-.section-1{
+.section1 {
     gap: 70px;
 }
-.section-2{
-    gap: 70px
+
+.section2 {
+    gap: 70px;
 }
 
-.filter-list{
+.filterList {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.option-row ul{
+.optionRow ul {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -75,7 +74,7 @@ span{
     gap: 50px;
 }
 
-.send-filter{
+.sendFilter {
     width: 200px;
     height: 35px;
     background-color: #0B2A46;
@@ -85,5 +84,5 @@ span{
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    align-self:center;
+    align-self: center;
 }

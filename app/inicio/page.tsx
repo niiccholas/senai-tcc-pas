@@ -1,6 +1,6 @@
 import SearchBar from "../components/searchbar/SearchBar"
 import InfoCard from "../components/infocard/InfoCard"
-import "./page.css"
+import styles from "./page.module.css"
 import { getCampanhas } from "../api/campanha"
 import React from 'react';
 
@@ -9,10 +9,10 @@ export default async function HomePage() {
   const campanhas = await getCampanhas()
 
   return (
-    <main>
+    <main className={styles.main}>
       <SearchBar />
       <h1>Informações</h1>
-      <div className="info-feed">
+      <div className={styles.infofeed}>
         <ul>
         {campanhas.map ((campanha, index) => 
          <InfoCard

@@ -2,18 +2,18 @@
 
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
-import "./page.css"
+import styles from "./page.module.css"
 
 export default function FilterPage(){
     return(
-        <main>
+        <main className={styles.main}>
             <SearchBar></SearchBar>
             <h1>SELECIONE O QUE PRECISA:</h1>
-            <div className="filter-card">
-                <div className="section-1">
-                    <div id="specialties" className="filter-list">
+            <div className={styles.filterCard}>
+                <div className={styles.section1}>
+                    <div id="specialties" className={styles.filterList}>
                         <h2>Especialidades</h2>
-                        <div className="specialty-list">
+                        <div className={styles.specialtyList}>
                         <ul>
                             <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
                             <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
@@ -27,9 +27,9 @@ export default function FilterPage(){
                         </ul>
                     </div>
                     </div>
-                    <div id="availability" className="filter-list">
+                    <div id="availability" className={styles.filterList}>
                         <h2>Atendimento 24h</h2>
-                        <div className="option-row" >
+                        <div className={styles.optionRow}>
                             <ul>
                                 <IconText img = "images/done.png" text = "Sim"/>
                                 <IconText img = "images/close.png" text = "Não"/>
@@ -37,16 +37,16 @@ export default function FilterPage(){
                         </div>
                     </div>
                 </div>
-                <div className="section-2">
-                    <div id="area-radius" className="filter-list">
+                <div className={styles.section2}>
+                    <div id="area-radius" className={styles.filterList}>
                         <h2>Localização</h2>
                         <ul>
                             <IconText img = "images/placemarker.png" text = "Unidade mais proxima"/>
                             <IconText img = "images/depth.png" text = "Distância"/>
                         </ul>
-                        <div className="randius-bar" ></div>
+                        <div className={styles.randiusBar}></div>
                     </div>
-                    <div id="public-units" className="filter-list">
+                    <div id="public-units" className={styles.filterList}>
                         <h2>Unidades Públicas</h2>
                         <div id="unity-list">
                             <IconText img = "images/clinica-geral.png" text = "Hospital geral"/>
@@ -58,7 +58,7 @@ export default function FilterPage(){
                     </div>
                 </div>
             </div>
-            <button className="send-filter">FILTRAR</button>
+            <button className={styles.sendFilter}>FILTRAR</button>
         </main>
     )
 }

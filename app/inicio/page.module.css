@@ -1,4 +1,4 @@
-main{
+.main{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,13 +6,13 @@ main{
     padding-top: 30px;
 }
 
-h1 {
+.h1 {
     color: #0B2A46;
     font-size: 32px;
     font-weight: bold;
 }
 
-.info-feed{
+.infofeed{
     display: flex;
     flex-direction: column;
     width: 70%;
