@@ -1,0 +1,23 @@
+.icontext{
+    display: flex;
+    flex-direction: row;
+    max-width: 500px;
+    height: auto;
+    width: auto;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.icontext img{
+    size: 20px;
+}
+
+.icontext span{
+    width: auto;
+    height: 100%;
+    font-size: 24px;
+    font-weight: lighter;
+    cursor: pointer;
+}

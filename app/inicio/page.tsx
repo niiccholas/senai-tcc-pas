@@ -15,7 +15,7 @@ export default async function HomePage() {
         <ul>
         {campanhas.map ((campanha, index) => 
          <InfoCard
-         image="/images/vacina.png"
+         image={campanha.foto}
          alt={campanha.nome}
          text={campanha.descricao}
          key={index}
