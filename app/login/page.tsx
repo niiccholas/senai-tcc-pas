@@ -75,7 +75,7 @@ const Page: NextPage<{}> = ({}) => {
           </p>
         </label>
 
-        <button type="submit">ENTRAR</button>
+        <button type="submit" className={styles.button}>ENTRAR</button>
       </Form>
 
       <p style={{ color: "#298BE6", paddingTop: "3vh" }}>
@@ -95,3 +95,5 @@ const Page: NextPage<{}> = ({}) => {
     </main>
   )
 }
+
+export default Page
