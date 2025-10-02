@@ -23,7 +23,6 @@ export default async function HomePage() {
        />
         )}
         </ul>
-        
       </div>
     </main>
   )

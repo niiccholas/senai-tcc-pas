@@ -1,4 +1,5 @@
 .infocard{
+    padding-block: 2vh;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -9,6 +10,7 @@
 .infocard p{
     font-size: 24px;
     font-weight: bold;
+    text-align: center;
     color: #094175;
 }
 

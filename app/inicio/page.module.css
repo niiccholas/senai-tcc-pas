@@ -12,11 +12,15 @@
     font-weight: bold;
 }
 
-.infofeed{
+.infofeed {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Ou row, dependendo do layout desejado */
     width: 70%;
     height: auto;
     justify-content: center;
-    gap: 20px;
+    gap: 20px; /* Espaçamento entre os cards */
+}
+
+.infofeed ul{
+    padding-bottom: 2vh;
 }
