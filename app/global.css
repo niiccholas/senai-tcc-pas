@@ -8,6 +8,10 @@
     --cor-primaria-texto: #0B2A46;
 }
   
+:root{
+    --cor-primaria-texto: #0B2A46;
+}
+
 body, html{
     width: 100%;
     height: 100%;

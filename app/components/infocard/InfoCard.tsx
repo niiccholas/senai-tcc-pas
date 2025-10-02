@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import styles from "./InfoCard.module.css"; // se quiser css separado
+import styles from "./InfoCard.module.css"; 
 
 interface InfoCardProps {
   image: string;
@@ -24,13 +24,12 @@ export default function InfoCard({ image, alt, text }: InfoCardProps) {
   }, []);
 
   return (
-    <div className={styles.infoCard} ref={cardRef}>
-        <img
-          src={image}
-          alt={alt}
-          onClick={() => setOpenCard(!openCard)}
-        />
-      
+    <div className={styles.infocard} ref={cardRef}>
+      <img
+        src={image}
+        alt={alt}
+        onClick={() => setOpenCard(!openCard)}
+      />
       {openCard && <p>{text}</p>}
     </div>
   );

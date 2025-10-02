@@ -1,25 +1,26 @@
 .main{
-    background-color: aqua;
-    height: 92%;
-    width: 100%;
     display: flex;
-    align-items: center;
     flex-direction: column;
-}
-
-.main .infoFeed{
-    background-color: blue;
-    height: 100%;
-    width: 100%;
-    display: flex;
+    align-items: center;
     justify-content: center;
+    padding-top: 30px;
 }
 
-.main ul {
-    width: 75%;
-    height: 100%;
-    background-color: pink;
+.h1 {
+    color: #0B2A46;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.infofeed {
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    flex-direction: column; /* Ou row, dependendo do layout desejado */
+    width: 70%;
+    height: auto;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os cards */
+}
+
+.infofeed ul{
+    padding-bottom: 2vh;
 }

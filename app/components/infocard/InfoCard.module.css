@@ -1,5 +1,22 @@
-.infoCard{
+.infocard{
+    padding-block: 2vh;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 10vh;
+    height: auto;
+    justify-content: center;
 }
 
+.infocard p{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #094175;
+}
+
+.infocard img{
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    cursor: pointer;
+}
