@@ -1,5 +1,5 @@
 "use client";
-import "./IconText.css"; // se quiser css separado
+import "./IconText.css"; 
 
 interface IconTextProps {
   img: string;
@@ -9,7 +9,7 @@ interface IconTextProps {
 export default function IconText({ img, text }: IconTextProps) {
   return (
     <div className="icon-text">
-      <img src={img}/>
+      <img src={img} />
       <span>{text}</span>
     </div>
   );

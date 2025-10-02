@@ -1,7 +1,7 @@
 .icon-text{
     display: flex;
     flex-direction: row;
-    max-width: 400px;
+    max-width: 500px;
     height: auto;
     width: auto;
     justify-content: start;

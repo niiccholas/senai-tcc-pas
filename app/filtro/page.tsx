@@ -15,15 +15,15 @@ export default function FilterPage(){
                         <h2>Especialidades</h2>
                         <div className="specialty-list">
                         <ul>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
-                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
                         </ul>
                     </div>
                     </div>
@@ -31,14 +31,8 @@ export default function FilterPage(){
                         <h2>Atendimento 24h</h2>
                         <div className="option-row" >
                             <ul>
-                            <IconText
-                                img = "../../../public/images/clinica-geral.png"
-                                text = "Sim"
-                            />
-                            <IconText
-                                img = "../../../public/images/clinica-geral.png"
-                                text = "Não"
-                            />
+                                <IconText img = "images/done.png" text = "Sim"/>
+                                <IconText img = "images/close.png" text = "Não"/>
                             </ul>
                         </div>
                     </div>
@@ -47,25 +41,19 @@ export default function FilterPage(){
                     <div id="area-radius" className="filter-list">
                         <h2>Localização</h2>
                         <ul>
-                            <IconText
-                                img = "../../../public/images/clinica-geral.png"
-                                text = "Unidade mais proxima"
-                            />
-                            <IconText
-                                img = "../../../public/images/clinica-geral.png"
-                                text = "Distância"
-                            />
+                            <IconText img = "images/placemarker.png" text = "Unidade mais proxima"/>
+                            <IconText img = "images/depth.png" text = "Distância"/>
                         </ul>
                         <div className="randius-bar" ></div>
                     </div>
                     <div id="public-units" className="filter-list">
                         <h2>Unidades Públicas</h2>
                         <div id="unity-list">
-                            <IconText img = "../../../public/images/clinica-geral.png" text = "Hospital geral"/>
-                            <IconText img = "../../../public/images/clinica-geral.png" text = "UPA (Unidade de Pronto Atendimento)"/>
-                            <IconText img = "../../../public/images/clinica-geral.png" text = "UBS (Unidade Básica de Saúde)"/>
-                            <IconText img = "../../../public/images/clinica-geral.png" text = "AMA (Assistência Médica Ambulatorial)"/>
-                            <IconText img = "../../../public/images/clinica-geral.png" text = "CAPS (Centro de Atenção Psicossocial)"/>
+                            <IconText img = "images/clinica-geral.png" text = "Hospital geral"/>
+                            <IconText img = "images/clinica-geral.png" text = "UPA (Unidade de Pronto Atendimento)"/>
+                            <IconText img = "/images/clinica-geral.png" text = "UBS (Unidade Básica de Saúde)"/>
+                            <IconText img = "/images/clinica-geral.png" text = "AMA (Assistência Médica Ambulatorial)"/>
+                            <IconText img = "/images/clinica-geral.png" text = "CAPS (Centro de Atenção Psicossocial)"/>
                         </div>
                     </div>
                 </div>
