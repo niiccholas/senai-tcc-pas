@@ -2,63 +2,63 @@
 
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
-import "./page.css"
+import styles from "./page.module.css"
 
 export default function FilterPage(){
     return(
-        <main>
-            <SearchBar></SearchBar>
-            <h1>SELECIONE O QUE PRECISA:</h1>
-            <div className="filter-card">
-                <div className="section-1">
-                    <div id="specialties" className="filter-list">
-                        <h2>Especialidades</h2>
+        <main className={styles.main}>
+            <SearchBar />
+            <h1 className={styles.title}>SELECIONE O QUE PRECISA:</h1>
+            
+            <div className={styles.filterCard}>
+                <div className={styles.section1}>
+                    <div id="specialties" className={styles.filterList}>
+                        <h2 className={styles.subtitle}>Especialidades</h2>
                         <div className="specialty-list">
-                        <ul>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                        </ul>
+                            <ul className={styles.ul}>
+                                <IconText img="/images/clinica-geral.png" text="Clínica geral"/>
+                                <IconText img="/images/clinica-geral.png" text="Clínica geral"/>
+                                <IconText img="/images/clinica-geral.png" text="Clínica geral"/>
+                                <IconText img="/images/clinica-geral.png" text="Clínica geral"/>
+                            </ul>
+                        </div>
                     </div>
-                    </div>
-                    <div id="availability" className="filter-list">
-                        <h2>Atendimento 24h</h2>
-                        <div className="option-row" >
+                    
+                    <div id="availability" className={styles.filterList}>
+                        <h2 className={styles.subtitle}>Atendimento 24h</h2>
+                        <div className={styles.optionRow}>
                             <ul>
-                                <IconText img = "images/done.png" text = "Sim"/>
-                                <IconText img = "images/close.png" text = "Não"/>
+                                <IconText img="images/done.png" text="Sim"/>
+                                <IconText img="images/close.png" text="Não"/>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div className="section-2">
-                    <div id="area-radius" className="filter-list">
-                        <h2>Localização</h2>
+
+                <div className={styles.section2}>
+                    <div id="area-radius" className={styles.filterList}>
+                        <h2 className={styles.subtitle}>Localização</h2>
                         <ul>
-                            <IconText img = "images/placemarker.png" text = "Unidade mais proxima"/>
-                            <IconText img = "images/depth.png" text = "Distância"/>
+                            <IconText img="images/placemarker.png" text="Unidade mais próxima"/>
+                            <IconText img="images/depth.png" text="Distância"/>
                         </ul>
-                        <div className="randius-bar" ></div>
+                        <div className="randius-bar"></div>
                     </div>
-                    <div id="public-units" className="filter-list">
-                        <h2>Unidades Públicas</h2>
+
+                    <div id="public-units" className={styles.filterList}>
+                        <h2 className={styles.subtitle}>Unidades Públicas</h2>
                         <div id="unity-list">
-                            <IconText img = "images/clinica-geral.png" text = "Hospital geral"/>
-                            <IconText img = "images/clinica-geral.png" text = "UPA (Unidade de Pronto Atendimento)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "UBS (Unidade Básica de Saúde)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "AMA (Assistência Médica Ambulatorial)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "CAPS (Centro de Atenção Psicossocial)"/>
+                            <IconText img="images/clinica-geral.png" text="Hospital geral"/>
+                            <IconText img="images/clinica-geral.png" text="UPA (Unidade de Pronto Atendimento)"/>
+                            <IconText img="/images/clinica-geral.png" text="UBS (Unidade Básica de Saúde)"/>
+                            <IconText img="/images/clinica-geral.png" text="AMA (Assistência Médica Ambulatorial)"/>
+                            <IconText img="/images/clinica-geral.png" text="CAPS (Centro de Atenção Psicossocial)"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <button className="send-filter">FILTRAR</button>
+
+            <button className={styles.sendFilter}>FILTRAR</button>
         </main>
     )
 }
