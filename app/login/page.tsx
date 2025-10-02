@@ -104,3 +104,5 @@ const Page: NextPage<{}> = ({}) => {
     </main>
   )
 }
+
+export default Page
