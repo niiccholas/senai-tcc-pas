@@ -15,18 +15,19 @@ export default function FilterPage(){
                         <h2>Especialidades</h2>
                         <div className="specialty-list">
                         <ul>
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
-                        <IconText
-                            img = "../../../public/images/clinica-geral.png"
-                            text = "Clínica geral"
-                        />
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
+                        <IconText img = "../../../public/images/clinica-geral.png" text = "Clínica geral"/>
                         </ul>
                     </div>
                     </div>
-                    <div id="24h-service" className="filter-list">
+                    <div id="availability" className="filter-list">
                         <h2>Atendimento 24h</h2>
                         <div className="option-row" >
                             <ul>
@@ -60,15 +61,16 @@ export default function FilterPage(){
                     <div id="public-units" className="filter-list">
                         <h2>Unidades Públicas</h2>
                         <div id="unity-list">
-                            <IconText
-                                img = "../../../public/images/clinica-geral.png"
-                                text = "Hospital geral"
-                            />
+                            <IconText img = "../../../public/images/clinica-geral.png" text = "Hospital geral"/>
+                            <IconText img = "../../../public/images/clinica-geral.png" text = "UPA (Unidade de Pronto Atendimento)"/>
+                            <IconText img = "../../../public/images/clinica-geral.png" text = "UBS (Unidade Básica de Saúde)"/>
+                            <IconText img = "../../../public/images/clinica-geral.png" text = "AMA (Assistência Médica Ambulatorial)"/>
+                            <IconText img = "../../../public/images/clinica-geral.png" text = "CAPS (Centro de Atenção Psicossocial)"/>
                         </div>
                     </div>
                 </div>
             </div>
-            <button>FILTRAR</button>
+            <button className="send-filter">FILTRAR</button>
         </main>
     )
 }
