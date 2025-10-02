@@ -1,4 +1,4 @@
-.icon-text{
+.icontext{
     display: flex;
     flex-direction: row;
     max-width: 500px;
@@ -10,11 +10,11 @@
 
 }
 
-.icon-text img{
+.icontext img{
     size: 20px;
 }
 
-.icon-text span{
+.icontext span{
     width: auto;
     height: 100%;
     font-size: 24px;

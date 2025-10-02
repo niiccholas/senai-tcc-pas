@@ -1,4 +1,4 @@
-.info-card{
+.infocard{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -6,13 +6,13 @@
     justify-content: center;
 }
 
-.info-card p{
+.infocard p{
     font-size: 24px;
     font-weight: bold;
     color: #094175;
 }
 
-.info-card img{
+.infocard img{
     width: 100%;
     height: auto;
     border-radius: 30px;

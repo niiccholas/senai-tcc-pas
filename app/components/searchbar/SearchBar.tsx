@@ -3,17 +3,25 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Form from 'next/form';
-import './SearchBar.css';
+import styles from './SearchBar.module.css';
 
 export default function SearchBar() {
   const router = useRouter();
 
+  const handleFilterClick = () => {
+    if (window.location.pathname === "/filtro") {
+      router.back(); // volta para a página anterior
+    } else {
+      router.push("/filtro"); // vai para filtro
+    }
+  };
+
   return (
-    <Form className="search-box" action="/pesquisar">
+    <Form className={styles.searchbox} action="/pesquisar">
       <button 
-        id="filter-btn" 
+        className={styles.filterbtn}
         type="button" 
-        onClick={() => router.push('/filtro')}
+        onClick={handleFilterClick}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
              viewBox="0 0 24 24" fill="none" stroke="#ffffff" 
@@ -26,7 +34,7 @@ export default function SearchBar() {
       <input name="search-input" placeholder="Procure por uma unidade de saúde..." />
 
       <button
-        id="filter-btn" 
+        className={styles.filterbtn}
         type="submit" 
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
