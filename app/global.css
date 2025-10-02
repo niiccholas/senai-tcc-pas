@@ -3,6 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --cor-primaria-texto: #0B2A46;
+}
   
 :root{
     --cor-primaria-texto: #0B2A46;

@@ -3,14 +3,16 @@
 import { NextPage } from 'next'
 import Input from '../components/inputLogin/input'
 import Form from "next/form"
-import styles from "./page.module.css"
+import styles from './page.module.css'
 import { loginUsuario } from "../api/usuario"
 import React from 'react'
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [onErrorCheckmark, setErrorCheckmark] = React.useState(false)
+
   const router = useRouter()
 
   async function handleLogin(formData: FormData) {
@@ -25,8 +27,14 @@ const Page: NextPage<{}> = ({}) => {
     } else {
       alert("Login inválido")
     }
+  }
 
-    console.log(data)
+  function errorCheckmark() {
+    if (onErrorCheckmark) {
+      alert("nao erro")
+    } else {
+      alert("sim erro")
+    }
   }
 
   return (
@@ -35,7 +43,7 @@ const Page: NextPage<{}> = ({}) => {
       <h1 className={styles.title}>Login</h1>
 
       <div className={styles.containerGov}>
-        <h2 className={styles.subtitle}>Entre com a conta</h2>
+        <h2>Entre com a conta</h2>
         <img src="/images/govlogo.png" alt="gov.br logo" />
       </div>
 
@@ -58,10 +66,15 @@ const Page: NextPage<{}> = ({}) => {
           type="password"
         />
 
-        <label className={styles.checkboxLabel}>
-          <input type="checkbox" name="accept" required />
+        <label className={styles.label}>
+          <input
+            type="checkbox"
+            name="accept"
+            onChange={() => setErrorCheckmark(prev => !prev)}
+            required
+          />
           <span className={styles.checkmark}></span>
-          <p>
+          <p className={styles.termos}>
             Li e aceito os{" "}
             <span style={{ color: "#298BE6" }}>Termos de Uso</span>{" "}
             e a{" "}
@@ -69,23 +82,23 @@ const Page: NextPage<{}> = ({}) => {
           </p>
         </label>
 
-        <button type="submit" className={styles.submitButton}>ENTRAR</button>
+        <button type="submit" onClick={errorCheckmark} className={styles.button}>
+          ENTRAR
+        </button>
       </Form>
 
-      <p className={styles.registerPrompt}>
+      <p style={{ color: "#298BE6", paddingTop: "3vh" }}>
         Não tem conta?{" "}
         <a
           href="https://sso.acesso.gov.br/"
+          className={styles.link}
           style={{ color: "#0B2A46", fontWeight: "500" }}
         >
           Cadastre-se
         </a>
       </p>
 
-      <button
-        className={styles.noLogin}
-        onClick={() => router.push("/inicio")}
-      >
+      <button className={styles.noLogin} onClick={() => router.push("/inicio")}>
         Continuar sem login
       </button>
     </main>
