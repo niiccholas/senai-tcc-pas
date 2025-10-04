@@ -24,9 +24,8 @@ export default async function HomePage() {
           unitType={campanha.tipo_unidade_disponivel}
           observations={campanha.observacoes}
           city={campanha.cidades}
-          availableUnits={campanha.unidades_disponiveis}
           startDate={campanha.data_inicio}
-          endDate={campanha.data_fim}
+          endDate={campanha.data_termino}
           dayHours={campanha.dias_horario}
           key={index}
        />

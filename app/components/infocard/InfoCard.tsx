@@ -2,6 +2,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./InfoCard.module.css";
 
+interface CidadeInfo {
+  cidade: string;
+  unidades_disponiveis: string[];
+}
+
 interface InfoCardProps {
   image: string;
   alt?: string;
@@ -10,14 +15,25 @@ interface InfoCardProps {
   campaignType: string;
   unitType: string;
   observations?: string;
-  city: string[];
-  availableUnits?: string[];
+  city: CidadeInfo[]; // Corrigido para array de objetos
   startDate?: string;
   endDate?: string;
   dayHours?: string;
 }
 
-export default function InfoCard({ image, alt, description, audience,  campaignType, unitType, observations, city, availableUnits, startDate, endDate, dayHours}: InfoCardProps) {
+export default function InfoCard({
+  image,
+  alt,
+  description,
+  audience,
+  campaignType,
+  unitType,
+  observations,
+  city,
+  startDate,
+  endDate,
+  dayHours,
+}: InfoCardProps) {
   const [openCard, setOpenCard] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
   const [openLocation, setOpenLocation] = useState(false);
@@ -43,50 +59,62 @@ export default function InfoCard({ image, alt, description, audience,  campaignT
       <img
         src={image}
         alt={alt}
+        className={styles.infocardImg}
         onClick={() => setOpenCard(!openCard)}
       />
-      {openCard && <p>{description}</p>}
+      {openCard && <p className={styles.infocardP}>{description}</p>}
       {openCard && (
         <>
           <button
-            className="more-info"
+            className={styles.moreInfo}
             onClick={() => setOpenInfo((prev) => !prev)}
           >
             Outras informações
           </button>
-          {openInfo && 
-            <div className="other-info">
-              <p>Tipo da campanha: {campaignType}</p>
-              <p>Público-alvo: {audience}</p>
-              <p>Observacões: {observations}</p>
-            </div> 
-            }
+          {openInfo && (
+            <div className={styles.otherInfo}>
+              <p>Observações: <span>{observations}</span></p>
+              <p>Tipo da campanha: <span>{campaignType}</span></p>
+              <p>Público-alvo: <span>{audience}</span></p>
+            </div>
+          )}
           <button
-            className="more-info"
+            className={styles.moreInfo}
             onClick={() => setOpenLocation((prev) => !prev)}
           >
             Localização
           </button>
-          {openLocation && 
-            <div className="location-info">
-            <p>Cidades: {city}</p>
-            <p>Tipo de unidade disponível: {unitType}</p>
-            <p>Unidades disponíveis: {availableUnits}</p>
-          </div> 
-          }
+          {openLocation && (
+            <div className={styles.locationInfo}>
+              <p>
+                Disponível em: <span>{unitType}</span>
+              </p>
+              {city.map((cidadeObj, idx) => (
+                <div key={idx} className={styles.cityBlock}>
+                  <p>
+                    Cidade: <span>{cidadeObj.cidade}</span>
+                  </p>
+                  <p>Unidades: </p>
+                  <ul className={styles.unitList}>
+                    {cidadeObj.unidades_disponiveis.map((unidade, unidadeIdx) => (<li key={unidadeIdx}>{unidade}</li>))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
           <button
-            className="more-info"
+            className={styles.moreInfo}
             onClick={() => setOpenDates((prev) => !prev)}
           >
             Datas da campanha
           </button>
-          {openDates &&  
-            <div className="campaign-dates">
-            <p>Início da campanha: {startDate}</p>
-            <p>Término da campanha: {endDate}</p>
-            <p>{dayHours}</p>
-          </div> 
-          }
+          {openDates && (
+            <div className={styles.campaignDates}>
+              <p>Início da campanha: <span>{startDate}</span></p>
+              <p>Término da campanha: <span>{endDate}</span></p>
+              <p>Dias e horários: <span>{dayHours}</span></p>
+            </div>
+          )}
         </>
       )}
     </div>

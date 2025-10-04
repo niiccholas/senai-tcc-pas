@@ -10,7 +10,7 @@
 .infocard p{
     font-size: 24px;
     font-weight: bold;
-    text-align: center;
+    text-align:start;
     color: #094175;
 }
 
@@ -19,4 +19,17 @@
     height: auto;
     border-radius: 30px;
     cursor: pointer;
+}
+
+.otherInfo span,
+.locationInfo span,
+.campaignDates span{
+    font-weight: 400;
+    font-family: 'Rubik', sans-serif;
+}
+
+.unitList {
+    list-style-type: none; 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
