@@ -10,7 +10,7 @@
 .infocard p{
     font-size: 24px;
     font-weight: 500;
-    text-align:start;
+    text-align:flex-start;
     color: #094175;
 }
 
