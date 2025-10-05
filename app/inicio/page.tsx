@@ -15,11 +15,19 @@ export default async function HomePage() {
       <div className={styles.infofeed}>
         <ul>
         {campanhas.map ((campanha, index) => 
-         <InfoCard
-         image={campanha.foto}
-         alt={campanha.nome}
-         text={campanha.descricao}
-         key={index}
+          <InfoCard
+          image={campanha.foto}
+          alt={campanha.nome}
+          description={campanha.descricao}
+          audience={campanha.publico_alvo}
+          campaignType={campanha.tipo}
+          unitType={campanha.tipo_unidade_disponivel}
+          observations={campanha.observacoes}
+          city={campanha.cidades}
+          startDate={campanha.data_inicio}
+          endDate={campanha.data_termino}
+          dayHours={campanha.dias_horario}
+          key={index}
        />
         )}
         </ul>

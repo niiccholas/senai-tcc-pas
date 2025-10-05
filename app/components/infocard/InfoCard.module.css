@@ -9,8 +9,8 @@
 
 .infocard p{
     font-size: 24px;
-    font-weight: bold;
-    text-align: center;
+    font-weight: 500;
+    text-align:start;
     color: #094175;
 }
 
@@ -19,4 +19,55 @@
     height: auto;
     border-radius: 30px;
     cursor: pointer;
+    padding-bottom: 2vh;
+}
+
+.buttonsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: auto;
+    padding-block: 3vh;
+    justify-content: center
+}
+
+.moreInfo{
+    display: flex;
+    gap: 10px;
+    padding: 2.4vh;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    outline: none;
+    background-color: #298BE6;
+    border-radius: 10px;
+    border: none;
+    font-size: 24px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    color: white
+}
+
+.otherInfo span,
+.locationInfo span,
+.campaignDates span{
+    font-weight: 400;
+    font-family: 'Rubik', sans-serif;
+}
+
+.otherInfo,
+.locationInfo,
+.campaignDates{
+    display:flex;
+    flex-direction: column;
+    height: auto;
+    gap: 1vh;
+}
+
+
+.unitList {
+    list-style-type: none; 
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
