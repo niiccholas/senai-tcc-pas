@@ -65,56 +65,58 @@ export default function InfoCard({
       {openCard && <p className={styles.infocardP}>{description}</p>}
       {openCard && (
         <>
-          <button
+          <div className={styles.buttonsContainer}>
+            <button
             className={styles.moreInfo}
             onClick={() => setOpenInfo((prev) => !prev)}
-          >
+            >
             Outras informações
-          </button>
-          {openInfo && (
-            <div className={styles.otherInfo}>
-              <p>Observações: <span>{observations}</span></p>
-              <p>Tipo da campanha: <span>{campaignType}</span></p>
-              <p>Público-alvo: <span>{audience}</span></p>
-            </div>
-          )}
-          <button
-            className={styles.moreInfo}
-            onClick={() => setOpenLocation((prev) => !prev)}
-          >
-            Localização
-          </button>
-          {openLocation && (
-            <div className={styles.locationInfo}>
-              <p>
-                Disponível em: <span>{unitType}</span>
-              </p>
-              {city.map((cidadeObj, idx) => (
-                <div key={idx} className={styles.cityBlock}>
-                  <p>
-                    Cidade: <span>{cidadeObj.cidade}</span>
-                  </p>
-                  <p>Unidades: </p>
-                  <ul className={styles.unitList}>
-                    {cidadeObj.unidades_disponiveis.map((unidade, unidadeIdx) => (<li key={unidadeIdx}>{unidade}</li>))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
-          <button
-            className={styles.moreInfo}
-            onClick={() => setOpenDates((prev) => !prev)}
-          >
-            Datas da campanha
-          </button>
-          {openDates && (
-            <div className={styles.campaignDates}>
-              <p>Início da campanha: <span>{startDate}</span></p>
-              <p>Término da campanha: <span>{endDate}</span></p>
-              <p>Dias e horários: <span>{dayHours}</span></p>
-            </div>
-          )}
+            </button>
+            {openInfo && (
+              <div className={styles.otherInfo}>
+                <p>Observações: <span>{observations}</span></p>
+                <p>Tipo da campanha: <span>{campaignType}</span></p>
+                <p>Público-alvo: <span>{audience}</span></p>
+              </div>
+            )}
+            <button
+              className={styles.moreInfo}
+              onClick={() => setOpenLocation((prev) => !prev)}
+            >
+              Localização
+            </button>
+            {openLocation && (
+              <div className={styles.locationInfo}>
+                <p>
+                  Disponível em: <span>{unitType}</span>
+                </p>
+                {city.map((cidadeObj, idx) => (
+                  <div key={idx} className={styles.cityBlock}>
+                    <p>
+                      Cidade: <span>{cidadeObj.cidade}</span>
+                    </p>
+                    <p>Unidades: </p>
+                    <ul className={styles.unitList}>
+                      {cidadeObj.unidades_disponiveis.map((unidade, unidadeIdx) => (<li key={unidadeIdx}>{unidade}</li>))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button
+              className={styles.moreInfo}
+              onClick={() => setOpenDates((prev) => !prev)}
+            >
+              Datas da campanha
+            </button>
+            {openDates && (
+              <div className={styles.campaignDates}>
+                <p>Início da campanha: <span>{startDate}</span></p>
+                <p>Término da campanha: <span>{endDate}</span></p>
+                <p>Dias e horários: <span>{dayHours}</span></p>
+              </div>
+            )}
+          </div>
         </>
       )}
     </div>

@@ -15,11 +15,11 @@
 
 .infofeed {
     display: flex;
-    flex-direction: column; /* Ou row, dependendo do layout desejado */
+    flex-direction: column;
     width: 70%;
     height: auto;
     justify-content: center;
-    gap: 20px; /* Espaçamento entre os cards */
+    gap: 20px; 
 }
 
 .infofeed ul{
