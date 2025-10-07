@@ -15,7 +15,7 @@ interface InfoCardProps {
   campaignType: string;
   unitType: string;
   observations?: string;
-  city: CidadeInfo[]; // Corrigido para array de objetos
+  city: CidadeInfo[];
   startDate?: string;
   endDate?: string;
   dayHours?: string;
