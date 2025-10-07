@@ -40,7 +40,6 @@ export default function InfoCard({
   const [openDates, setOpenDates] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Fecha ao clicar fora
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
@@ -95,7 +94,6 @@ export default function InfoCard({
                     <p>
                       Cidade: <span>{cidadeObj.cidade}</span>
                     </p>
-                    <p>Unidades: </p>
                     <ul className={styles.unitList}>
                       {cidadeObj.unidades_disponiveis.map((unidade, unidadeIdx) => (<li key={unidadeIdx}>{unidade}</li>))}
                     </ul>

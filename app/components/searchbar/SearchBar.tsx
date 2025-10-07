@@ -10,9 +10,9 @@ export default function SearchBar() {
 
   const handleFilterClick = () => {
     if (window.location.pathname === "/filtro") {
-      router.back(); // volta para a página anterior
+      router.back(); 
     } else {
-      router.push("/filtro"); // vai para filtro
+      router.push("/filtro");
     }
   };
 
