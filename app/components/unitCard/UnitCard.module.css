@@ -1,0 +1,86 @@
+.unitCard {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-bottom: 3px solid #e5e7eb;
+    margin-inline: 1VW;
+    padding-block: 16px ;
+    background: #fff;
+    width: 100%;
+}
+
+.unitName {
+    font-size: 24px;
+    font-weight: 400;
+    width: 100%;
+    color: black;
+}
+
+.lowerDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.waitContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 4px;
+}
+
+  
+.waitBox {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+}
+  
+.waitLabel {
+    font-size: 14px;
+    font-weight: 300;
+    color: #374151;
+}
+  
+.waitValue {
+    font-size: 15px;
+    font-weight: 500;
+    color: #000;
+}
+  
+.learnMoreBtn {
+    background: #135DB2;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding-inline: 1vw;
+    height: 80%;
+}
+  
+.learnMoreBtn:hover {
+    background: #1d4ed8;
+}
+  
+.learnMoreBtn:active {
+    background: #1e40af;
+}
+  
+  /* Responsivo */
+@media (max-width: 768px) {
+    .unitCard {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .learnMoreBtn {
+      align-self: flex-end;
+    }
+  }
+  

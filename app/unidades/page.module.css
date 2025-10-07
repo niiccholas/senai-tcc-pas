@@ -1,0 +1,40 @@
+.main{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+.unitDiv{
+    display: flex;
+    flex-direction: row;
+    width: 30%;
+    height: 100%;
+    border-top-right-radius: 1vh; 
+    box-shadow: 3px 0px 3px 0px #f1f1f1;
+}
+
+.unitList{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    height: 100%
+}
+
+.closeUnitList{
+    display: flex;
+    align-items: top;
+    background: none;    
+    border: none;
+    size: 100%;
+    cursor: pointer;
+    padding-top: 0.5vh;
+}
+
+
+.unitMap{
+    display: flex;
+    width: 70%;
+    height: 100%;
+    justify-content: center;
+}
