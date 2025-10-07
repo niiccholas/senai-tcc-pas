@@ -95,7 +95,6 @@ export default function InfoCard({
                     <p>
                       Cidade: <span>{cidadeObj.cidade}</span>
                     </p>
-                    <p>Unidades: </p>
                     <ul className={styles.unitList}>
                       {cidadeObj.unidades_disponiveis.map((unidade, unidadeIdx) => (<li key={unidadeIdx}>{unidade}</li>))}
                     </ul>
