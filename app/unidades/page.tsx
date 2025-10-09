@@ -6,7 +6,7 @@ import { getUnidades } from '../api/unidade'
 import UnitCard,  {UnitCardProps}  from '../components/unitCard/UnitCard';
 import SearchBar from '../components/searchbar/SearchBar';
 
-export default function FilterPage() {
+export default function UnitPage() {
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
 
