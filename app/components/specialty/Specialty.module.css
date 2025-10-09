@@ -1,0 +1,47 @@
+.specialtyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: white;
+  border-left: 4px solid #134E83;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.specialtyName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #134E83;
+  margin: 0;
+}
+
+.waitInfo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.waitInfo svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.waitInfo > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: #666;
+  font-weight: 400;
+}
+
+.time {
+  font-size: 0.85rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
