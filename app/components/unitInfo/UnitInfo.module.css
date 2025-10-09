@@ -9,11 +9,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
+  width: 100%;
   background: white;
-}
-
-.generalInfo {
   padding: 1rem;
 }
 
@@ -26,14 +23,14 @@
 
 .imgTitle img {
   width: 100%;
-  height: 200px;
+  height: auto;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .imgTitle h2 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 400;
   color: #1a1a1a;
   margin: 0;
   line-height: 1.3;
@@ -64,24 +61,26 @@
 }
 
 .label {
-  font-size: 0.75rem;
-  color: #666;
-  font-weight: 500;
+  font-size: 11px;
+  color: #134E83;
+  font-weight: 600;
 }
 
 .element {
-  font-size: 0.9rem;
+  font-size: 18px;
   color: #1a1a1a;
-  font-weight: 500;
+  font-weight: 300;
 }
 
 .specialtyBtn {
-  width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem;
+  width: 30%;
   background: white;
   border: 1px solid #134E83;
+  border-radius: 0.3rem;
   color: #134E83;
-  font-size: 0.9rem;
+  font-size: 14px;
+  font-family: 'Rubik', sans-serif;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -94,7 +93,9 @@
 
 .specialityList {
   display: flex;
+  justify-content: left;
   flex-direction: column;
-  padding: 1rem;
+  padding-top: 1rem;
   gap: 0.75rem;
+  width: 100%;
 }

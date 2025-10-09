@@ -8,11 +8,11 @@
 .unitDiv{
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     width: 30%;
     height: 100%;
     border-top-right-radius: 1vh; 
     box-shadow: 3px 0px 3px 0px #f1f1f1;
-    /* Animação de entrada/saída */
     animation: slideIn 0.4s ease-out;
 }
 
@@ -52,7 +52,6 @@
     height: 100%;
     justify-content: center;
     position: relative;
-    /* Animação suave para mudança de largura */
 }
 
 .unitMapFull {
@@ -70,12 +69,10 @@
     cursor: pointer;
     z-index: 10;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    /* Animação de entrada do botão */
     animation: fadeInScale 0.3s ease-out;
     transition: transform 0.2s ease;
 }
 
-/* Animação de entrada do botão de menu */
 @keyframes fadeInScale {
     from {
         opacity: 0;
