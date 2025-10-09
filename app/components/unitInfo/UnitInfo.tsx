@@ -129,7 +129,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
         className={styles.specialtyBtn} 
         onClick={() => setShowSpecialties(!showSpecialties)}
       >
-        {showSpecialties ? 'Ocultar especialidades' : 'Selecione uma especialidade'}
+        {showSpecialties ? 'Ocultar especialidades' : 'Ver especialidades'}
       </button>
       {showSpecialties && (
         <div className={styles.specialityList}>
