@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import styles from './UnitInfo.module.css'
-import Specialty from '../specialty/Specialty'
+import Specialty from '../specialty/specialty'
 
 interface UnitInfoProps {
   unitId: string
@@ -49,6 +49,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
         const data = await response.json()
         
         if (data.status) {
+          console.log('Dados da unidade recebidos:', data.unidadeDeSaude)
           setUnitData(data.unidadeDeSaude)
         }
       } catch (error) {
@@ -69,9 +70,16 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
     return <div className={styles.error}>Erro ao carregar informações da unidade</div>
   }
 
-  const address = unitData.local.endereco[0]
-  const category = unitData.categoria.categoria[0]?.nome || 'N/A'
+  // Validações seguras para evitar erros
+  const address = unitData.local?.endereco?.[0]
+  const category = unitData.categoria?.categoria?.[0]?.nome || 'Não informado'
   const waitTime = unitData.disponibilidade_24h ? '0 minutos' : '30 minutos'
+  const especialidades = unitData.especialidades?.especialidades || []
+
+  // Se não tiver endereço, retornar erro
+  if (!address) {
+    return <div className={styles.error}>Endereço não disponível para esta unidade</div>
+  }
 
   return (
     <div className={styles.unitCard}>
@@ -129,18 +137,22 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
         className={styles.specialtyBtn} 
         onClick={() => setShowSpecialties(!showSpecialties)}
       >
-        {showSpecialties ? 'Ocultar especialidades' : 'Selecione uma especialidade'}
+        {showSpecialties ? 'Ocultar especialidades' : 'Ver especialidades'}
       </button>
       {showSpecialties && (
         <div className={styles.specialityList}>
-          {unitData.especialidades.especialidades.map((specialty) => (
-            <Specialty
-              key={specialty.id}
-              id={String(specialty.id)}
-              name={specialty.nome}
-              waitTime={waitTime}
-            />
-          ))}
+          {especialidades.length > 0 ? (
+            especialidades.map((specialty) => (
+              <Specialty
+                key={specialty.id}
+                id={String(specialty.id)}
+                name={specialty.nome}
+                waitTime={waitTime}
+              />
+            ))
+          ) : (
+            <p className={styles.noSpecialties}>Nenhuma especialidade disponível</p>
+          )}
         </div>
       )}
     </div>

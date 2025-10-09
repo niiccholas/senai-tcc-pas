@@ -16,13 +16,16 @@
     "@react-native-vector-icons/fontawesome6": "^12.2.0",
     "@react-native-vector-icons/ionicons": "^12.3.0",
     "ionicons": "^8.0.13",
+    "leaflet": "^1.9.4",
     "next": "^15.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-icons": "^5.5.0",
-    "react-ionicons": "^1.5.7"
+    "react-ionicons": "^1.5.7",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.20",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.13",
     "typescript": "^5.9.2"
