@@ -209,9 +209,7 @@
   border-color: #10b981;
 }
 
-.addressesSection {
-  /* Container for addresses section */
-}
+
 
 .addressesTitle {
   font-weight: 600;
@@ -286,14 +284,16 @@
 
 /* Popup styles */
 .popupContent {
-  text-align: center;
+  text-align: start;
 }
 
 .popupTitle {
   font-weight: 600;
+  font-size: 1rem;
 }
 
 .popupText {
+  font-weight: 400;
   font-size: 0.875rem;
   color: #4b5563;
 }
@@ -334,4 +334,16 @@
 
 .popupRemoveButton:hover {
   background-color: #4b5563;
+}
+
+.selectedUnitBadge {
+  background: #28a745;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

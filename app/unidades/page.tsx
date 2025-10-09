@@ -2,16 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-//import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-//import L from 'leaflet';
-//import 'leaflet/dist/leaflet.css';
 import styles from './page.module.css';
 import { getUnidades } from '../api/unidade';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
 import SearchBar from '../components/searchbar/SearchBar';
 
-// Carrega o LocationMap apenas no lado do cliente para evitar erro de SSR
 const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
   ssr: false,
   loading: () => <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6' }}>Carregando mapa...</div>
@@ -21,24 +17,85 @@ export default function UnitPage() {
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
+  const [selectedUnitCoords, setSelectedUnitCoords] = useState<{ lat: number; lng: number } | null>(null)
 
   const toggleUnitDiv = () => {
     if (selectedUnitId) {
-      // Se estiver mostrando detalhes, volta para a lista
       setSelectedUnitId(null)
+      setSelectedUnitCoords(null)
     } else {
-      // Se estiver na lista, fecha a div
       setIsUnitDivVisible(!isUnitDivVisible)
     }
   }
 
-  const handleLearnMore = (unitId: string) => {
-    setSelectedUnitId(unitId)
+  const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
+    try {
+      // Remover caracteres não numéricos
+      const cepLimpo = cep.replace(/\D/g, '')
+      
+      console.log('Geocodificando CEP:', cepLimpo)
+      
+      // Usar API do Nominatim com CEP brasileiro
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&country=Brazil&postalcode=${cepLimpo}&limit=1`
+      )
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.length > 0) {
+          const coords = {
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lon)
+          }
+          console.log('Coordenadas encontradas:', coords)
+          return coords
+        }
+      }
+      
+      console.warn('Nenhuma coordenada encontrada para o CEP:', cepLimpo)
+    } catch (error) {
+      console.error('Erro ao geocodificar CEP:', error)
+    }
+    return null
+  }
+
+  const handleLearnMore = async (unitId: string) => {
+    try {
+      console.log('Buscando dados da unidade:', unitId)
+      
+      const response = await fetch(`https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/${unitId}`)
+      const data = await response.json()
+      
+      if (data.status && data.unidadeDeSaude) {
+        const unidade = data.unidadeDeSaude
+        console.log('Dados da unidade:', unidade)
+        
+        if (unidade.local?.endereco?.[0]?.cep) {
+          const cep = unidade.local.endereco[0].cep
+          console.log('CEP da unidade:', cep)
+          
+          const coords = await geocodeByCEP(cep)
+          
+          if (coords) {
+            console.log('Navegando para:', unidade.nome, coords)
+            setSelectedUnitCoords(coords)
+          } else {
+            console.error('Não foi possível obter coordenadas para o CEP:', cep)
+          }
+        } else {
+          console.error('CEP não encontrado nos dados da unidade')
+        }
+      }
+      
+      setSelectedUnitId(unitId)
+    } catch (error) {
+      console.error('Erro ao buscar dados da unidade:', error)
+      setSelectedUnitId(unitId)
+    }
   }
 
   const handleLocationSelect = (address: string, lat: number, lng: number) => {
     console.log('Local selecionado:', { address, lat, lng })
-    // Aqui você pode implementar a lógica para usar a localização selecionada
   }
 
   useEffect(() => {
@@ -89,12 +146,10 @@ export default function UnitPage() {
         </div>
       )}
       <div className={`${styles.unitMap} ${!isUnitDivVisible ? styles.unitMapFull : ''}`}>
-        {/* SearchBar sobreposto */}
         <div className={styles.searchBarOverlay}>
           <SearchBar />
         </div>
         
-        {/* Botão para mostrar lista de unidades */}
         {!isUnitDivVisible && (
           <button className={styles.showUnitList} onClick={toggleUnitDiv} type="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134879" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu">
@@ -105,9 +160,11 @@ export default function UnitPage() {
           </button>
         )}
         
-        {/* Mapa ocupando todo o espaço */}
         <div className={styles.mapContainer}>
-          <LocationMap onLocationSelect={handleLocationSelect} />
+          <LocationMap 
+            onLocationSelect={handleLocationSelect}
+            navigateToCoords={selectedUnitCoords}
+          />
         </div>
       </div>
     </main>

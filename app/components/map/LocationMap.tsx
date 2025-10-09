@@ -1,219 +1,238 @@
-// LocationMap.tsx
 import React, { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L, { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styles from './LocationMap.module.css'
+import { getUnidades } from '../../api/unidade'
 
 // Fix para ícones do Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+
+const redIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 })
 
-export interface Location {
+const blueIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+const greenIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [35, 51],
+  iconAnchor: [17, 51],
+  popupAnchor: [1, -44],
+  shadowSize: [51, 51]
+})
+
+export interface UnidadeLocation {
+  id: number
   lat: number
   lng: number
   address: string
+  nome: string
+  telefone: string
+  disponibilidade_24h: boolean
+  categoria: string
+  especialidades: string[]
 }
 
 export interface LocationMapProps {
   onLocationSelect?: (address: string, lat: number, lng: number) => void
+  navigateToCoords?: { lat: number; lng: number } | null
 }
 
-// Componente para capturar cliques no mapa
-function MapClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
-  useMapEvents({
-    click: (e) => {
-      onMapClick(e.latlng.lat, e.latlng.lng)
-    },
-  })
+// Componente para controlar navegação
+function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; lng: number } | null }) {
+  const map = useMap()
+  
+  useEffect(() => {
+    if (navigateToCoords) {
+      console.log('MapUpdater: navegando para', navigateToCoords)
+      map.flyTo([navigateToCoords.lat, navigateToCoords.lng], 17, {
+        animate: true,
+        duration: 2
+      })
+    }
+  }, [navigateToCoords, map])
   return null
 }
 
-// Componente para controlar o mapa
-function MapController({ center, map, setMap }: { center: [number, number], map: any, setMap: (map: any) => void }) {
-  const mapInstance = useMapEvents({})
-  
-  React.useEffect(() => {
-    if (mapInstance && !map) {
-      setMap(mapInstance)
-    }
-  }, [mapInstance, map, setMap])
-  
-  React.useEffect(() => {
-    if (mapInstance) {
-      mapInstance.setView(center, mapInstance.getZoom())
-    }
-  }, [center, mapInstance])
-  
-  return null
-}
-
-const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
-  const [userLocation, setUserLocation] = useState<Location | null>(null)
+const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToCoords }) => {
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; address: string } | null>(null)
   const [mapCenter, setMapCenter] = useState<[number, number]>([-23.5505, -46.6333])
-  const [nearbyAddresses, setNearbyAddresses] = useState<Location[]>([])
+  const [unidadesLocations, setUnidadesLocations] = useState<UnidadeLocation[]>([])
   const [isLocating, setIsLocating] = useState(false)
-  const [clickedLocation, setClickedLocation] = useState<Location | null>(null)
-  const [map, setMap] = useState<any>(null)
+  const [mapInstance, setMapInstance] = useState<L.Map | null>(null)
+  const [selectedUnit, setSelectedUnit] = useState<{ nome: string; tempoEspera: string; lat: number; lng: number } | null>(null)
 
-  // Função para obter a localização do usuário
+  const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
+    try {
+      const cepLimpo = cep.replace(/\D/g, '')
+      console.log('Geocodificando CEP:', cepLimpo)
+      
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&country=Brazil&postalcode=${cepLimpo}&limit=1`
+      )
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.length > 0) {
+          const coords = {
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lon)
+          }
+          console.log('✅ Coordenadas encontradas:', coords)
+          return coords
+        }
+      }
+    } catch (error) {
+      console.error('❌ Erro ao geocodificar CEP:', error)
+    }
+    return null
+  }
+
   const getUserLocation = async () => {
     setIsLocating(true)
-    
     const defaultLat = -23.5505
     const defaultLng = -46.6333
     
     if (!navigator.geolocation) {
-      console.warn('⚠️ Geolocalização não suportada pelo navegador')
-      setMapCenter([defaultLat, defaultLng])
-      setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP (geolocalização não suportada)' })
-      await getNearbyAddresses(defaultLat, defaultLng)
+      setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP' })
       setIsLocating(false)
       return
     }
 
-    console.log('🌍 Obtendo localização...')
-    
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords
-        console.log(`✅ Localização obtida: ${latitude}, ${longitude}`)
-        
+        setUserLocation({ lat: latitude, lng: longitude, address: 'Sua localização' })
         setMapCenter([latitude, longitude])
-        setUserLocation({ lat: latitude, lng: longitude, address: 'Obtendo endereço...' })
         
-        await getAddressFromCoords(latitude, longitude, true)
+        // Centralizar o mapa na localização do usuário
+        if (mapInstance) {
+          mapInstance.flyTo([latitude, longitude], 15, {
+            animate: true,
+            duration: 2
+          })
+        }
+        
         setIsLocating(false)
       },
-      async (error) => {
-        console.error('❌ Erro ao obter localização:', error.message)
-        
+      async () => {
+        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP' })
         setMapCenter([defaultLat, defaultLng])
-        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP (localização não disponível)' })
-        await getNearbyAddresses(defaultLat, defaultLng)
+        
+        // Centralizar no padrão se não conseguir localização
+        if (mapInstance) {
+          mapInstance.flyTo([defaultLat, defaultLng], 12, {
+            animate: true,
+            duration: 2
+          })
+        }
+        
         setIsLocating(false)
       },
-      {
-        enableHighAccuracy: true,
-        timeout: 15000,
-        maximumAge: 60000
-      }
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
     )
   }
 
-  // Função para obter endereço a partir de coordenadas
-  const getAddressFromCoords = async (lat: number, lng: number, isUserLocation = true) => {
+  const fetchUnidadesLocations = async () => {
     try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-      )
+      console.log('Buscando unidades...')
+      const response = await getUnidades()
       
-      if (response.ok) {
-        const data = await response.json()
-        const address = data.display_name || 'Endereço não encontrado'
+      if (response.status && response.unidadesDeSaude) {
+        const unidadesComLocalizacao: UnidadeLocation[] = []
         
-        if (isUserLocation) {
-          setUserLocation(prev => prev ? { ...prev, address } : { lat, lng, address })
-          await getNearbyAddresses(lat, lng)
-        } else {
-          setClickedLocation({ lat, lng, address })
-          console.log(`📍 Marcador adicionado em: ${address}`)
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao buscar endereço:', error)
-    }
-  }
-
-  // Função para buscar endereços próximos
-  const getNearbyAddresses = async (lat: number, lng: number) => {
-    try {
-      console.log(`🔍 Buscando endereços próximos a: ${lat}, ${lng}`)
-      
-      const searches = [
-        'hospital',
-        'clinic',
-        'pharmacy',
-        'emergency'
-      ]
-      
-      const nearbyResults: Location[] = []
-      
-      for (const searchTerm of searches) {
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?format=json&q=${searchTerm}&lat=${lat}&lon=${lng}&limit=2&bounded=1&viewbox=${lng-0.02},${lat+0.02},${lng+0.02},${lat-0.02}`
-          )
-          
-          if (response.ok) {
-            const data = await response.json()
-            const results = data.map((item: any) => ({
-              lat: parseFloat(item.lat),
-              lng: parseFloat(item.lon),
-              address: item.display_name
-            }))
+        for (const unidade of response.unidadesDeSaude) {
+          if (unidade.local?.endereco?.[0]?.cep) {
+            const cep = unidade.local.endereco[0].cep
+            const endereco = unidade.local.endereco[0]
+            const enderecoCompleto = `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade}`
             
-            nearbyResults.push(...results)
+            console.log(`🔍 Processando: ${unidade.nome} - CEP: ${cep}`)
+            const coords = await geocodeByCEP(cep)
+            
+            if (coords) {
+              console.log(`✓ ${unidade.nome} geocodificado:`, coords)
+              unidadesComLocalizacao.push({
+                id: unidade.id,
+                lat: coords.lat,
+                lng: coords.lng,
+                address: enderecoCompleto,
+                nome: unidade.nome,
+                telefone: unidade.telefone,
+                disponibilidade_24h: unidade.disponibilidade_24h === 1,
+                categoria: unidade.categoria?.categoria?.[0]?.nome || 'Não informado',
+                especialidades: unidade.especialidades?.especialidades?.map((esp: any) => esp.nome) || []
+              })
+            } else {
+              console.warn(`Não foi possível geocodificar ${unidade.nome}`)
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 1000))
           }
-          
-          await new Promise(resolve => setTimeout(resolve, 200))
-        } catch (error) {
-          console.warn(`Erro ao buscar ${searchTerm}:`, error)
         }
+        
+        console.log(`Total: ${unidadesComLocalizacao.length} unidades no mapa`)
+        setUnidadesLocations(unidadesComLocalizacao)
       }
-      
-      if (nearbyResults.length > 0) {
-        console.log(`📍 ${nearbyResults.length} endereços encontrados`)
-        setNearbyAddresses(nearbyResults.slice(0, 8))
-      } else {
-        console.log('📍 Nenhum endereço encontrado próximo')
-        setNearbyAddresses([])
-      }
-      
     } catch (error) {
-      console.error('❌ Erro ao buscar endereços próximos:', error)
-      setNearbyAddresses([])
+      console.error('Erro ao buscar unidades:', error)
     }
   }
 
-  // Função para buscar endereço por texto
-  const searchAddress = async (query: string) => {
-    if (!query.trim()) return
-    
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`
-      )
-      
-      if (response.ok) {
-        const data = await response.json()
-        const addresses: Location[] = data.map((item: any) => ({
-          lat: parseFloat(item.lat),
-          lng: parseFloat(item.lon),
-          address: item.display_name
-        }))
-        
-        setNearbyAddresses(addresses)
-        
-        if (addresses.length > 0) {
-          setMapCenter([addresses[0].lat, addresses[0].lng])
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao buscar endereço:', error)
-    }
-  }
-
-  // Efeito para obter localização quando o componente montar
   useEffect(() => {
     getUserLocation()
+    fetchUnidadesLocations()
   }, [])
 
-  // Ícones SVG inline
+  // Log quando navigateToCoords muda
+  useEffect(() => {
+    if (navigateToCoords) {
+      console.log('Navegação solicitada para:', navigateToCoords)
+    }
+  }, [navigateToCoords])
+
+  // Centralizar mapa quando a instância do mapa e localização estiverem disponíveis
+  useEffect(() => {
+    if (mapInstance && userLocation && !isLocating) {
+      mapInstance.flyTo([userLocation.lat, userLocation.lng], 15, {
+        animate: true,
+        duration: 2
+      })
+    }
+  }, [mapInstance, userLocation, isLocating])
+
+  const isUnitSelected = (unidade: UnidadeLocation) => {
+    if (!navigateToCoords) return false
+    const latMatch = Math.abs(unidade.lat - navigateToCoords.lat) < 0.001
+    const lngMatch = Math.abs(unidade.lng - navigateToCoords.lng) < 0.001
+    return latMatch && lngMatch
+  }
+
+  // Função para dar zoom ao clicar no marker
+  const handleMarkerClick = (lat: number, lng: number, nome: string) => {
+    console.log(`Clique no pin: ${nome}`)
+    if (mapInstance) {
+      mapInstance.flyTo([lat, lng], 17, {
+        animate: true,
+        duration: 1.5
+      })
+    }
+  }
+
   const MapPin = () => (
     <svg className={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -221,140 +240,88 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
     </svg>
   )
 
-  const Search = () => (
-    <svg className={styles.iconSmall} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-    </svg>
-  )
+  // Componente interno para capturar instância do mapa
+  function MapInstanceCapture() {
+    const map = useMap()
+    
+    useEffect(() => {
+      setMapInstance(map)
+    }, [map])
+    
+    return null
+  }
 
   return (
     <div className={styles.container}>
-      {/* Map area */}
       <div className={styles.mapArea}>
         <MapContainer 
           center={mapCenter as LatLngExpression} 
-          zoom={15} 
+          zoom={12} 
           style={{ height: '100%', width: '100%' }}
-          key={`${mapCenter[0]}-${mapCenter[1]}`}
+          zoomControl={false}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           />
           
-          {/* Marcador da localização do usuário */}
+          <MapUpdater navigateToCoords={navigateToCoords} />
+          <MapInstanceCapture />
+          
           {userLocation && (
-            <Marker position={[userLocation.lat, userLocation.lng] as LatLngExpression}>
+            <Marker 
+              position={[userLocation.lat, userLocation.lng] as LatLngExpression}
+              icon={redIcon}
+            >
               <Popup>
                 <div className={styles.popupContent}>
-                  <p className={styles.popupTitle}>Sua localização atual</p>
-                  <p className={styles.popupText}>{userLocation.address}</p>
+                  <p className={styles.popupTitle}>{userLocation.address}</p>
                 </div>
               </Popup>
             </Marker>
           )}
           
-          {/* Marcadores dos endereços próximos */}
-          {nearbyAddresses.map((location, index) => (
-            <Marker 
-              key={index} 
-              position={[location.lat, location.lng] as LatLngExpression}
-            >
-              <Popup>
-                <div className={styles.popupContent}>
-                  <p className={styles.popupTitle}>Endereço próximo</p>
-                  <p className={styles.popupText}>{location.address}</p>
-                  {onLocationSelect && (
-                    <button
-                      onClick={() => onLocationSelect(location.address, location.lat, location.lng)}
-                      className={styles.popupSelectButton}
-                    >
-                      Selecionar
-                    </button>
-                  )}
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-          
-          {/* Marcador da localização clicada */}
-          {clickedLocation && (
-            <Marker 
-              position={[clickedLocation.lat, clickedLocation.lng] as LatLngExpression}
-            >
-              <Popup>
-                <div className={styles.popupContent}>
-                  <p className={styles.popupTitle}>Local selecionado</p>
-                  <p className={styles.popupText}>{clickedLocation.address}</p>
-                  {onLocationSelect && (
-                    <button
-                      onClick={() => onLocationSelect(clickedLocation.address, clickedLocation.lat, clickedLocation.lng)}
-                      className={styles.popupSelectButton}
-                    >
-                      Selecionar
-                    </button>
-                  )}
-                  <button
-                    onClick={() => setClickedLocation(null)}
-                    className={styles.popupRemoveButton}
-                  >
-                    Remover
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          )}
-
-          <MapClickHandler onMapClick={async (lat, lng) => {
-            console.log(`📍 Clique no mapa: ${lat}, ${lng}`)
-            await getAddressFromCoords(lat, lng, false)
-          }} />
-          
-          <MapController center={mapCenter} map={map} setMap={setMap} />
+          {unidadesLocations.map((unidade) => {
+            const selected = isUnitSelected(unidade)
+            return (
+              <Marker 
+                key={unidade.id} 
+                position={[unidade.lat, unidade.lng] as LatLngExpression}
+                icon={selected ? greenIcon : blueIcon}
+                eventHandlers={{
+                  click: () => handleMarkerClick(unidade.lat, unidade.lng, unidade.nome)
+                }}
+              >
+                <Popup>
+                  <div className={styles.popupContent}>
+                    <p className={styles.popupTitle}>{unidade.nome}</p>
+                    <p className={styles.popupText}><strong>Tempo de espera</strong> {/*unidade.waitTime*/}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            )
+          })}
         </MapContainer>
         
-        {/* Overlay com informações */}
         <div className={styles.overlay}>
-          <h2 className={styles.overlayTitle}>
-            {isLocating ? (
-              <div className={styles.loadingContainer}>
-                <div className={styles.spinner}></div>
-                Obtendo sua localização...
-              </div>
-            ) : 'Localização no mapa'}
-          </h2>
           {userLocation && !isLocating && (
             <div className={styles.locationInfo}>
-              <p className={styles.locationText}>
-                📍 {userLocation.address}
-              </p>
+              <p className={styles.locationText}>{userLocation.address}</p>
             </div>
           )}
-          {clickedLocation && (
-            <p className={styles.selectedLocationText}>
-              🎯 Local selecionado: {clickedLocation.address.split(',')[0]}
-            </p>
+          {navigateToCoords && (
+            <div className={styles.selectedUnitBadge}>
+              Unidade selecionada
+            </div>
           )}
         </div>
         
-        {/* Botões de controle */}
         <div className={styles.controlButtons}>
-          {clickedLocation && (
-            <button
-              onClick={() => setClickedLocation(null)}
-              className={styles.removeMarkerButton}
-              title="Remover marcador"
-            >
-              <svg className={styles.iconXSmall} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          )}
-          
           <button
             onClick={getUserLocation}
             disabled={isLocating}
             className={styles.locationButton}
-            title="Obter minha localização atual"
+            title="Minha localização"
           >
             <div className={isLocating ? styles.spinner : ''}>
               <MapPin />
