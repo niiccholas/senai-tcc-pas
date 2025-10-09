@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-// import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+//import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+//import L from 'leaflet';
+//import 'leaflet/dist/leaflet.css';
 import styles from './page.module.css';
 import { getUnidades } from '../api/unidade';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
@@ -87,7 +87,7 @@ export default function UnitPage() {
             </svg>
           </button>
         )}
-
+        {/** ESPAÇO PARA COLOCAR O MAPA*/}
       </div>
     </main>
   )
