@@ -16,6 +16,7 @@
     "@react-native-vector-icons/fontawesome6": "^12.2.0",
     "@react-native-vector-icons/ionicons": "^12.3.0",
     "ionicons": "^8.0.13",
+    "leaflet": "^1.9.4",
     "next": "^15.5.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
