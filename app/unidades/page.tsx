@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 //import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 //import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
@@ -9,6 +10,12 @@ import { getUnidades } from '../api/unidade';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
 import SearchBar from '../components/searchbar/SearchBar';
+
+// Carrega o LocationMap apenas no lado do cliente para evitar erro de SSR
+const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
+  ssr: false,
+  loading: () => <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6' }}>Carregando mapa...</div>
+});
 
 export default function UnitPage() {
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
@@ -27,6 +34,11 @@ export default function UnitPage() {
 
   const handleLearnMore = (unitId: string) => {
     setSelectedUnitId(unitId)
+  }
+
+  const handleLocationSelect = (address: string, lat: number, lng: number) => {
+    console.log('Local selecionado:', { address, lat, lng })
+    // Aqui você pode implementar a lógica para usar a localização selecionada
   }
 
   useEffect(() => {
@@ -77,7 +89,12 @@ export default function UnitPage() {
         </div>
       )}
       <div className={`${styles.unitMap} ${!isUnitDivVisible ? styles.unitMapFull : ''}`}>
-        <SearchBar></SearchBar>
+        {/* SearchBar sobreposto */}
+        <div className={styles.searchBarOverlay}>
+          <SearchBar />
+        </div>
+        
+        {/* Botão para mostrar lista de unidades */}
         {!isUnitDivVisible && (
           <button className={styles.showUnitList} onClick={toggleUnitDiv} type="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134879" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu">
@@ -87,7 +104,11 @@ export default function UnitPage() {
             </svg>
           </button>
         )}
-        {/** ESPAÇO PARA COLOCAR O MAPA*/}
+        
+        {/* Mapa ocupando todo o espaço */}
+        <div className={styles.mapContainer}>
+          <LocationMap onLocationSelect={handleLocationSelect} />
+        </div>
       </div>
     </main>
   )

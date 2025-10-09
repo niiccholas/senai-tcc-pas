@@ -1,7 +1,7 @@
 // LocationMap.tsx
 import React, { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
-import L from 'leaflet'
+import L, { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styles from './LocationMap.module.css'
 
@@ -232,21 +232,18 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
       {/* Map area */}
       <div className={styles.mapArea}>
         <MapContainer 
-          center={mapCenter} 
+          center={mapCenter as LatLngExpression} 
           zoom={15} 
           style={{ height: '100%', width: '100%' }}
-          className={styles.mapContainer}
-          preferCanvas={true}
+          key={`${mapCenter[0]}-${mapCenter[1]}`}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={19}
           />
           
           {/* Marcador da localização do usuário */}
           {userLocation && (
-            <Marker position={[userLocation.lat, userLocation.lng]}>
+            <Marker position={[userLocation.lat, userLocation.lng] as LatLngExpression}>
               <Popup>
                 <div className={styles.popupContent}>
                   <p className={styles.popupTitle}>Sua localização atual</p>
@@ -260,13 +257,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
           {nearbyAddresses.map((location, index) => (
             <Marker 
               key={index} 
-              position={[location.lat, location.lng]}
-              icon={L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-              })}
+              position={[location.lat, location.lng] as LatLngExpression}
             >
               <Popup>
                 <div className={styles.popupContent}>
@@ -288,13 +279,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
           {/* Marcador da localização clicada */}
           {clickedLocation && (
             <Marker 
-              position={[clickedLocation.lat, clickedLocation.lng]}
-              icon={L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-              })}
+              position={[clickedLocation.lat, clickedLocation.lng] as LatLngExpression}
             >
               <Popup>
                 <div className={styles.popupContent}>
@@ -375,58 +360,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect }) => {
               <MapPin />
             </div>
           </button>
-        </div>
-      </div>
-
-      {/* Search and addresses */}
-      <div className={styles.searchSection}>
-        <div className={styles.searchContainer}>
-          <div className={styles.searchIconWrapper}>
-            <Search />
-          </div>
-          <input
-            type="text"
-            placeholder="Buscar endereço..."
-            onChange={(e) => {
-              const query = e.target.value
-              if (query.length > 2) {
-                searchAddress(query)
-              }
-            }}
-            className={styles.searchInput}
-          />
-        </div>
-
-        <div className={styles.addressesSection}>
-          <h3 className={styles.addressesTitle}>
-            {isLocating ? 'Buscando endereços próximos...' : 'Endereços próximos'}
-          </h3>
-          
-          {isLocating ? (
-            <div className={styles.loadingSpinner}>
-              <div className={styles.spinnerLarge}></div>
-            </div>
-          ) : (
-            <div className={styles.addressList}>
-              {nearbyAddresses.map((location, index) => (
-                <button
-                  key={index}
-                  onClick={() => onLocationSelect?.(location.address, location.lat, location.lng)}
-                  className={styles.addressButton}
-                >
-                  <div className={styles.addressIcon}>
-                    <MapPin />
-                  </div>
-                  <div className={styles.addressContent}>
-                    <span className={styles.addressMain}>{location.address.split(',')[0]}</span>
-                    <span className={styles.addressSecondary}>
-                      {location.address.split(',').slice(1).join(',').trim()}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>

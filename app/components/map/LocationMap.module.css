@@ -1,12 +1,15 @@
 /* Container principal */
 .container {
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  position: relative;
   background-color: #f3f4f6;
 }
 
 /* Área do mapa */
 .mapArea {
-  height: 24rem;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 

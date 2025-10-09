@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import styles from './UnitInfo.module.css'
-import Specialty from '../specialty/Specialty'
+import Specialty from '../specialty/specialty'
 
 interface UnitInfoProps {
   unitId: string
