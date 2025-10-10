@@ -73,12 +73,13 @@
 
 .specialtyBtn {
   padding: 0.5rem;
-  width: 25%;
+  min-width: auto;
+  width: 50%;
   background: white;
   border: 1px solid #134E83;
   border-radius: 0.3rem;
   color: #134E83;
-  font-size: 14px;
+  font-size: 0.8rem;
   font-family: 'Rubik', sans-serif;
   font-weight: 500;
   cursor: pointer;
