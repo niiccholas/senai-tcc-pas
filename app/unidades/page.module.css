@@ -1,114 +1,142 @@
-.main{
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
+.main {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Impede scroll da página principal */
 }
 
-.unitDiv{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 30%;
-    height: 100%;
-    border-top-right-radius: 1vh; 
-    box-shadow: 3px 0px 3px 0px #f1f1f1;
-    animation: slideIn 0.4s ease-out;
+.unitDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 30%;
+  height: 100%;
+  border-top-right-radius: 1vh; 
+  box-shadow: 3px 0px 3px 0px #f1f1f1;
+  animation: slideIn 0.4s ease-out;
+  overflow: hidden; /* Garante que o conteúdo não vaze */
 }
 
 /* Animação de entrada da unitDiv */
 @keyframes slideIn {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.unitList{
-    display: flex;
-    flex-direction: column;
-    width: 95%;
-    height: 100%
+.unitList {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 100%;
+  overflow-y: auto; /* Scroll apenas na lista */
+  overflow-x: hidden;
+  padding: 1rem;
+  gap: 1rem;
 }
 
-.closeUnitList{
-    display: flex;
-    align-items: top;
-    background: none;    
-    border: none;
-    size: 100%;
-    cursor: pointer;
-    padding-top: 0.5vh;
+/* Estilo da scrollbar para unitList */
+.unitList::-webkit-scrollbar {
+  width: 8px;
 }
 
+.unitList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
 
-.unitMap{
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    height: 100%;
-    position: relative;
+.unitList::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.unitList::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.closeUnitList {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: none;    
+  border: none;
+  width: 5%;
+  height: auto;
+  cursor: pointer;
+  padding-top: 0.5vh;
+  flex-shrink: 0;
+}
+
+.unitMap {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  height: 100vh; /* Altura fixa */
+  position: relative;
+  overflow: hidden; /* Impede que o mapa role */
 }
 
 .unitMapFull {
-    width: 100%;
+  width: 100%;
 }
 
 .showUnitList {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    border: 2px solid #134879;
-    border-radius: 8px;
-    padding: 8px;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    animation: fadeInScale 0.3s ease-out;
-    transition: transform 0.2s ease;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: white;
+  border: 2px solid #134879;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: fadeInScale 0.3s ease-out;
+  transition: transform 0.2s ease;
 }
 
 @keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Efeito hover no botão */
 .showUnitList:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Estilo para o SearchBar sobreposto */
 .searchBarOverlay {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    min-width: 400px;
-    width: 70%;
-    max-width: 90%;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  min-width: 400px;
+  width: 70%;
+  max-width: 90%;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 /* Container do mapa que ocupa todo o espaço */
 .mapContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
 }
