@@ -2,9 +2,12 @@
 
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
+import { useRouter } from "next/navigation"
 import styles from "./page.module.css"
 
 export default function FilterPage(){
+    const router = useRouter()
+
     return(
         <main className={styles.main}>
             <SearchBar></SearchBar>
@@ -58,7 +61,7 @@ export default function FilterPage(){
                     </div>
                 </div>
             </div>
-            <button className={styles.sendFilter}>FILTRAR</button>
+            <button type="submit" className={styles.sendFilter} onClick={() => router.push("/unidades")}>FILTRAR</button>
         </main>
     )
 }
