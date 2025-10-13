@@ -1,12 +1,11 @@
-"use client"
-
+import { getEspecialidade } from "../api/especialidade"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
-import { useRouter } from "next/navigation"
+import FilterButton from "./FilterButton"
 import styles from "./page.module.css"
 
-export default function FilterPage(){
-    const router = useRouter()
+export default async function FilterPage(){
+    const especialidades = await getEspecialidade()
 
     return(
         <main className={styles.main}>
@@ -18,15 +17,13 @@ export default function FilterPage(){
                         <h2>Especialidades</h2>
                         <div className={styles.specialtyList}>
                         <ul>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
-                            <IconText img = "/images/clinica-geral.png" text = "Clínica geral"/>
+                        {especialidades.map ((especialidade, index) => 
+                                    <IconText
+                                    img={especialidade.foto_claro}
+                                    text={especialidade.nome}
+                                    key={index}
+                                />
+                                )}
                         </ul>
                     </div>
                     </div>
@@ -61,7 +58,7 @@ export default function FilterPage(){
                     </div>
                 </div>
             </div>
-            <button type="submit" className={styles.sendFilter} onClick={() => router.push("/unidades")}>FILTRAR</button>
+            <FilterButton />
         </main>
     )
 }
