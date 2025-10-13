@@ -1,4 +1,5 @@
 import { getEspecialidade } from "../api/especialidade"
+import { getCategoria } from "../api/categoria"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
 import FilterButton from "./FilterButton"
@@ -6,6 +7,7 @@ import styles from "./page.module.css"
 
 export default async function FilterPage(){
     const especialidades = await getEspecialidade()
+    const categorias = await getCategoria()
 
     return(
         <main className={styles.main}>
@@ -49,11 +51,15 @@ export default async function FilterPage(){
                     <div id="public-units" className={styles.filterList}>
                         <h2>Unidades Públicas</h2>
                         <div id="unity-list">
-                            <IconText img = "images/clinica-geral.png" text = "Hospital geral"/>
-                            <IconText img = "images/clinica-geral.png" text = "UPA (Unidade de Pronto Atendimento)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "UBS (Unidade Básica de Saúde)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "AMA (Assistência Médica Ambulatorial)"/>
-                            <IconText img = "/images/clinica-geral.png" text = "CAPS (Centro de Atenção Psicossocial)"/>
+                            <ul>
+                                {categorias.map ((categoria, index) => 
+                                    <IconText
+                                    img={categoria.foto_claro}
+                                    text={categoria.nome}
+                                    key={index}
+                                />
+                                )}
+                            </ul>
                         </div>
                     </div>
                 </div>
