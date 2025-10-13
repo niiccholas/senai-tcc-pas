@@ -2,22 +2,22 @@
     display: flex;
     flex-direction: row;
     max-width: 500px;
-    height: auto;
+    height: 4vh;
     width: auto;
-    justify-content: start;
-    align-items: center;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 25px;
+    cursor: pointer;
+    margin-bottom: 1vh;
 
 }
 
 .icontext img{
-    size: 20px;
+    height: 90%;
 }
 
 .icontext span{
     width: auto;
-    height: 100%;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: lighter;
-    cursor: pointer;
+    align-self: center;
 }
