@@ -1,7 +1,8 @@
 .icontext{
     display: flex;
     flex-direction: row;
-    height: 4vh;
+    min-height: 4vh;
+    max-height: 8vh;
     width:fit-content;
     justify-content: flex-start;
     gap: 25px;
@@ -16,7 +17,7 @@
 }
 
 .icontext img{
-    height: 90%;
+    height: 4vh;
 }
 
 .icontext span{

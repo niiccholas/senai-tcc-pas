@@ -3,6 +3,7 @@ import { getCategoria } from "../api/categoria"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
 import FilterButton from "./FilterButton"
+import ExpandableList from "./ExpandableList"
 import styles from "./page.module.css"
 
 export default async function FilterPage(){
@@ -18,16 +19,8 @@ export default async function FilterPage(){
                     <div id="specialties" className={styles.filterList}>
                         <h2>Especialidades</h2>
                         <div className={styles.specialtyList}>
-                        <ul>
-                        {especialidades.map ((especialidade, index) => 
-                                    <IconText
-                                    img={especialidade.foto_claro}
-                                    text={especialidade.nome}
-                                    key={index}
-                                />
-                                )}
-                        </ul>
-                    </div>
+                            <ExpandableList items={especialidades} maxVisible={6} />
+                        </div>
                     </div>
                     <div id="availability" className={styles.filterList}>
                         <h2>Atendimento 24h</h2>
@@ -51,15 +44,7 @@ export default async function FilterPage(){
                     <div id="public-units" className={styles.filterList}>
                         <h2>Unidades Públicas</h2>
                         <div id="unity-list">
-                            <ul>
-                                {categorias.map ((categoria, index) => 
-                                    <IconText
-                                    img={categoria.foto_claro}
-                                    text={categoria.nome}
-                                    key={index}
-                                />
-                                )}
-                            </ul>
+                            <ExpandableList items={categorias} maxVisible={6} />
                         </div>
                     </div>
                 </div>
