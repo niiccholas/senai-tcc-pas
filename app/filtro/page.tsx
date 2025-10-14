@@ -23,7 +23,7 @@ export default async function FilterPage(){
                             <h2 className={styles.subtitle}>Especialidades</h2>
                             <div className="specialty-list">
                                 
-                                <Filtro categorias={especialidades} />
+                                <Filtro items={especialidades} tipo="especialidade" />
 
                             </div>
                         </div>
@@ -32,22 +32,27 @@ export default async function FilterPage(){
                             <h2 className={styles.subtitle}>Atendimento 24h</h2>
                             <div className={styles.optionRow}>
                                 <ul>
-                                    <IconText img="images/done.png" text="Sim"/>
-                                    <IconText img="images/close.png" text="Não"/>
+                                    <IconText tipo="disponibilidade" id={true} name="Sim" />
+                                    <IconText tipo="disponibilidade" id={false} name="Não" />
                                 </ul>
                             </div>
                         </div>
-                        
+
                     </div>
 
                     <div className={styles.section2}>
                         <div id="area-radius" className={styles.filterList}>
                             <h2 className={styles.subtitle}>Localização</h2>
+
+                                       {/* CÓDIGO A SER ARRUMADO NA SPRINT 3 */}
+                            {/*                             
                             <ul>
-                                <IconText img="images/placemarker.png" text="Unidade mais próxima"/> 
-                                {/* CÓDIGO A SER ARRUMADO NA SPRINT 3 */}
-                                <IconText img="images/depth.png" text="Distância"/>
-                            </ul>
+                                <IconText id={"Unidade mais próxima"} lightImg="images/placemarker.png" name="Unidade mais próxima" tipo="unidadeProxima"/> 
+                     
+                                <IconText id={"Distância"} lightImg="images/depth.png" name="Distância" tipo="distancia"/>
+                            </ul> */
+                            }
+
                             <div className="randius-bar"></div>
                         </div>
 
@@ -55,7 +60,7 @@ export default async function FilterPage(){
                             <h2 className={styles.subtitle}>Unidades Públicas</h2>
                             <div id="unity-list">
                                 
-                                <Filtro categorias={categorias}></Filtro>
+                                <Filtro items={categorias} tipo="categoria"></Filtro>
                             
                             </div>
                         </div>

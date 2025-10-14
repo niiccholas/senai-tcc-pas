@@ -2,27 +2,35 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
+export interface SelectedFiltersState {
+  especialidade: number | null;
+  categoria: string | null;
+  disponibilidade: boolean | null; // agora é booleano
+}
+
 interface FiltrosContextType {
-  selectedFilters: number[];
-  toggleFilter: (id: number) => void;
+  selectedFilters: SelectedFiltersState;
+  setFilter: <K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) => void;
 }
 
 const FiltrosContext = createContext<FiltrosContextType | undefined>(undefined);
 
 export function FiltrosProvider({ children }: { children: ReactNode }) {
-  const [selectedFilters, setSelectedFilters] = useState<number[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<SelectedFiltersState>({
+    especialidade: null,
+    categoria: null,
+    disponibilidade: null,
+  });
 
-  function toggleFilter(id: number) {
-    setSelectedFilters(prev =>
-      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
-    );
+  function setFilter<K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) {
+    setSelectedFilters(prev => ({ ...prev, [tipo]: valor }));
   }
 
   return (
-    <FiltrosContext.Provider value={{ selectedFilters, toggleFilter }}>
+    <FiltrosContext.Provider value={{ selectedFilters, setFilter }}>
       {children}
     </FiltrosContext.Provider>
-  );
+  )
 }
 
 export function useFiltros() {
