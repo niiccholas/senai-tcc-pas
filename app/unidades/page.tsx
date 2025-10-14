@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './page.module.css';
 import { getUnidades } from '../api/unidade';
+import { filtrar } from '../api/filtro';
+import { useFiltros } from '../context/FiltroContext';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
 import SearchBar from '../components/searchbar/SearchBar';
@@ -14,10 +16,100 @@ const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
 });
 
 export default function UnitPage() {
+  const { selectedFilters } = useFiltros()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
   const [selectedUnitCoords, setSelectedUnitCoords] = useState<{ lat: number; lng: number } | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  // useEffect para buscar unidades filtradas
+  useEffect(() => {
+    console.log('=== useEffect executado ===')
+    console.log('selectedFilters:', selectedFilters)
+    
+    async function buscarUnidades() {
+      try {
+        setLoading(true)
+        
+        // Verificar se há filtros aplicados
+        const temFiltros = selectedFilters.especialidade !== null || 
+                          selectedFilters.categoria !== null || 
+                          selectedFilters.disponibilidade !== null
+        
+        console.log('Tem filtros aplicados?', temFiltros)
+
+        let unidadesData
+        
+        if (temFiltros) {
+          console.log('Aplicando filtros:', selectedFilters)
+          
+          // Criar objeto de filtros para a API (removendo valores null)
+          const filtrosParaAPI = Object.fromEntries(
+            Object.entries(selectedFilters).filter(([_, value]) => value !== null)
+          )
+          
+          console.log('Filtros para API:', filtrosParaAPI)
+          
+          const response = await filtrar(filtrosParaAPI)
+          console.log('Resposta completa da API filtrar:', response)
+          console.log('Status da resposta:', response.status)
+          console.log('Unidades na resposta:', response.unidadesDeSaude)
+          unidadesData = response.unidadesDeSaude || []
+        } else {
+          console.log('Carregando todas as unidades')
+          const response = await getUnidades()
+          console.log('Resposta completa da API getUnidades:', response)
+          
+          // Tentar diferentes estruturas de resposta
+          if (response.unidades) {
+            unidadesData = response.unidades
+          } else if (Array.isArray(response)) {
+            unidadesData = response
+          } else if (response.data && Array.isArray(response.data)) {
+            unidadesData = response.data
+          } else {
+            console.log('Estrutura de resposta não reconhecida, usando array vazio')
+            unidadesData = []
+          }
+          
+          console.log('Dados das unidades extraídos:', unidadesData)
+        }
+
+        // Transformar dados para o formato esperado pelo UnitCard
+        console.log('Dados antes da transformação:', unidadesData)
+        console.log('Tipo de unidadesData:', typeof unidadesData)
+        console.log('É array?', Array.isArray(unidadesData))
+        
+        // Garantir que unidadesData é um array
+        if (!Array.isArray(unidadesData)) {
+          console.log('unidadesData não é um array, convertendo...')
+          unidadesData = []
+        }
+        
+        const unidadesFormatadas = unidadesData.map((unidade: any) => {
+          console.log('Transformando unidade:', unidade)
+          return {
+            id: String(unidade.id),
+            name: unidade.nome,
+            waitTime: unidade.disponibilidade_24h ? '0 minutos' : '30 minutos'
+          }
+        })
+
+        console.log('Unidades formatadas:', unidadesFormatadas)
+        setUnidades(unidadesFormatadas)
+        console.log('Estado unidades após setUnidades:', unidadesFormatadas.length)
+        
+      } catch (error) {
+        console.error('Erro ao buscar unidades:', error)
+        setUnidades([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    buscarUnidades()
+  }, [selectedFilters])
 
   const toggleUnitDiv = () => {
     if (selectedUnitId) {
@@ -96,6 +188,10 @@ export default function UnitPage() {
     console.log('Local selecionado:', { address, lat, lng })
   }
 
+  console.log('=== RENDER ===')
+  console.log('Estado atual das unidades:', unidades)
+  console.log('Loading:', loading)
+  console.log('Número de unidades:', unidades.length)
   
 
   return (
@@ -106,15 +202,25 @@ export default function UnitPage() {
             <UnitInfo unitId={selectedUnitId} />
           ) : (
             <div className={styles.unitList}>
-              {unidades.map((unidade) => (
-                <UnitCard
-                  key={unidade.id}
-                  id={unidade.id}
-                  name={unidade.name}
-                  waitTime={unidade.waitTime}
-                  onLearnMore={handleLearnMore}
-                />
-              ))}
+              {loading ? (
+                <div style={{ padding: '20px', textAlign: 'center' }}>
+                  Carregando unidades...
+                </div>
+              ) : unidades.length > 0 ? (
+                unidades.map((unidade) => (
+                  <UnitCard
+                    key={unidade.id}
+                    id={unidade.id}
+                    name={unidade.name}
+                    waitTime={unidade.waitTime}
+                    onLearnMore={handleLearnMore}
+                  />
+                ))
+              ) : (
+                <div style={{ padding: '20px', textAlign: 'center' }}>
+                  Nenhuma unidade encontrada com os filtros aplicados.
+                </div>
+              )}
             </div>
           )}
           <button className={styles.closeUnitList} onClick={toggleUnitDiv} type="button">

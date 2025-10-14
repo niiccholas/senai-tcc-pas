@@ -6,14 +6,20 @@ import { getCategorias, getEspecialidades } from "../api/filtro"
 import Filtro from "../components/filtro/Filtro"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
-import { FiltrosProvider } from "../context/FiltroContext"
+import { useFiltros } from "../context/FiltroContext"
 import styles from "./page.module.css"
 
 export default function FilterPage(){
     const router = useRouter()
+    const { selectedFilters } = useFiltros()
     const [categorias, setCategorias] = useState([])
     const [especialidades, setEspecialidades] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const handleFiltrar = () => {
+        console.log('Filtros selecionados:', selectedFilters)
+        router.push("/unidades")
+    }
 
     useEffect(() => {
         async function loadData() {
@@ -49,7 +55,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Especialidades</h2>
                         <div className="specialty-list">
                             
-                            <Filtro items={especialidades} tipo="especialidade" maxVisible={5} />
+                            <Filtro items={especialidades} tipo="especialidade" maxVisible={6} />
 
                         </div>
                     </div>
@@ -58,8 +64,8 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Atendimento 24h</h2>
                         <div className={styles.optionRow}>
                             <ul>
-                                <IconText tipo="disponibilidade" id={true} name="Sim" />
-                                <IconText tipo="disponibilidade" id={false} name="Não" />
+                                <IconText tipo="disponibilidade" id={true} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
+                                <IconText tipo="disponibilidade" id={false} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
                             </ul>
                         </div>
                     </div>
@@ -86,7 +92,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Unidades Públicas</h2>
                         <div id="unity-list">
                             
-                            <Filtro items={categorias} tipo="categoria" maxVisible={3} />
+                            <Filtro items={categorias} tipo="categoria" maxVisible={5} />
                         
                         </div>
                     </div>
@@ -96,7 +102,7 @@ export default function FilterPage(){
             <button 
                 type="submit" 
                 className={styles.sendFilter} 
-                onClick={() => router.push("/unidades")}
+                onClick={handleFiltrar}
             >
                 FILTRAR
             </button>
