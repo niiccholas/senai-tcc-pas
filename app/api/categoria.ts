@@ -1,7 +1,7 @@
 "use server"
 
-export async function getEspecialidade() {
-    const url = 'https://api-tcc-node-js-1.onrender.com/v1/pas/especialidade'
+export async function getCategoria() {
+    const url = 'https://api-tcc-node-js-1.onrender.com/v1/pas/categoria'
 
     try {
         const response = await fetch(url) // (aguarda) faz uma requisição pra url
@@ -13,8 +13,8 @@ export async function getEspecialidade() {
         const data = await response.json() // espera o response executar o json com os dados
         
         // Verifica se os dados estão no formato esperado
-        if (data && Array.isArray(data.especialidades)) {
-            return data.especialidades
+        if (data && Array.isArray(data.categorias)) {
+            return data.categorias
         } else if (Array.isArray(data)) {
             return data
         } else {
@@ -22,7 +22,7 @@ export async function getEspecialidade() {
             return []
         }
     } catch (error) {
-        console.error('Erro ao buscar especialidades:', error)
+        console.error('Erro ao buscar categorias:', error)
         return []
     }
 }
