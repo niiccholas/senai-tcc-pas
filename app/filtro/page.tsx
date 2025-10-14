@@ -11,7 +11,7 @@ export default async function FilterPage(){
     const especialidades = await getEspecialidades()
     
     return(
-        <FiltrosProvider>
+
             <main className={styles.main}>
                 <SearchBar />
                 <h1 className={styles.title}>SELECIONE O QUE PRECISA:</h1>
@@ -69,6 +69,5 @@ export default async function FilterPage(){
 
                 <button className={styles.sendFilter}>FILTRAR</button>
             </main>
-        </FiltrosProvider>
     )
 }

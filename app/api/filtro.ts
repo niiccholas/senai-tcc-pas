@@ -21,3 +21,19 @@ export async function getEspecialidades() {
     return data.especialidades
     
 }
+
+export async function filtrar(filtros: object){
+
+    const url = "https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/filtrar"
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filtros),
+    })
+
+    const json = await response.json()
+
+    return json
+
+}
