@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useFiltros } from "../../context/FiltroContext";
+import styles from "./IconText.module.css"
 
 interface IconTextProps {
   tipo: keyof import("../../context/FiltroContext").SelectedFiltersState;
@@ -21,15 +22,15 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
 }, [selectedFilters]);
 
   return (
-    <label style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+    <label className={styles.icontext}>
       <input
         type="radio"
         name={tipo} // para comportamento único
         checked={checked}
         onChange={() => setFilter(tipo, id)}
-        style={{ }}
+        style={ {display: "none"} }
       />
-      {lightImg && <img src={lightImg} alt={name} />}
+      <img src={lightImg}/>
       <span>{name}</span>
     </label>
   );

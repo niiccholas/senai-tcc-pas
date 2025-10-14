@@ -1,12 +1,13 @@
 "use client";
 
 import IconText from "../iconText/IconText";
+import styles from "./Filtro.module.css"
 
 interface Item {
   id: string | number | boolean; // aceita boolean agora
   nome: string
-  lightImg?: string
-  darkImg?: string
+  foto_claro?: string
+  foto_escuro?: string
 }
 
 interface FiltrosProps {
@@ -16,15 +17,15 @@ interface FiltrosProps {
 
 export default function Filtros({ items, tipo }: FiltrosProps) {
   return (
-    <div>
+    <div className={styles.filtroList}>
       {items.map(item => (
         <IconText
           key={String(item.id)}  // converte para string para key
           id={item.id}
           tipo={tipo}
           name={item.nome}
-          lightImg={item.lightImg}
-          darkImg={item.darkImg}
+          lightImg={item.foto_claro}
+          darkImg={item.foto_escuro}
         />
       ))}
     </div>
