@@ -42,6 +42,7 @@
     justify-content: space-between;
     width: 50%;
     height: 30%;
+    gap: 2vh;
 }
   
 .form input {
@@ -64,7 +65,7 @@
 .label div {
     display: flex;
 }
-  
+
 .checkmark {
     position: relative;
     width: 1.2em;

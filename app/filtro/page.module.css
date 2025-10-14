@@ -12,7 +12,7 @@
 .h1 {
     color: black;
     font-size: 32px;
-    font-weight: medium;
+    font-weight: 500;
 }
 
 .h2 {
@@ -24,7 +24,7 @@
     color: black;
 }
 
-.span {
+.text {
     font-size: 24px;
     font-weight: lighter;
 }
@@ -52,7 +52,6 @@
     flex-direction: column;
     justify-content: flex-start;
 }
-
 
 .section1 {
     gap: 70px;
@@ -88,5 +87,5 @@
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    align-self: center;
+    align-self:center;
 }

@@ -7,12 +7,20 @@ import React from 'react';
 export default async function HomePage() {
 
   const campanhas = await getCampanhas()
+<<<<<<< HEAD
 
   return (
     <main className={styles.main}>
       <SearchBar />
       <h1>Informações</h1>
       <div className={styles.infofeed}>
+=======
+  
+  return (
+    <main className="main">
+      <SearchBar />
+      <h1>Informações</h1>
+>>>>>>> nicolas
         <ul>
         {campanhas.map ((campanha, index) => 
           <InfoCard
@@ -30,8 +38,13 @@ export default async function HomePage() {
           key={index}
        />
         )}
+<<<<<<< HEAD
         </ul>
       </div>
+=======
+        </ul> 
+        
+>>>>>>> nicolas
     </main>
   )
 }

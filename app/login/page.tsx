@@ -27,14 +27,7 @@ const Page: NextPage<{}> = ({}) => {
     } else {
       alert("Login inválido")
     }
-  }
-
-  function errorCheckmark() {
-    if (onErrorCheckmark) {
-      alert("nao erro")
-    } else {
-      alert("sim erro")
-    }
+    
   }
 
   return (
@@ -82,9 +75,7 @@ const Page: NextPage<{}> = ({}) => {
           </p>
         </label>
 
-        <button type="submit" onClick={errorCheckmark} className={styles.button}>
-          ENTRAR
-        </button>
+        <button type="submit" className={styles.button}>ENTRAR</button>
       </Form>
 
       <p style={{ color: "#298BE6", paddingTop: "3vh" }}>

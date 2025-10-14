@@ -15,7 +15,7 @@ interface InfoCardProps {
   campaignType: string;
   unitType: string;
   observations?: string;
-  city: CidadeInfo[]; // Corrigido para array de objetos
+  city: CidadeInfo[];
   startDate?: string;
   endDate?: string;
   dayHours?: string;
@@ -40,7 +40,6 @@ export default function InfoCard({
   const [openDates, setOpenDates] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Fecha ao clicar fora
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
@@ -50,7 +49,7 @@ export default function InfoCard({
         setOpenDates(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
