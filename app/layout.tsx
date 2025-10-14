@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import './global.css'
+import { FiltrosProvider } from './context/FiltroContext'
 
 export const metadata = {
   title: 'PAS',
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@100;200;300;400;500;600;700&display=swap"></link>
         </head>
         
+      <FiltrosProvider>
       <body className="rubik.className">
         <header>
             <div className="logo">
@@ -31,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
 
       </body>
+      </FiltrosProvider>
     </html>
   )
 }

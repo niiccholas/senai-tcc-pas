@@ -49,7 +49,7 @@ export default function InfoCard({
         setOpenDates(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 

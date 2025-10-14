@@ -2,19 +2,19 @@
     padding-block: 2vh;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     height: auto;
     justify-content: center;
 }
 
-.infocard p{
+.infoCard p{
     font-size: 24px;
     font-weight: 500;
     text-align:flex-start;
     color: #094175;
 }
 
-.infocard img{
+.infoCard img{
     width: 100%;
     height: auto;
     border-radius: 30px;
