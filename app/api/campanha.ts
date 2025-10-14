@@ -1,7 +1,7 @@
 "use server"
 
 export async function getCampanhas() {
-    const url = 'https://api-fake-de-campanhas-com-json-server-1.onrender.com/campanhas '
+    const url = 'https://api-fake-de-campanhas-com-json-server-4.onrender.com/campanhas '
 
     const response = await fetch(url) // (aguarda) faz uma requisição pra url
 
