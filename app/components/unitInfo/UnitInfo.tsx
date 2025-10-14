@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import styles from './UnitInfo.module.css'
-import Specialty from '../specialty/Specialty'
+import Specialty from '../specialty/specialty'
+import { getUnidadesById } from "../../api/unidade"
 
 interface UnitInfoProps {
   unitId: string
@@ -45,8 +46,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
     async function fetchUnitData() {
       try {
         setLoading(true)
-        const response = await fetch(`https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/${unitId}`)
-        const data = await response.json()
+        const data = await getUnidadesById(unitId)
         
         if (data.status) {
           console.log('Dados da unidade recebidos:', data.unidadeDeSaude)
@@ -70,13 +70,11 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
     return <div className={styles.error}>Erro ao carregar informações da unidade</div>
   }
 
-  // Validações seguras para evitar erros
   const address = unitData.local?.endereco?.[0]
   const category = unitData.categoria?.categoria?.[0]?.nome || 'Não informado'
   const waitTime = unitData.disponibilidade_24h ? '0 minutos' : '30 minutos'
   const especialidades = unitData.especialidades?.especialidades || []
 
-  // Se não tiver endereço, retornar erro
   if (!address) {
     return <div className={styles.error}>Endereço não disponível para esta unidade</div>
   }

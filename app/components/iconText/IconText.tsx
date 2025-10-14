@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useFiltros } from "../../context/FiltroContext";
 
 interface IconTextProps {
-  tipo: keyof import("../../context/FiltroContext").SelectedFiltersState;
+  tipo?: keyof import("../../context/FiltroContext").SelectedFiltersState;
   id: string | number | boolean;
   name: string;
   lightImg?: string;
