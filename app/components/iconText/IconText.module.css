@@ -1,5 +1,11 @@
 .icontext{
     display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.input{
+    display: none;
     flex-direction: row;
     min-height: 4vh;
     max-height: 8vh;
@@ -17,11 +23,13 @@
 }
 
 .icontext img{
-    height: 4vh;
+    height: 2.5vh
 }
 
 .icontext span{
     width: auto;
+    height: 100%;
+    font-size: 2vh;
     font-size: 1.5rem;
     font-weight: lighter;
     align-self: center;

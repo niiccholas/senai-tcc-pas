@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import IconText from "../iconText/IconText";
+import styles from "./Filtro.module.css"
 
 interface Item {
   id: string | number | boolean; // aceita boolean agora
@@ -9,6 +10,7 @@ interface Item {
   lightImg?: string
   darkImg?: string
   foto_claro?: string
+  foto_escuro?: string
 }
 
 interface FiltrosProps {
@@ -24,7 +26,7 @@ export default function Filtros({ items, tipo, maxVisible = 6 }: FiltrosProps) {
   const hasMoreItems = items.length > maxVisible;
 
   return (
-    <div>
+    <div className={styles.filtroList}>
       {visibleItems.map(item => (
         <IconText
           key={String(item.id)}  // converte para string para key
@@ -32,7 +34,7 @@ export default function Filtros({ items, tipo, maxVisible = 6 }: FiltrosProps) {
           tipo={tipo}
           name={item.nome}
           lightImg={item.lightImg || item.foto_claro}
-          darkImg={item.darkImg}
+          darkImg={item.darkImg || item.foto_escuro}
         />
       ))}
       
