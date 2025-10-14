@@ -6,16 +6,32 @@
 
 .input{
     display: none;
+    flex-direction: row;
+    min-height: 4vh;
+    max-height: 8vh;
+    width:fit-content;
+    justify-content: flex-start;
+    gap: 25px;
+    cursor: pointer;
+    margin-bottom: 1vh;
+}
+
+.icontext:hover{
+    background-color: #e6e6e6;
+    border-radius: 4px;
+    box-shadow: 4px 4px 4px  rgba(197, 197, 197, 0.25);
 }
 
 .icontext img{
     height: 2.5vh
+    height: 4vh;
 }
 
 .icontext span{
     width: auto;
     height: 100%;
     font-size: 2vh;
+    font-size: 1.5rem;
     font-weight: lighter;
-    cursor: pointer;
+    align-self: center;
 }

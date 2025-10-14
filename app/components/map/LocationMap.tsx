@@ -303,19 +303,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
           })}
         </MapContainer>
         
-        <div className={styles.overlay}>
-          {userLocation && !isLocating && (
-            <div className={styles.locationInfo}>
-              <p className={styles.locationText}>{userLocation.address}</p>
-            </div>
-          )}
-          {navigateToCoords && (
-            <div className={styles.selectedUnitBadge}>
-              Unidade selecionada
-            </div>
-          )}
-        </div>
-        
+       
         <div className={styles.controlButtons}>
           <button
             onClick={getUserLocation}

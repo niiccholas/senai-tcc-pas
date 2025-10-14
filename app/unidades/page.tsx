@@ -32,9 +32,7 @@ export default function UnitPage() {
     try {
       // Remover caracteres não numéricos
       const cepLimpo = cep.replace(/\D/g, '')
-      
-      console.log('Geocodificando CEP:', cepLimpo)
-      
+            
       // Usar API do Nominatim com CEP brasileiro
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&country=Brazil&postalcode=${cepLimpo}&limit=1`
@@ -98,25 +96,7 @@ export default function UnitPage() {
     console.log('Local selecionado:', { address, lat, lng })
   }
 
-  useEffect(() => {
-    async function fetchUnidades() {
-      try {
-        const response = await getUnidades()
-        if (response.status) {
-          const unidadesFormatadas = response.unidadesDeSaude.map((unidade: any) => ({
-            id: String(unidade.id),
-            name: unidade.nome,
-            waitTime: unidade.disponibilidade_24h ? 0 : 30,
-          }));
-          setUnidades(unidadesFormatadas)
-        }
-      } catch (error) {
-        console.error('Erro ao buscar unidades:', error)
-      }
-    }
-
-    fetchUnidades()
-  }, [])
+  
 
   return (
     <main className={styles.main}>
