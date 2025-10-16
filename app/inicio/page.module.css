@@ -18,10 +18,5 @@
     flex-direction: column;
     width: 70%;
     height: auto;
-    justify-content: center;
-    gap: 20px; 
-}
-
-.infofeed ul{
-    padding-bottom: 2vh;
+    align-items: center;
 }

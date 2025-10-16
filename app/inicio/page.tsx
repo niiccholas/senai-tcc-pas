@@ -7,21 +7,12 @@ import React from 'react';
 export default async function HomePage() {
 
   const campanhas = await getCampanhas()
-<<<<<<< HEAD
 
   return (
     <main className={styles.main}>
       <SearchBar />
       <h1>Informações</h1>
       <div className={styles.infofeed}>
-=======
-  
-  return (
-    <main className="main">
-      <SearchBar />
-      <h1>Informações</h1>
->>>>>>> nicolas
-        <ul>
         {campanhas.map ((campanha, index) => 
           <InfoCard
           image={campanha.foto}
@@ -36,15 +27,9 @@ export default async function HomePage() {
           endDate={campanha.data_termino}
           dayHours={campanha.dias_horario}
           key={index}
-       />
+          />
         )}
-<<<<<<< HEAD
-        </ul>
       </div>
-=======
-        </ul> 
-        
->>>>>>> nicolas
     </main>
   )
 }

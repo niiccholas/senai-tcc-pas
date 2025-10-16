@@ -32,6 +32,10 @@ header svg{
     margin-right: 2vw;
 }
 
+.user-icon {
+    stroke: #ffffff !important;
+}
+
 nav{
     display: flex;
     justify-content: space-between;

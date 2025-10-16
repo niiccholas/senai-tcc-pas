@@ -7,14 +7,14 @@
     justify-content: center;
 }
 
-.infoCard p{
+.infocard p{
     font-size: 24px;
     font-weight: 500;
     text-align:flex-start;
     color: #094175;
 }
 
-.infoCard img{
+.infocard img{
     width: 100%;
     height: auto;
     border-radius: 30px;
