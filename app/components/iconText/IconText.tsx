@@ -6,7 +6,7 @@ import styles from "./IconText.module.css"
 
 interface IconTextProps {
   tipo?: keyof import("../../context/FiltroContext").SelectedFiltersState;
-  id: string | number | boolean;
+  id: string | number;
   name: string;
   lightImg?: string;
   darkImg?: string;
@@ -15,33 +15,49 @@ interface IconTextProps {
 export default function IconText({ tipo, id, name, lightImg, darkImg }: IconTextProps) {
   const { selectedFilters, setFilter } = useFiltros();
 
+  // Verificação de segurança
+  if (!tipo) {
+    console.warn('IconText: tipo não definido para', name);
+    return null;
+  }
+
   const checked = selectedFilters[tipo] === id;
+  
+  console.log(`IconText ${name}:`, { tipo, id, checked, selectedValue: selectedFilters[tipo] });
 
   useEffect(() => {
     console.log("SelectedFilters mudou:", selectedFilters);
   }, [selectedFilters]);
 
   const handleClick = () => {
+    console.log('Clicou no IconText:', { tipo, id, checked });
+    
     // Se já está selecionado, desseleciona (define como null)
     // Se não está selecionado, seleciona
     if (checked) {
+      console.log('Desselecionando...');
       setFilter(tipo, null);
     } else {
+      console.log('Selecionando...');
       setFilter(tipo, id);
     }
   };
 
   return (
-    <label className={`${styles.icontext} ${checked ? styles.selected : ''}`}>
+    <div 
+      className={`${styles.icontext} ${checked ? styles.selected : ''}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       <input
         type="radio"
         name={tipo} // para comportamento único
         checked={checked}
-        onChange={handleClick}
+        readOnly
         style={ {display: "none"} }
       />
       <img src={lightImg}/>
       <span>{name}</span>
-    </label>
+    </div>
   );
 }

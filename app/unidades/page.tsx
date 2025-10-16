@@ -59,11 +59,16 @@ export default function UnitPage() {
           console.log('Filtro disponibilidade específico:', selectedFilters.disponibilidade)
           console.log('Tipo do filtro disponibilidade:', typeof selectedFilters.disponibilidade)
           
-          const response = await filtrar(filtrosParaAPI)
-          console.log('Resposta completa da API filtrar:', response)
-          console.log('Status da resposta:', response.status)
-          console.log('Unidades na resposta:', response.unidadesDeSaude)
-          unidadesData = response.unidadesDeSaude || []
+          try {
+            const response = await filtrar(filtrosParaAPI)
+            console.log('Resposta completa da API filtrar:', response)
+            console.log('Status da resposta:', response.status)
+            console.log('Unidades na resposta:', response.unidadesDeSaude)
+            unidadesData = response.unidadesDeSaude || []
+          } catch (error) {
+            console.error('Erro ao chamar API filtrar:', error)
+            unidadesData = []
+          }
         } else {
           console.log('Carregando todas as unidades')
           const response = await getUnidades()

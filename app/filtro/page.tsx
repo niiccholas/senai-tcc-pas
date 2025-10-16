@@ -64,8 +64,8 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Atendimento 24h</h2>
                         <div className={styles.optionRow}>
                             <ul>
-                                <IconText tipo="disponibilidade" id={true} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
-                                <IconText tipo="disponibilidade" id={false} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
+                                <IconText tipo="disponibilidade" id={1} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
+                                <IconText tipo="disponibilidade" id={0} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
                             </ul>
                         </div>
                     </div>

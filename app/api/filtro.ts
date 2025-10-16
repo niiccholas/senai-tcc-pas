@@ -31,17 +31,29 @@ export async function filtrar(filtros: object){
     console.log('Filtros enviados:', filtros)
     console.log('JSON enviado:', JSON.stringify(filtros))
 
-    const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(filtros),
-    })
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(filtros),
+        })
 
-    const json = await response.json()
-    
-    console.log('Resposta da API filtrar:', json)
-    console.log('Status da resposta:', response.status)
+        console.log('Status da resposta:', response.status)
+        console.log('Response OK:', response.ok)
 
-    return json
+        if (!response.ok) {
+            console.error('Erro na resposta:', response.status, response.statusText)
+            throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const json = await response.json()
+        
+        console.log('Resposta da API filtrar:', json)
+
+        return json
+    } catch (error) {
+        console.error('Erro na API filtrar:', error)
+        throw error
+    }
 
 }

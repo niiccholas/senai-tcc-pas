@@ -5,7 +5,7 @@ import IconText from "../iconText/IconText";
 import styles from "./Filtro.module.css"
 
 interface Item {
-  id: string | number | boolean; // aceita boolean agora
+  id: string | number; // removido boolean
   nome: string
   lightImg?: string
   darkImg?: string
