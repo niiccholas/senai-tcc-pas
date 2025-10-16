@@ -11,14 +11,21 @@ import styles from "./page.module.css"
 
 export default function FilterPage(){
     const router = useRouter()
-    const { selectedFilters } = useFiltros()
+    const { selectedFilters, setFilter } = useFiltros()
     const [categorias, setCategorias] = useState([])
     const [especialidades, setEspecialidades] = useState([])
     const [loading, setLoading] = useState(true)
 
     const handleFiltrar = () => {
-        console.log('Filtros selecionados:', selectedFilters)
+        console.log('Filtros selecionados ao clicar em Filtrar:', selectedFilters)
         router.push("/unidades")
+    }
+
+    const handleLimparFiltros = () => {
+        console.log('Limpando filtros')
+        setFilter('especialidade', null)
+        setFilter('categoria', null)
+        setFilter('disponibilidade', null)
     }
 
     useEffect(() => {

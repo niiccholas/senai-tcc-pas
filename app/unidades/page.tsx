@@ -38,9 +38,14 @@ export default function UnitPage() {
                           selectedFilters.disponibilidade !== null
         
         console.log('Tem filtros aplicados?', temFiltros)
+        console.log('Filtros detalhados:', {
+          especialidade: selectedFilters.especialidade,
+          categoria: selectedFilters.categoria,
+          disponibilidade: selectedFilters.disponibilidade
+        })
 
         let unidadesData
-        
+
         if (temFiltros) {
           console.log('Aplicando filtros:', selectedFilters)
           
@@ -64,35 +69,52 @@ export default function UnitPage() {
             console.log('Resposta completa da API filtrar:', response)
             console.log('Status da resposta:', response.status)
             console.log('Unidades na resposta:', response.unidadesDeSaude)
-            unidadesData = response.unidadesDeSaude || []
+            
+            // Tentar diferentes estruturas de resposta
+            if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
+              unidadesData = response.unidadesDeSaude
+            } else if (response.data && Array.isArray(response.data)) {
+              unidadesData = response.data
+            } else if (Array.isArray(response)) {
+              unidadesData = response
+            } else {
+              console.log('Estrutura de resposta da API filtrar não reconhecida')
+              unidadesData = []
+            }
           } catch (error) {
             console.error('Erro ao chamar API filtrar:', error)
-            unidadesData = []
           }
         } else {
           console.log('Carregando todas as unidades')
           const response = await getUnidades()
           console.log('Resposta completa da API getUnidades:', response)
-          
+
           // Tentar diferentes estruturas de resposta
-          if (response.unidades) {
+          if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
+            unidadesData = response.unidadesDeSaude
+            console.log('✅ Usando response.unidadesDeSaude')
+          } else if (response.unidades && Array.isArray(response.unidades)) {
             unidadesData = response.unidades
+            console.log('✅ Usando response.unidades')
           } else if (Array.isArray(response)) {
             unidadesData = response
+            console.log('✅ Usando response direto (array)')
           } else if (response.data && Array.isArray(response.data)) {
             unidadesData = response.data
+            console.log('✅ Usando response.data')
           } else {
-            console.log('Estrutura de resposta não reconhecida, usando array vazio')
+            console.log('⚠️ Estrutura de resposta não reconhecida, usando array vazio')
+            console.log('Estrutura recebida:', Object.keys(response))
             unidadesData = []
           }
-          
+
           console.log('Dados das unidades extraídos:', unidadesData)
         }
 
         // Transformar dados para o formato esperado pelo UnitCard
         console.log('Dados antes da transformação:', unidadesData)
-        console.log('Tipo de unidadesData:', typeof unidadesData)
         console.log('É array?', Array.isArray(unidadesData))
+        console.log('Comprimento de unidadesData:', Array.isArray(unidadesData) ? unidadesData.length : 'não é array')
         
         // Garantir que unidadesData é um array
         if (!Array.isArray(unidadesData)) {

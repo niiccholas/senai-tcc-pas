@@ -21,9 +21,11 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
     return null;
   }
 
-  const checked = selectedFilters[tipo] === id;
+  // Garantir que a comparação seja feita com o mesmo tipo
+  const idAsNumber = typeof id === 'string' ? parseInt(id, 10) : id;
+  const checked = selectedFilters[tipo] === idAsNumber;
   
-  console.log(`IconText ${name}:`, { tipo, id, checked, selectedValue: selectedFilters[tipo] });
+  console.log(`IconText ${name}:`, { tipo, id, idAsNumber, checked, selectedValue: selectedFilters[tipo] });
 
   useEffect(() => {
     console.log("SelectedFilters mudou:", selectedFilters);
@@ -38,8 +40,8 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
       console.log('Desselecionando...');
       setFilter(tipo, null);
     } else {
-      console.log('Selecionando...');
-      setFilter(tipo, id);
+      console.log('Selecionando...', { tipo, idAsNumber });
+      setFilter(tipo, idAsNumber);
     }
   };
 
