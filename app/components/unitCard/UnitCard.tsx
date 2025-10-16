@@ -6,11 +6,11 @@ import styles from './UnitCard.module.css'
 interface UnitCardProps {
   id: string
   name: string
-  waitTime?: number
+  waitTimeGeneral?: string
   onLearnMore?: (unitId: string) => void
 }
 
-export default function UnitCard({ id, name, waitTime, onLearnMore }: UnitCardProps) {
+export default function UnitCard({ id, name, waitTimeGeneral, onLearnMore }: UnitCardProps) {
   const handleLearnMoreClick = () => onLearnMore?.(id)
 
   return (
@@ -27,7 +27,7 @@ export default function UnitCard({ id, name, waitTime, onLearnMore }: UnitCardPr
                     <div className={styles.waitBox}>
                         <span className={styles.waitLabel}>Tempo de espera</span>
                         <span className={styles.waitValue}>
-                            <b>{waitTime ?? '-'}</b> minutos
+                            <b>{waitTimeGeneral ?? '-'}</b> 
                         </span>
                     </div>
                 </div>

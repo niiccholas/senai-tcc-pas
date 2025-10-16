@@ -105,7 +105,7 @@ export default function UnitPage() {
           return {
             id: String(unidade.id),
             name: unidade.nome,
-            waitTime: unidade.disponibilidade_24h ? '0 minutos' : '30 minutos'
+            waitTimeGeneral: unidade.tempo_espera_geral || '-'
           }
         })
 
@@ -225,7 +225,7 @@ export default function UnitPage() {
                     key={unidade.id}
                     id={unidade.id}
                     name={unidade.name}
-                    waitTime={unidade.waitTime}
+                    waitTimeGeneral={unidade.waitTimeGeneral}
                     onLearnMore={handleLearnMore}
                   />
                 ))

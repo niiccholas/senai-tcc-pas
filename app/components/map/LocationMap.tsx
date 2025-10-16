@@ -295,7 +295,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
                 <Popup>
                   <div className={styles.popupContent}>
                     <p className={styles.popupTitle}>{unidade.nome}</p>
-                    <p className={styles.popupText}><strong>Tempo de espera</strong> {/*unidade.waitTime*/}</p>
+                    <p className={styles.popupText}><strong>Tempo de espera</strong> unidade.waitTimeGeneral</p>
                   </div>
                 </Popup>
               </Marker>

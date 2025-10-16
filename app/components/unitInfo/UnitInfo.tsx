@@ -14,6 +14,7 @@ interface UnitData {
   nome: string
   telefone: string
   disponibilidade_24h: number
+  tempo_espera_geral: string
   foto: string
   local: {
     endereco: Array<{
@@ -33,6 +34,7 @@ interface UnitData {
       nome: string
       foto_claro: string
       foto_escuro: string
+      tempo_espera: string
     }>
   }
 }
@@ -72,7 +74,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
 
   const address = unitData.local?.endereco?.[0]
   const category = unitData.categoria?.categoria?.[0]?.nome || 'Não informado'
-  const waitTime = unitData.disponibilidade_24h ? '0 minutos' : '30 minutos'
+  const waitTimeGeneral = unitData.tempo_espera_geral 
   const especialidades = unitData.especialidades?.especialidades || []
 
   if (!address) {
@@ -105,7 +107,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
             </svg>
             <div>
               <span className={styles.label}>Tempo de espera</span>
-              <span className={styles.element}>{waitTime}</span>
+              <span className={styles.element}>{waitTimeGeneral}</span>
             </div>
           </div>
           <div className={styles.infoElement}>
@@ -145,7 +147,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
                 key={specialty.id}
                 id={String(specialty.id)}
                 name={specialty.nome}
-                waitTime={waitTime}
+                waitTime={specialty.tempo_espera}
               />
             ))
           ) : (
