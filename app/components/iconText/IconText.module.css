@@ -19,7 +19,6 @@
 .icontext:hover{
     background-color: #e6e6e6;
     border-radius: 4px;
-    box-shadow: 4px 4px 4px  rgba(197, 197, 197, 0.25);
 }
 
 .icontext img{
@@ -39,9 +38,8 @@
     color: #007bff;
     background-color: #e6e6e6;
     border-radius: 4px;
-    box-shadow: 4px 4px 4px  rgba(197, 197, 197, 0.25);
 }
 
 .icontext.selected span{
-    font-weight: 500;
+    font-weight: 400;
 }

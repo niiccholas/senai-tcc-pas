@@ -55,7 +55,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Especialidades</h2>
                         <div className="specialty-list">
                             
-                            <Filtro items={especialidades} tipo="especialidade" maxVisible={6} />
+                            <Filtro items={especialidades} tipo="especialidade" maxVisible={9} />
 
                         </div>
                     </div>
@@ -92,7 +92,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Unidades Públicas</h2>
                         <div id="unity-list">
                             
-                            <Filtro items={categorias} tipo="categoria" maxVisible={5} />
+                            <Filtro items={categorias} tipo="categoria" maxVisible={7} />
                         
                         </div>
                     </div>

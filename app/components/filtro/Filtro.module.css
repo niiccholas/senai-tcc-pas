@@ -1,5 +1,30 @@
-.filtroList{
+.filtroList {
     display: flex;
     flex-direction: column;
     gap: 1vh;
+}
+
+.verMaisMenos {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.verMaisMenos:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.verMaisMenos span {
+    font-size: 14px;
+    color: #333;
+}
+
+.verMaisMenos img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
 }
