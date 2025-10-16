@@ -26,6 +26,11 @@ export async function filtrar(filtros: object){
 
     const url = "https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/filtrar"
 
+    console.log('=== API FILTRAR ===')
+    console.log('URL:', url)
+    console.log('Filtros enviados:', filtros)
+    console.log('JSON enviado:', JSON.stringify(filtros))
+
     const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,6 +38,9 @@ export async function filtrar(filtros: object){
     })
 
     const json = await response.json()
+    
+    console.log('Resposta da API filtrar:', json)
+    console.log('Status da resposta:', response.status)
 
     return json
 

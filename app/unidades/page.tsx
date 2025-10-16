@@ -45,11 +45,19 @@ export default function UnitPage() {
           console.log('Aplicando filtros:', selectedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null)
-          const filtrosParaAPI = Object.fromEntries(
+          let filtrosParaAPI = Object.fromEntries(
             Object.entries(selectedFilters).filter(([_, value]) => value !== null)
           )
           
+          // Mapear 'disponibilidade' para 'disponibilidade_24h' se necessário
+          if (filtrosParaAPI.disponibilidade !== undefined) {
+            filtrosParaAPI.disponibilidade_24h = filtrosParaAPI.disponibilidade
+            delete filtrosParaAPI.disponibilidade
+          }
+          
           console.log('Filtros para API:', filtrosParaAPI)
+          console.log('Filtro disponibilidade específico:', selectedFilters.disponibilidade)
+          console.log('Tipo do filtro disponibilidade:', typeof selectedFilters.disponibilidade)
           
           const response = await filtrar(filtrosParaAPI)
           console.log('Resposta completa da API filtrar:', response)

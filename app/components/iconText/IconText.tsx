@@ -18,16 +18,26 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
   const checked = selectedFilters[tipo] === id;
 
   useEffect(() => {
-  console.log("SelectedFilters mudou:", selectedFilters);
-}, [selectedFilters]);
+    console.log("SelectedFilters mudou:", selectedFilters);
+  }, [selectedFilters]);
+
+  const handleClick = () => {
+    // Se já está selecionado, desseleciona (define como null)
+    // Se não está selecionado, seleciona
+    if (checked) {
+      setFilter(tipo, null);
+    } else {
+      setFilter(tipo, id);
+    }
+  };
 
   return (
-    <label className={styles.icontext}>
+    <label className={`${styles.icontext} ${checked ? styles.selected : ''}`}>
       <input
         type="radio"
         name={tipo} // para comportamento único
         checked={checked}
-        onChange={() => setFilter(tipo, id)}
+        onChange={handleClick}
         style={ {display: "none"} }
       />
       <img src={lightImg}/>
