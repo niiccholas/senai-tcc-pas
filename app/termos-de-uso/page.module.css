@@ -1,0 +1,101 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding-inline: 20vw;
+    padding-top: 7vh;
+    color: var(--cor-primaria-texto);
+    gap: 3vh;
+}
+
+.label,.content{
+    width: 100%;
+    color: #1E5FA3;
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    font-size: 2.25rem;
+    font-weight: 700;
+    gap: 2.5vh;
+    border-bottom: #8CC6FF solid 3px;
+    padding-bottom: 2.5vh;
+}
+
+.label img{
+    height: 14vh;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+    height: auto;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2vh;
+    padding-bottom: 7vh;
+}
+
+.list section {
+    width: 100%;
+}
+
+.list section h2 {
+    color: #1E5FA3;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1vh 0;
+}
+
+.list ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.list ul li {
+    color: #1E5FA3;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5vh;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.list ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #1E5FA3;
+    font-weight: bold;
+}
+
+.list ul ul {
+    margin-top: 0.5vh;
+    margin-left: 1rem;
+}
+
+.list ul ul li {
+    font-size: 0.875rem;
+    padding-left: 1rem;
+}
+
+.list ul ul li::before {
+    content: '◦';
+    color: #1E5FA3;
+}
