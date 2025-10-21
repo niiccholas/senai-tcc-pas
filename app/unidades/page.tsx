@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { getUnidades } from '../api/unidade';
 import { filtrar } from '../api/filtro';
@@ -17,11 +18,21 @@ const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
 
 export default function UnitPage() {
   const { selectedFilters } = useFiltros()
+  const searchParams = useSearchParams()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
   const [selectedUnitCoords, setSelectedUnitCoords] = useState<{ lat: number; lng: number } | null>(null)
   const [loading, setLoading] = useState(false)
+
+  // Verificar se há unitId na URL
+  useEffect(() => {
+    const unitIdFromUrl = searchParams.get('unitId')
+    if (unitIdFromUrl) {
+      setSelectedUnitId(unitIdFromUrl)
+      setIsUnitDivVisible(true)
+    }
+  }, [searchParams])
 
   // useEffect para buscar unidades filtradas
   useEffect(() => {
