@@ -4,7 +4,7 @@
     align-items: center;
     height: 100vh;
     width: 100vw;
-    padding-inline: 15vw;
+    padding-inline: 30vw;
     padding-top: 7vh;
     color: var(--cor-primaria-texto);
     gap: 8vh;
@@ -33,6 +33,8 @@
 
 .content{
     display: flex;
+    flex-direction: column;
+    gap: 3vh;
     height: auto;
     font-size: 24px;
     font-weight: 500;
