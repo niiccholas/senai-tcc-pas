@@ -1,0 +1,40 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding-inline: 15vw;
+    padding-top: 7vh;
+    color: var(--cor-primaria-texto);
+    gap: 8vh;
+}
+
+.label,.content{
+    width: 100%;
+    color: #1E5FA3;
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    font-size: 36px;
+    font-weight: 700;
+    gap: 2.5vh;
+    border-bottom: #8CC6FF solid 3px;
+    padding-bottom: 2.5vh;
+}
+
+.label img{
+    height: 14vh;
+}
+
+.content{
+    display: flex;
+    height: auto;
+    font-size: 24px;
+    font-weight: 500;
+    
+}
