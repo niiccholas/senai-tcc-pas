@@ -5,7 +5,7 @@ import IconText from "../iconText/IconText";
 import styles from "./Filtro.module.css"
 
 interface Item {
-  id: string | number | boolean; // aceita boolean agora
+  id: string | number; 
   nome: string
   lightImg?: string
   darkImg?: string
@@ -16,7 +16,7 @@ interface Item {
 interface FiltrosProps {
   items: Item[];
   tipo: keyof import("../../context/FiltroContext").SelectedFiltersState;
-  maxVisible?: number; // opcional, padrão será 6
+  maxVisible?: number; 
 }
 
 export default function Filtros({ items, tipo, maxVisible = 6 }: FiltrosProps) {
@@ -29,7 +29,7 @@ export default function Filtros({ items, tipo, maxVisible = 6 }: FiltrosProps) {
     <div className={styles.filtroList}>
       {visibleItems.map(item => (
         <IconText
-          key={String(item.id)}  // converte para string para key
+          key={String(item.id)}  
           id={item.id}
           tipo={tipo}
           name={item.nome}
@@ -39,21 +39,25 @@ export default function Filtros({ items, tipo, maxVisible = 6 }: FiltrosProps) {
       ))}
       
       {hasMoreItems && !isExpanded && (
-        <div onClick={() => setIsExpanded(true)} style={{ cursor: 'pointer' }}>
-          <IconText 
-            id="ver-mais"
-            name="Ver mais"
-            lightImg="https://file.garden/aOx43sIeICuTJI2s/Plus%20Math.png"
+        <div className={styles.verMaisMenos} onClick={() => setIsExpanded(true)}>
+          <img 
+            src="https://file.garden/aOx43sIeICuTJI2s/Plus%20Math.png" 
+            alt="Ver mais" 
+            width={16} 
+            height={16}
           />
+          <span>Ver mais</span>
         </div>
       )}
       {isExpanded && (
-        <div onClick={() => setIsExpanded(false)} style={{ cursor: 'pointer' }}>
-          <IconText 
-            id="ver-menos"
-            name="Ver menos"
-            lightImg="https://file.garden/aOx43sIeICuTJI2s/Subtract.png"
+        <div className={styles.verMaisMenos} onClick={() => setIsExpanded(false)}>
+          <img 
+            src="https://file.garden/aOx43sIeICuTJI2s/Subtract.png" 
+            alt="Ver menos" 
+            width={16} 
+            height={16}
           />
+          <span>Ver menos</span>
         </div>
       )}
     </div>

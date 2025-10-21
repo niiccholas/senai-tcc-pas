@@ -38,48 +38,83 @@ export default function UnitPage() {
                           selectedFilters.disponibilidade !== null
         
         console.log('Tem filtros aplicados?', temFiltros)
+        console.log('Filtros detalhados:', {
+          especialidade: selectedFilters.especialidade,
+          categoria: selectedFilters.categoria,
+          disponibilidade: selectedFilters.disponibilidade
+        })
 
         let unidadesData
-        
+
         if (temFiltros) {
           console.log('Aplicando filtros:', selectedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null)
-          const filtrosParaAPI = Object.fromEntries(
+          let filtrosParaAPI = Object.fromEntries(
             Object.entries(selectedFilters).filter(([_, value]) => value !== null)
           )
           
-          console.log('Filtros para API:', filtrosParaAPI)
+          // Mapear 'disponibilidade' para 'disponibilidade_24h' se necessário
+          if (filtrosParaAPI.disponibilidade !== undefined) {
+            filtrosParaAPI.disponibilidade_24h = filtrosParaAPI.disponibilidade
+            delete filtrosParaAPI.disponibilidade
+          }
           
-          const response = await filtrar(filtrosParaAPI)
-          console.log('Resposta completa da API filtrar:', response)
-          console.log('Status da resposta:', response.status)
-          console.log('Unidades na resposta:', response.unidadesDeSaude)
-          unidadesData = response.unidadesDeSaude || []
+          console.log('Filtros para API:', filtrosParaAPI)
+          console.log('Filtro disponibilidade específico:', selectedFilters.disponibilidade)
+          console.log('Tipo do filtro disponibilidade:', typeof selectedFilters.disponibilidade)
+          
+          try {
+            const response = await filtrar(filtrosParaAPI)
+            console.log('Resposta completa da API filtrar:', response)
+            console.log('Status da resposta:', response.status)
+            console.log('Unidades na resposta:', response.unidadesDeSaude)
+            
+            // Tentar diferentes estruturas de resposta
+            if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
+              unidadesData = response.unidadesDeSaude
+            } else if (response.data && Array.isArray(response.data)) {
+              unidadesData = response.data
+            } else if (Array.isArray(response)) {
+              unidadesData = response
+            } else {
+              console.log('Estrutura de resposta da API filtrar não reconhecida')
+              unidadesData = []
+            }
+          } catch (error) {
+            console.error('Erro ao chamar API filtrar:', error)
+          }
         } else {
           console.log('Carregando todas as unidades')
           const response = await getUnidades()
           console.log('Resposta completa da API getUnidades:', response)
-          
+
           // Tentar diferentes estruturas de resposta
-          if (response.unidades) {
+          if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
+            unidadesData = response.unidadesDeSaude
+            console.log('✅ Usando response.unidadesDeSaude')
+          } else if (response.unidades && Array.isArray(response.unidades)) {
             unidadesData = response.unidades
+            console.log('✅ Usando response.unidades')
           } else if (Array.isArray(response)) {
             unidadesData = response
+            console.log('✅ Usando response direto (array)')
           } else if (response.data && Array.isArray(response.data)) {
             unidadesData = response.data
+            console.log('✅ Usando response.data')
           } else {
-            console.log('Estrutura de resposta não reconhecida, usando array vazio')
+            console.log('⚠️ Estrutura de resposta não reconhecida, usando array vazio')
+            console.log('Estrutura recebida:', Object.keys(response))
             unidadesData = []
           }
-          
+
           console.log('Dados das unidades extraídos:', unidadesData)
         }
 
         // Transformar dados para o formato esperado pelo UnitCard
         console.log('Dados antes da transformação:', unidadesData)
-        console.log('Tipo de unidadesData:', typeof unidadesData)
         console.log('É array?', Array.isArray(unidadesData))
+        console.log('Comprimento de unidadesData:', Array.isArray(unidadesData) ? unidadesData.length : 'não é array')
         
         // Garantir que unidadesData é um array
         if (!Array.isArray(unidadesData)) {
@@ -92,7 +127,7 @@ export default function UnitPage() {
           return {
             id: String(unidade.id),
             name: unidade.nome,
-            waitTime: unidade.disponibilidade_24h ? '0 minutos' : '30 minutos'
+            waitTimeGeneral: unidade.tempo_espera_geral || '-'
           }
         })
 
@@ -212,7 +247,7 @@ export default function UnitPage() {
                     key={unidade.id}
                     id={unidade.id}
                     name={unidade.name}
-                    waitTime={unidade.waitTime}
+                    waitTimeGeneral={unidade.waitTimeGeneral}
                     onLearnMore={handleLearnMore}
                   />
                 ))

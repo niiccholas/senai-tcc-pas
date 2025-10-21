@@ -12,22 +12,30 @@ const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [onErrorCheckmark, setErrorCheckmark] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   const router = useRouter()
 
   async function handleLogin(formData: FormData) {
-    const cpf = formData.get("cpf") as string
-    const rawCpf = cpf.replace(/\D/g, "")
-    const senha = formData.get("senha") as string
+    setLoading(true)
+    try {
+      const cpf = formData.get("cpf") as string
+      const rawCpf = cpf.replace(/\D/g, "")
+      const senha = formData.get("senha") as string
 
-    const data = await loginUsuario(rawCpf, senha)
+      const data = await loginUsuario(rawCpf, senha)
 
-    if (data.status) {
-      router.push("/inicio")
-    } else {
-      alert("Login inválido")
+      if (data.status) {
+        router.push("/inicio")
+      } else {
+        alert("Login inválido")
+      }
+    } catch (error) {
+      console.error('Erro no login:', error)
+      alert("Erro ao fazer login")
+    } finally {
+      setLoading(false)
     }
-    
   }
 
   return (
@@ -75,7 +83,9 @@ const Page: NextPage<{}> = ({}) => {
           </p>
         </label>
 
-        <button type="submit" className={styles.button}>ENTRAR</button>
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? "Carregando..." : "ENTRAR"}
+        </button>
       </Form>
 
       <p style={{ color: "#298BE6", paddingTop: "3vh" }}>

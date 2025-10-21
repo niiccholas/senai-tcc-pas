@@ -11,14 +11,21 @@ import styles from "./page.module.css"
 
 export default function FilterPage(){
     const router = useRouter()
-    const { selectedFilters } = useFiltros()
+    const { selectedFilters, setFilter } = useFiltros()
     const [categorias, setCategorias] = useState([])
     const [especialidades, setEspecialidades] = useState([])
     const [loading, setLoading] = useState(true)
 
     const handleFiltrar = () => {
-        console.log('Filtros selecionados:', selectedFilters)
+        console.log('Filtros selecionados ao clicar em Filtrar:', selectedFilters)
         router.push("/unidades")
+    }
+
+    const handleLimparFiltros = () => {
+        console.log('Limpando filtros')
+        setFilter('especialidade', null)
+        setFilter('categoria', null)
+        setFilter('disponibilidade', null)
     }
 
     useEffect(() => {
@@ -64,8 +71,8 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Atendimento 24h</h2>
                         <div className={styles.optionRow}>
                             <ul>
-                                <IconText tipo="disponibilidade" id={true} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
-                                <IconText tipo="disponibilidade" id={false} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
+                                <IconText tipo="disponibilidade" id={1} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
+                                <IconText tipo="disponibilidade" id={0} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
                             </ul>
                         </div>
                     </div>
@@ -92,7 +99,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Unidades Públicas</h2>
                         <div id="unity-list">
                             
-                            <Filtro items={categorias} tipo="categoria" maxVisible={5} />
+                            <Filtro items={categorias} tipo="categoria" maxVisible={7} />
                         
                         </div>
                     </div>

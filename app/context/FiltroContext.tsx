@@ -5,7 +5,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 export interface SelectedFiltersState {
   especialidade: number | null;
   categoria: string | null;
-  disponibilidade: boolean | null; // agora é booleano
+  disponibilidade: number | null; // 0 ou 1 como retorna da API
 }
 
 interface FiltrosContextType {
@@ -23,7 +23,16 @@ export function FiltrosProvider({ children }: { children: ReactNode }) {
   });
 
   function setFilter<K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) {
-    setSelectedFilters(prev => ({ ...prev, [tipo]: valor }));
+    console.log('=== SETFILTER DEBUG ===');
+    console.log('Tipo:', tipo);
+    console.log('Valor:', valor);
+    console.log('Estado anterior:', selectedFilters);
+    
+    setSelectedFilters(prev => {
+      const newState = { ...prev, [tipo]: valor };
+      console.log('Novo estado:', newState);
+      return newState;
+    });
   }
 
   return (

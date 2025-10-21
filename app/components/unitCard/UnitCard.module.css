@@ -61,6 +61,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     padding-inline: 1vw;
+    margin-right: 0.5vw;
     height: 80%;
 }
   

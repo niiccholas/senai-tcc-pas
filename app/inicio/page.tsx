@@ -1,12 +1,33 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import SearchBar from "../components/searchbar/SearchBar"
 import InfoCard from "../components/infocard/InfoCard"
 import styles from "./page.module.css"
 import { getCampanhas } from "../api/campanha"
 import React from 'react';
 
-export default async function HomePage() {
+export default function HomePage() {
+  const [campanhas, setCampanhas] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const campanhas = await getCampanhas()
+  useEffect(() => {
+    async function loadCampanhas() {
+      try {
+        const data = await getCampanhas()
+        setCampanhas(data)
+      } catch (error) {
+        console.error('Erro ao carregar campanhas:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadCampanhas()
+  }, [])
+
+  if (loading) {
+    return <div className={styles.main}>Carregando...</div>
+  }
 
   return (
     <main className={styles.main}>
