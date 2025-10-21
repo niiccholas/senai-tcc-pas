@@ -88,8 +88,8 @@
 
 .showUnitList {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 2.5vh;
+  left: 1.5vw;
   background: white;
   border: 2px solid #134879;
   border-radius: 8px;
@@ -112,25 +112,20 @@
   }
 }
 
-/* Efeito hover no botão */
 .showUnitList:hover {
   transform: scale(1.05);
 }
 
-/* Estilo para o SearchBar sobreposto */
 .searchBarOverlay {
   position: absolute;
   top: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-45%);
   z-index: 1000;
-  min-width: 400px;
-  width: 70%;
-  max-width: 90%;
+  width: 100%;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-/* Container do mapa que ocupa todo o espaço */
 .mapContainer {
   position: absolute;
   top: 0;
