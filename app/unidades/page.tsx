@@ -43,12 +43,11 @@ export default function UnitPage() {
       try {
         setLoading(true)
         
-        // Verificar se há filtros aplicados
-        const temFiltros = selectedFilters.especialidade !== null || 
-                          selectedFilters.categoria !== null || 
-                          selectedFilters.disponibilidade !== null
+        // Verificar se há filtros aplicados (exceto disponibilidade que será tratado localmente)
+        const temFiltrosAPI = selectedFilters.especialidade !== null || 
+                             selectedFilters.categoria !== null
         
-        console.log('Tem filtros aplicados?', temFiltros)
+        console.log('Tem filtros para API?', temFiltrosAPI)
         console.log('Filtros detalhados:', {
           especialidade: selectedFilters.especialidade,
           categoria: selectedFilters.categoria,
@@ -57,23 +56,17 @@ export default function UnitPage() {
 
         let unidadesData
 
-        if (temFiltros) {
-          console.log('Aplicando filtros:', selectedFilters)
+        if (temFiltrosAPI) {
+          console.log('Aplicando filtros via API:', selectedFilters)
           
-          // Criar objeto de filtros para a API (removendo valores null)
+          // Criar objeto de filtros para a API (removendo valores null e disponibilidade)
           let filtrosParaAPI = Object.fromEntries(
-            Object.entries(selectedFilters).filter(([_, value]) => value !== null)
+            Object.entries(selectedFilters).filter(([key, value]) => 
+              value !== null && key !== 'disponibilidade'
+            )
           )
           
-          // Mapear 'disponibilidade' para 'disponibilidade_24h' se necessário
-          if (filtrosParaAPI.disponibilidade !== undefined) {
-            filtrosParaAPI.disponibilidade_24h = filtrosParaAPI.disponibilidade
-            delete filtrosParaAPI.disponibilidade
-          }
-          
           console.log('Filtros para API:', filtrosParaAPI)
-          console.log('Filtro disponibilidade específico:', selectedFilters.disponibilidade)
-          console.log('Tipo do filtro disponibilidade:', typeof selectedFilters.disponibilidade)
           
           try {
             const response = await filtrar(filtrosParaAPI)
@@ -94,6 +87,7 @@ export default function UnitPage() {
             }
           } catch (error) {
             console.error('Erro ao chamar API filtrar:', error)
+            unidadesData = []
           }
         } else {
           console.log('Carregando todas as unidades')
@@ -120,6 +114,22 @@ export default function UnitPage() {
           }
 
           console.log('Dados das unidades extraídos:', unidadesData)
+        }
+
+        // Aplicar filtro de disponibilidade localmente se necessário
+        if (selectedFilters.disponibilidade !== null && Array.isArray(unidadesData)) {
+          console.log('Aplicando filtro de disponibilidade local:', selectedFilters.disponibilidade)
+          unidadesData = unidadesData.filter((unidade: any) => {
+            if (selectedFilters.disponibilidade === 1) {
+              // Filtrar apenas unidades 24h (disponibilidade_24h === 1)
+              return unidade.disponibilidade_24h === 1
+            } else if (selectedFilters.disponibilidade === 0) {
+              // Filtrar apenas unidades não 24h (disponibilidade_24h === 0)
+              return unidade.disponibilidade_24h === 0
+            }
+            return true
+          })
+          console.log('Unidades após filtro de disponibilidade:', unidadesData.length)
         }
 
         // Transformar dados para o formato esperado pelo UnitCard

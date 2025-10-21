@@ -44,7 +44,7 @@ export default function SearchBar() {
     try {
       const data = await getUnidadesByNome(term);
       const unidades = data.unidadesDeSaude || [];
-      setResults(unidades.slice(0, 5)); // Limitar a 5 resultados
+      setResults(unidades.slice(0, 5)); 
       setShowDropdown(unidades.length > 0);
     } catch (error) {
       console.error('Erro na busca:', error);
@@ -66,7 +66,6 @@ export default function SearchBar() {
     router.push(`/unidades?unitId=${unidade.id}`);
   };
 
-  // Debounce para busca
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       searchUnidades(searchTerm);
@@ -75,7 +74,6 @@ export default function SearchBar() {
     return () => clearTimeout(timeoutId);
   }, [searchTerm]);
 
-  // Fechar dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
