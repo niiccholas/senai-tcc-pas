@@ -62,7 +62,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Especialidades</h2>
                         <div className="specialty-list">
                             
-                            <Filtro items={especialidades} tipo="especialidade" maxVisible={9} />
+                            <Filtro items={especialidades} tipo="especialidade" maxVisible={6} />
 
                         </div>
                     </div>

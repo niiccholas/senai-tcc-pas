@@ -45,6 +45,7 @@ export interface UnidadeLocation {
   disponibilidade_24h: boolean
   categoria: string
   especialidades: string[]
+  tempo_espera_geral?: string
 }
 
 export interface LocationMapProps {
@@ -295,7 +296,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
                 <Popup>
                   <div className={styles.popupContent}>
                     <p className={styles.popupTitle}>{unidade.nome}</p>
-                    <p className={styles.popupText}><strong>Tempo de espera</strong> unidade.waitTimeGeneral</p>
+                    <p className={styles.popupText}><strong>Tempo de espera</strong> {unidade.tempo_espera_geral}</p>
                   </div>
                 </Popup>
               </Marker>
