@@ -3,9 +3,9 @@
     flex-direction: row;
     height: 90vh;
     width: 100vw;
-    padding: 5vw;
+    padding: 4vw;
     color: var(--cor-primaria-texto);
-    gap: 1vw;
+    gap: 4vw;
 }
 
 .systemSettings{
@@ -19,14 +19,14 @@
 .systemSettings button{
     width: 60%;
     height: 3.5vh;
-    border: #FB2D2D 1px solid;
+    border: #FB2D2D 1.5px solid;
     color: #FB2D2D;
     font-size: 16px;
     font-weight: 700;
     outline: none;
     background-color: transparent;
-    border-radius: 20px;
-    box-shadow: 0px 4px 4px 0px #00000041;
+    border-radius: 1.25rem;
+    box-shadow: 0px 4px 4px 0px #0000001e;
 }
 
 .options{
@@ -72,15 +72,51 @@
 .personalData{
     background-color: #F6F6F6;
     display: flex;
-    height: 55%;
+    flex-direction: column;
+    height: 60%;
+    gap: 2vh;
+    font-size: 1.063rem;
+    padding-block: 2.2vh;
+    padding-inline: 3vw;
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px #00000041;
+}
+
+.personalContent{
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    justify-content: space-between;
+}
+
+.personalInfo{
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    height: fit-content;
+    gap: 2.5vw;
+}
+
+.personalInfo img{
+    width: 2vw;
+    height: 90%;
+}
+
+.label p{
+    font-weight: 400;
+    font-size: 0.813rem;
+    color: #19416A;
+}
+
+.label span{
+    font-weight: 300;
+    font-size: 1.125rem;
 }
 
 .registrationData{
     background-color: #F6F6F6;
     display: flex;
-    height: 45%;
-    border-radius: 10px;
+    height: 40%;
+    border-radius: 0.625rem;
     box-shadow: 0px 4px 4px 0px #00000041;
 }

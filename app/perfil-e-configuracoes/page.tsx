@@ -34,7 +34,7 @@ export default function ProfileSettingsPage(){
                                 <img src="https://file.garden/aOx43sIeICuTJI2s/id-card%20(1)%201.png" alt="" />
                                 <div className={styles.label}>
                                     <p>CPF</p>
-                                    <span>Jair Messias Bolsonaro</span>
+                                    <span>123.456.789-00</span>
                                 </div>
                             </div>
                         </ul>
@@ -43,7 +43,7 @@ export default function ProfileSettingsPage(){
                                 <img src="https://file.garden/aOx43sIeICuTJI2s/worldwide%20(1)%201.png" alt="" />
                                 <div className={styles.label}>
                                     <p>Naturalidade</p>
-                                    <span>Jair Messias Bolsonaro</span>
+                                    <span>Barueri/SP</span>
                                 </div>
                             </div>
                         </ul>
@@ -52,7 +52,7 @@ export default function ProfileSettingsPage(){
                                 <img src="https://file.garden/aOx43sIeICuTJI2s/calendar%20(1)%201.png" alt="" />
                                 <div className={styles.label}>
                                     <p>Nascimento</p>
-                                    <span>Jair Messias Bolsonaro</span>
+                                    <span>10/10/2007</span>
                                 </div>
                             </div>
                         </ul>
@@ -61,7 +61,7 @@ export default function ProfileSettingsPage(){
                                 <img src="https://file.garden/aOx43sIeICuTJI2s/mom%201.png" alt="" />
                                 <div className={styles.label}>
                                     <p>Nome da Mãe</p>
-                                    <span>Jair Messias Bolsonaro</span>
+                                    <span>Virgínia Fonseca</span>
                                 </div>
                             </div>
                         </ul>
