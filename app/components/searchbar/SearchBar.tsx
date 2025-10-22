@@ -1,89 +1,89 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { getUnidadesByNome } from "../../api/unidade";
-import styles from './SearchBar.module.css';
+import React, { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { getUnidadesByNome } from "../../api/unidade"
+import styles from './SearchBar.module.css'
 
 interface Unidade {
-  id: number;
-  nome: string;
+  id: number
+  nome: string
   local: {
     endereco: Array<{
-      logradouro: string;
-      bairro: string;
-      cidade: string;
-    }>;
-  };
+      logradouro: string
+      bairro: string
+      cidade: string
+    }>
+  }
 }
 
 export default function SearchBar() {
-  const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState<Unidade[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
+  const router = useRouter()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [results, setResults] = useState<Unidade[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false)
+  const searchRef = useRef<HTMLDivElement>(null)
 
   const handleFilterClick = () => {
     if (window.location.pathname === "/filtro") {
-      router.back(); 
+      router.back() 
     } else {
-      router.push("/filtro");
+      router.push("/filtro")
     }
-  };
+  }
 
   const searchUnidades = async (term: string) => {
     if (!term.trim() || term.length < 2) {
-      setResults([]);
-      setShowDropdown(false);
-      return;
+      setResults([])
+      setShowDropdown(false)
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const data = await getUnidadesByNome(term);
-      const unidades = data.unidadesDeSaude || [];
-      setResults(unidades.slice(0, 5)); 
-      setShowDropdown(unidades.length > 0);
+      const data = await getUnidadesByNome(term)
+      const unidades = data.unidadesDeSaude || []
+      setResults(unidades.slice(0, 5)) 
+      setShowDropdown(unidades.length > 0)
     } catch (error) {
-      console.error('Erro na busca:', error);
-      setResults([]);
-      setShowDropdown(false);
+      console.error('Erro na busca:', error)
+      setResults([])
+      setShowDropdown(false)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-  };
+    const value = e.target.value
+    setSearchTerm(value)
+  }
 
   const handleUnitSelect = (unidade: Unidade) => {
-    setSearchTerm('');
-    setShowDropdown(false);
-    router.push(`/unidades?unitId=${unidade.id}`);
-  };
+    setSearchTerm('')
+    setShowDropdown(false)
+    router.push(`/unidades?unitId=${unidade.id}`)
+  }
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      searchUnidades(searchTerm);
-    }, 300);
+      searchUnidades(searchTerm)
+    }, 300)
 
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+    return () => clearTimeout(timeoutId)
+  }, [searchTerm])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
+        setShowDropdown(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div ref={searchRef} className={styles.searchContainer}>

@@ -1,9 +1,10 @@
 .main {
     display: flex;
     flex-direction: row;
-    height: 90vh;
-    width: 100vw;
-    padding: 4vw;
+    height: 92vh;
+    width: 98vw;
+    padding-block: 4vh;
+    padding-inline: 6vw;
     color: var(--cor-primaria-texto);
     gap: 4vw;
 }
@@ -13,12 +14,12 @@
     flex-direction: column;
     width: 20%;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .systemSettings button{
-    width: 60%;
-    height: 3.5vh;
+    width: 10vw;
+    height: 4vh;
     border: #FB2D2D 1.5px solid;
     color: #FB2D2D;
     font-size: 16px;
@@ -60,6 +61,7 @@
     display: flex;
     width: 100%;
     border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px #00000041;
 }
 
 .accountSettings{
@@ -102,6 +104,12 @@
     height: 90%;
 }
 
+.label{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .label p{
     font-weight: 400;
     font-size: 0.813rem;
@@ -116,7 +124,53 @@
 .registrationData{
     background-color: #F6F6F6;
     display: flex;
+    flex-direction: column;
     height: 40%;
-    border-radius: 0.625rem;
+    gap: 2vh;
+    font-size: 1.063rem;
+    padding-block: 2.2vh;
+    padding-inline: 3vw;
+    border-radius: 10px;
     box-shadow: 0px 4px 4px 0px #00000041;
+}
+
+.registrationContent{
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    justify-content: space-between;
+}
+
+.registrationInfo{
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    gap: 2.5vw;
+}
+
+.registrationInfo img{
+    width: 2vw;
+    height: 90%;
+}
+
+
+.label input{
+    font-weight: 300;
+    font-size: 1.125rem;
+    padding: 0.5vh;
+    width: 100%;
+    border-bottom: 0.1vh solid #b7c1cc;
+    border-inline: none;
+    border-top: none;
+    outline: none;
+    background-color: transparent;
+    border-radius: 2px;
+}
+
+.label input::placeholder{
+    color: #0a1b2c;
+    font-weight: 300;
+    font-size: 1.125rem;
 }

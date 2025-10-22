@@ -6,7 +6,7 @@ export default function ProfileSettingsPage(){
             <div className={styles.systemSettings}>
                 <div className={styles.options}>
                     <div className={styles.photo}>
-                        <img src="https://file.garden/aOx43sIeICuTJI2s/nophoto.png" alt="" />
+                        <img src="null" alt="" />
                     </div> 
                         <ul>Tema</ul>
                         <ul>Idioma</ul>
@@ -67,7 +67,38 @@ export default function ProfileSettingsPage(){
                         </ul>
                     </div>
                 </div>
-                <div className={styles.registrationData}></div>
+                <div className={styles.registrationData}>
+                    <h4>Dados de cadastro</h4>
+                    <div className={styles.registrationContent}>
+                        <ul>
+                            <div className={styles.registrationInfo}>
+                                <img src="https://file.garden/aOx43sIeICuTJI2s/mail%201.png" alt="" />
+                                <div className={styles.label}>
+                                    <p>E-mail</p>
+                                    <input placeholder="exemploemail@email.com"/>
+                                </div>
+                            </div>
+                        </ul>
+                        <ul>
+                            <div className={styles.registrationInfo}>
+                                <img src="https://file.garden/aOx43sIeICuTJI2s/pin%201.png" alt="" />
+                                <div className={styles.label}>
+                                    <p>Endereço</p>
+                                    <input placeholder="Rua Cabreira de Paula, 879"/>
+                                </div>
+                            </div>
+                        </ul>
+                        <ul>
+                            <div className={styles.registrationInfo}>
+                                <img src="https://file.garden/aOx43sIeICuTJI2s/telephone%201.png" alt="" />
+                                <div className={styles.label}>
+                                    <p>Telefone</p>
+                                    <input placeholder="(11) 44002-8922"/>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </main>
     )
