@@ -67,6 +67,10 @@ nav a{
     height: 5vh;
 }
 
+.navigation{
+    gap: 4vw;
+}
+
 .usericon{
     background-color: transparent;
     border: none;

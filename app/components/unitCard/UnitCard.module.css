@@ -1,7 +1,7 @@
 .unitCard {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     border-bottom: 3px solid #e5e7eb;
     margin-inline: 1VW;
     padding-block: 16px ;

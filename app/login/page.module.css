@@ -122,7 +122,7 @@
   
 .onErrorCheck {
     color: red;
-    text-align: start;
+    text-align: flex-start;
     align-self: flex-start;
     padding-top: 0.2vh;
     font-size: 1.5vh;
