@@ -30,6 +30,12 @@
     box-shadow: 0px 4px 4px 0px #0000001e;
 }
 
+.systemSettings button:hover{
+    background-color: #FB2D2D;
+    color: white;
+    transform: translateY(-1px);
+}
+
 .options{
     display: flex;
     flex-direction: column;
@@ -189,4 +195,259 @@
 
 .contactButton:hover {
     opacity: 0.8;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .main {
+        padding: 3vh 4vw;
+        gap: 3vw;
+    }
+    
+    .systemSettings {
+        width: 25%;
+        min-width: 180px;
+    }
+    
+    .accountSettings {
+        width: 75%;
+    }
+    
+    .personalInfo img,
+    .registrationInfo img {
+        width: 2.5vw;
+        min-width: 20px;
+    }
+    
+    .personalInfo {
+        gap: 2vw;
+    }
+    
+    .registrationInfo {
+        gap: 2vw;
+    }
+    
+    .options {
+        font-size: 18px;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        padding: 2vh 3vw;
+        gap: 3vh;
+        min-height: auto;
+    }
+    
+    .systemSettings {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        min-width: auto;
+    }
+    
+    .options {
+        display: flex;
+        flex-direction: row;
+        gap: 2vw;
+        font-size: 16px;
+        flex-wrap: wrap;
+    }
+    
+    .options ul {
+        padding: 0.5vh 1vw;
+        margin: 0;
+    }
+    
+    .photo {
+        display: none;
+    }
+    
+    .systemSettings button {
+        width: auto;
+        min-width: 100px;
+        padding: 1vh 2vw;
+        font-size: 14px;
+    }
+    
+    .accountSettings {
+        width: 100%;
+        gap: 3vh;
+    }
+    
+    .personalData,
+    .registrationData {
+        padding: 2vh 4vw;
+        height: auto;
+        min-height: 300px;
+    }
+    
+    .personalContent,
+    .registrationContent {
+        gap: 2vh;
+        height: auto;
+    }
+    
+    .personalInfo,
+    .registrationInfo {
+        gap: 3vw;
+        margin-bottom: 2vh;
+    }
+    
+    .personalInfo img,
+    .registrationInfo img {
+        width: 6vw;
+        min-width: 24px;
+        max-width: 30px;
+    }
+    
+    .label p {
+        font-size: 0.75rem;
+    }
+    
+    .label span {
+        font-size: 1rem;
+    }
+    
+    .label input {
+        font-size: 1rem;
+        padding: 1vh;
+    }
+    
+    .label input::placeholder {
+        font-size: 1rem;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .main {
+        padding: 1.5vh 2vw;
+        gap: 2vh;
+    }
+    
+    .systemSettings {
+        flex-direction: column;
+        gap: 2vh;
+        align-items: stretch;
+    }
+    
+    .options {
+        flex-direction: column;
+        gap: 1vh;
+        font-size: 14px;
+    }
+    
+    .options ul {
+        padding: 1vh 2vw;
+    }
+    
+    .systemSettings button {
+        width: 100%;
+        font-size: 13px;
+        padding: 1.5vh 3vw;
+    }
+    
+    .personalData,
+    .registrationData {
+        padding: 1.5vh 3vw;
+        gap: 1.5vh;
+        min-height: 250px;
+    }
+    
+    .personalData h4,
+    .registrationData h4 {
+        font-size: 1rem;
+        margin: 0;
+    }
+    
+    .personalInfo,
+    .registrationInfo {
+        gap: 4vw;
+        margin-bottom: 1.5vh;
+    }
+    
+    .personalInfo img,
+    .registrationInfo img {
+        width: 8vw;
+        min-width: 20px;
+        max-width: 25px;
+    }
+    
+    .label p {
+        font-size: 0.7rem;
+        margin-bottom: 0.5vh;
+    }
+    
+    .label span {
+        font-size: 0.9rem;
+    }
+    
+    .label input {
+        font-size: 0.9rem;
+        padding: 0.8vh;
+    }
+    
+    .label input::placeholder {
+        font-size: 0.9rem;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .main {
+        padding: 5vh 8vw;
+        gap: 5vw;
+        max-width: 100vw;
+    }
+    
+    .systemSettings {
+        width: 18%;
+        min-width: 220px;
+    }
+    
+    .accountSettings {
+        width: 82%;
+    }
+    
+    .options {
+        font-size: 22px;
+        gap: 2vh;
+    }
+    
+    .systemSettings button {
+        font-size: 18px;
+        height: 5vh;
+    }
+    
+    .personalData,
+    .registrationData {
+        padding: 3vh 4vw;
+        font-size: 1.2rem;
+    }
+    
+    .personalInfo img,
+    .registrationInfo img {
+        width: 1.8vw;
+        min-width: 25px;
+    }
+    
+    .label p {
+        font-size: 0.9rem;
+    }
+    
+    .label span {
+        font-size: 1.3rem;
+    }
+    
+    .label input {
+        font-size: 1.3rem;
+    }
+    
+    .label input::placeholder {
+        font-size: 1.3rem;
+    }
 }

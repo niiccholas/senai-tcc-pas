@@ -5,6 +5,8 @@
     height: 92%;
     padding-top: 8vh;
     color: var(--cor-primaria-texto);
+    padding-inline: 1rem;
+    box-sizing: border-box;
 }
 
 .logoLogin {
@@ -41,6 +43,8 @@
     align-items: center;
     justify-content: space-between;
     width: 50%;
+    max-width: 500px;
+    min-width: 300px;
     height: 30%;
     gap: 2vh;
 }
@@ -107,12 +111,16 @@
   
 .button {
     width: 20%;
+    min-width: 120px;
     height: 4vh;
+    min-height: 40px;
 }
   
 .noLogin {
     width: 15%;
+    min-width: 140px;
     height: 4vh;
+    min-height: 40px;
     margin-top: 2vh;
 }
   
@@ -130,5 +138,196 @@
   
 .dontDisplay {
     display: none;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .main {
+        padding-top: 6vh;
+        padding-inline: 2rem;
+    }
+    
+    .logoLogin {
+        height: 12vh;
+    }
+    
+    .title {
+        font-size: 3.5vh;
+    }
+    
+    .form {
+        width: 60%;
+        gap: 1.5vh;
+    }
+    
+    .containerGov h2 {
+        font-size: 2vh;
+    }
+    
+    .button {
+        width: 25%;
+        min-width: 100px;
+    }
+    
+    .noLogin {
+        width: 20%;
+        min-width: 120px;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .main {
+        padding-top: 4vh;
+        padding-inline: 1rem;
+        height: 100vh;
+        justify-content: center;
+    }
+    
+    .logoLogin {
+        height: 10vh;
+        max-height: 80px;
+    }
+    
+    .title {
+        font-size: 3vh;
+        padding-top: 1vh;
+    }
+    
+    .containerGov {
+        padding-block: 0.5vh;
+        padding-block-end: 2vh;
+        flex-direction: column;
+        gap: 0.5vh;
+    }
+    
+    .containerGov h2 {
+        font-size: 1.8vh;
+        margin: 0;
+    }
+    
+    .containerGov img {
+        height: 1.5vh;
+        margin-left: 0;
+    }
+    
+    .form {
+        width: 90%;
+        max-width: 400px;
+        gap: 1vh;
+        height: auto;
+    }
+    
+    .label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5vh;
+    }
+    
+    .checkmark {
+        margin-right: 0;
+        margin-bottom: 0.5vh;
+    }
+    
+    .termos {
+        font-size: 1.4vh;
+        line-height: 1.4;
+        text-align: left;
+    }
+    
+    .button {
+        width: 40%;
+        min-width: 120px;
+        height: 5vh;
+        font-size: 1.6vh;
+    }
+    
+    .noLogin {
+        width: 50%;
+        min-width: 140px;
+        height: 4.5vh;
+        font-size: 1.4vh;
+        margin-top: 1vh;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .main {
+        padding-inline: 0.5rem;
+        padding-top: 2vh;
+    }
+    
+    .logoLogin {
+        height: 8vh;
+        max-height: 60px;
+    }
+    
+    .title {
+        font-size: 2.5vh;
+    }
+    
+    .containerGov h2 {
+        font-size: 1.6vh;
+    }
+    
+    .containerGov img {
+        height: 1.2vh;
+    }
+    
+    .form {
+        width: 95%;
+        gap: 0.8vh;
+    }
+    
+    .termos {
+        font-size: 1.2vh;
+    }
+    
+    .button {
+        width: 50%;
+        height: 4.5vh;
+        font-size: 1.4vh;
+    }
+    
+    .noLogin {
+        width: 60%;
+        height: 4vh;
+        font-size: 1.2vh;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .main {
+        padding-top: 10vh;
+    }
+    
+    .logoLogin {
+        height: 18vh;
+    }
+    
+    .title {
+        font-size: 5vh;
+    }
+    
+    .form {
+        width: 40%;
+        gap: 3vh;
+    }
+    
+    .containerGov h2 {
+        font-size: 2.5vh;
+    }
+    
+    .button {
+        width: 15%;
+        height: 5vh;
+    }
+    
+    .noLogin {
+        width: 12%;
+        height: 5vh;
+    }
 }
   
