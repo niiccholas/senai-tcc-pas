@@ -3,7 +3,7 @@
   flex-direction: row;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* Impede scroll da página principal */
+  overflow: hidden; 
 }
 
 .unitDiv {
@@ -15,10 +15,9 @@
   border-top-right-radius: 1vh; 
   box-shadow: 3px 0px 3px 0px #f1f1f1;
   animation: slideIn 0.4s ease-out;
-  overflow: hidden; /* Garante que o conteúdo não vaze */
+  overflow: hidden; 
 }
 
-/* Animação de entrada da unitDiv */
 @keyframes slideIn {
   from {
     transform: translateX(-100%);
@@ -35,11 +34,15 @@
   flex-direction: column;
   width: 95%;
   height: 100%;
-  scrollbar-color: #c4c4c4 transparent;
+  scrollbar-color: transparent transparent;
   overflow-y: auto; 
   overflow-x: hidden;
   padding: 1rem;
   gap: 1rem;
+}
+
+.unitList:hover {
+  scrollbar-color: #888 transparent;
 }
 
 .unitList::-webkit-scrollbar {
@@ -77,9 +80,9 @@
   display: flex;
   flex-direction: column;
   width: 70%;
-  height: 100vh; /* Altura fixa */
+  height: 100%; 
   position: relative;
-  overflow: hidden; /* Impede que o mapa role */
+  overflow: hidden; 
 }
 
 .unitMapFull {

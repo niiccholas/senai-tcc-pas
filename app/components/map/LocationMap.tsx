@@ -63,7 +63,7 @@ function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; ln
   useEffect(() => {
     if (navigateToCoords) {
       console.log('MapUpdater: navegando para', navigateToCoords)
-      map.flyTo([navigateToCoords.lat, navigateToCoords.lng], 17, {
+      map.flyTo([navigateToCoords.lat, navigateToCoords.lng], 19, {
         animate: true,
         duration: 2
       })
@@ -119,7 +119,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
         
         // Centralizar o mapa na localização do usuário
         if (mapInstance) {
-          mapInstance.flyTo([latitude, longitude], 15, {
+          mapInstance.flyTo([latitude, longitude], 17, {
             animate: true,
             duration: 2
           })
@@ -128,12 +128,12 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
         setIsLocating(false)
       },
       async () => {
-        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP' })
+        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'Jandira, SP' })
         setMapCenter([defaultLat, defaultLng])
         
         // Centralizar no padrão se não conseguir localização
         if (mapInstance) {
-          mapInstance.flyTo([defaultLat, defaultLng], 12, {
+          mapInstance.flyTo([defaultLat, defaultLng], 15, {
             animate: true,
             duration: 2
           })
@@ -231,7 +231,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   // Centralizar mapa quando a instância do mapa e localização estiverem disponíveis
   useEffect(() => {
     if (mapInstance && userLocation && !isLocating) {
-      mapInstance.flyTo([userLocation.lat, userLocation.lng], 15, {
+      mapInstance.flyTo([userLocation.lat, userLocation.lng], 17, {
         animate: true,
         duration: 2
       })
@@ -249,7 +249,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   const handleMarkerClick = (lat: number, lng: number, nome: string) => {
     console.log(`Clique no pin: ${nome}`)
     if (mapInstance) {
-      mapInstance.flyTo([lat, lng], 17, {
+      mapInstance.flyTo([lat, lng], 19, {
         animate: true,
         duration: 1.5
       })
@@ -279,7 +279,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
       <div className={styles.mapArea}>
         <MapContainer 
           center={mapCenter as LatLngExpression} 
-          zoom={12} 
+          zoom={15} 
           style={{ height: '100%', width: '100%' }}
           zoomControl={false}
         >
