@@ -35,19 +35,19 @@
   flex-direction: column;
   width: 95%;
   height: 100%;
-  overflow-y: auto; /* Scroll apenas na lista */
+  scrollbar-color: #c4c4c4 transparent;
+  overflow-y: auto; 
   overflow-x: hidden;
   padding: 1rem;
   gap: 1rem;
 }
 
-/* Estilo da scrollbar para unitList */
 .unitList::-webkit-scrollbar {
   width: 8px;
 }
 
 .unitList::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
   border-radius: 10px;
 }
 
