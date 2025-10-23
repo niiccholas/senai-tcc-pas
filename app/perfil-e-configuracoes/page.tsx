@@ -10,7 +10,9 @@ export default function ProfileSettingsPage(){
                     </div> 
                         <ul>Tema</ul>
                         <ul>Idioma</ul>
-                        <ul>Contato</ul>
+                        <ul>
+                            <a href="mailto:contato@pas.gov.br?subject=Dúvida sobre o sistema PAS&body=Olá, gostaria de entrar em contato sobre...">Contato</a>
+                        </ul>
                         <ul><a href="/termos-de-uso">Termos de uso</a></ul>
                         <ul><a href="/sobre">Sobre</a></ul>
                 </div>

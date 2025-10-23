@@ -174,3 +174,19 @@
     font-weight: 300;
     font-size: 1.125rem;
 }
+
+.contactButton {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+.contactButton:hover {
+    opacity: 0.8;
+}
