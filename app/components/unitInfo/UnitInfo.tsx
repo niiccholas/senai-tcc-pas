@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './UnitInfo.module.css'
 import Specialty from '../specialty/specialty'
 import { getUnidadesById } from "../../api/unidade"
+import { formatWaitTime } from '../../utils/timeFormatter'
 
 interface UnitInfoProps {
   unitId: string
@@ -107,7 +108,7 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
             </svg>
             <div>
               <span className={styles.label}>Tempo de espera</span>
-              <span className={styles.element}>{waitTimeGeneral}</span>
+              <span className={styles.element}>{formatWaitTime(waitTimeGeneral)}</span>
             </div>
           </div>
           <div className={styles.infoElement}>

@@ -22,7 +22,10 @@ export default function MapaPage() {
       </div>
       
       <div className={styles.mapContainer}>
-        <LocationMap onLocationSelect={handleLocationSelect} />
+        <LocationMap 
+          onLocationSelect={handleLocationSelect} 
+          showAllUnits={true}
+        />
       </div>
     </main>
   );

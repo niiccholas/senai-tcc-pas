@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
@@ -20,10 +20,12 @@ export default function UnitPage() {
   const { selectedFilters } = useFiltros()
   const searchParams = useSearchParams()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
+  const [unidadesRaw, setUnidadesRaw] = useState<any[]>([]) // Dados brutos para o mapa
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
   const [selectedUnitCoords, setSelectedUnitCoords] = useState<{ lat: number; lng: number } | null>(null)
   const [loading, setLoading] = useState(false)
+  const [shouldCenterFirstUnit, setShouldCenterFirstUnit] = useState(false)
 
   // Verificar se há unitId na URL
   useEffect(() => {
@@ -34,6 +36,11 @@ export default function UnitPage() {
     }
   }, [searchParams])
 
+  // Memoizar a chave dos filtros para evitar re-renders desnecessários
+  const filterKey = useMemo(() => {
+    return JSON.stringify(selectedFilters)
+  }, [selectedFilters])
+
   // useEffect para buscar unidades filtradas
   useEffect(() => {
     console.log('=== useEffect executado ===')
@@ -43,7 +50,7 @@ export default function UnitPage() {
       try {
         setLoading(true)
         
-        // Verificar se há filtros aplicados (exceto disponibilidade que será tratado localmente)
+        // Verificar se há filtros aplicados (exceto disponibilidade, distanciaRaio e unidadeProxima que serão tratados localmente)
         const temFiltrosAPI = selectedFilters.especialidade !== null || 
                              selectedFilters.categoria !== null
         
@@ -59,10 +66,10 @@ export default function UnitPage() {
         if (temFiltrosAPI) {
           console.log('Aplicando filtros via API:', selectedFilters)
           
-          // Criar objeto de filtros para a API (removendo valores null e disponibilidade)
+          // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
           let filtrosParaAPI = Object.fromEntries(
             Object.entries(selectedFilters).filter(([key, value]) => 
-              value !== null && key !== 'disponibilidade'
+              value !== null && !['disponibilidade', 'distanciaRaio', 'unidadeProxima'].includes(key)
             )
           )
           
@@ -143,29 +150,91 @@ export default function UnitPage() {
           unidadesData = []
         }
         
+        // Função para converter tempo "HH:MM:SS" para minutos totais
+        const timeToMinutes = (timeStr: string): number => {
+          if (!timeStr || timeStr === '-') return Infinity
+          
+          const parts = timeStr.split(':')
+          if (parts.length !== 3) return Infinity
+          
+          const hours = parseInt(parts[0]) || 0
+          const minutes = parseInt(parts[1]) || 0
+          const seconds = parseInt(parts[2]) || 0
+          
+          return hours * 60 + minutes + seconds / 60
+        }
+
         const unidadesFormatadas = unidadesData.map((unidade: any) => {
-          console.log('Transformando unidade:', unidade)
+          console.log('Transformando unidade:', unidade.nome, 'Tempo:', unidade.tempo_espera_geral)
           return {
             id: String(unidade.id),
             name: unidade.nome,
             waitTimeGeneral: unidade.tempo_espera_geral || '-'
           }
+        }).sort((a, b) => {
+          // Ordenar por tempo de espera (menor primeiro)
+          const tempoA = timeToMinutes(a.waitTimeGeneral)
+          const tempoB = timeToMinutes(b.waitTimeGeneral)
+          console.log(`Comparando: ${a.name} (${a.waitTimeGeneral} -> ${tempoA.toFixed(1)}min) vs ${b.name} (${b.waitTimeGeneral} -> ${tempoB.toFixed(1)}min)`)
+          return tempoA - tempoB
         })
 
-        console.log('Unidades formatadas:', unidadesFormatadas)
+        console.log('Unidades formatadas e ordenadas:', unidadesFormatadas.map(u => `${u.name}: ${u.waitTimeGeneral}`))
         setUnidades(unidadesFormatadas)
+        setUnidadesRaw(unidadesData) // Salvar dados brutos para o mapa
         console.log('Estado unidades após setUnidades:', unidadesFormatadas.length)
+        
+        // Marcar para centralizar a primeira unidade se houver unidades
+        if (unidadesFormatadas.length > 0) {
+          setShouldCenterFirstUnit(true)
+        }
         
       } catch (error) {
         console.error('Erro ao buscar unidades:', error)
         setUnidades([])
+        setUnidadesRaw([])
       } finally {
         setLoading(false)
       }
     }
 
     buscarUnidades()
-  }, [selectedFilters])
+  }, [filterKey]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // useEffect para centralizar a primeira unidade quando necessário
+  useEffect(() => {
+    const centerFirstUnit = async () => {
+      if (shouldCenterFirstUnit && unidades.length > 0 && !selectedUnitId) {
+        const primeiraUnidade = unidades[0]
+        console.log('Centralizando primeira unidade:', primeiraUnidade.name)
+        
+        try {
+          const response = await fetch(`https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/${primeiraUnidade.id}`)
+          const data = await response.json()
+          
+          if (data.status && data.unidadeDeSaude) {
+            const unidade = data.unidadeDeSaude
+            
+            if (unidade.local?.endereco?.[0]?.cep) {
+              const cep = unidade.local.endereco[0].cep
+              const coords = await geocodeByCEP(cep)
+              
+              if (coords) {
+                console.log('Centralizando mapa na primeira unidade:', coords)
+                setSelectedUnitCoords(coords)
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Erro ao centralizar primeira unidade:', error)
+        }
+        
+        setShouldCenterFirstUnit(false)
+      }
+    }
+    
+    centerFirstUnit()
+  }, [shouldCenterFirstUnit, unidades, selectedUnitId])
 
   const toggleUnitDiv = () => {
     if (selectedUnitId) {
@@ -178,27 +247,18 @@ export default function UnitPage() {
 
   const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      // Remover caracteres não numéricos
-      const cepLimpo = cep.replace(/\D/g, '')
-            
-      // Usar API do Nominatim com CEP brasileiro
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&country=Brazil&postalcode=${cepLimpo}&limit=1`
-      )
+      // Usar nossa API server-side para evitar CORS
+      const response = await fetch(`/api/geocoding?cep=${encodeURIComponent(cep)}`)
       
       if (response.ok) {
-        const data = await response.json()
-        if (data.length > 0) {
-          const coords = {
-            lat: parseFloat(data[0].lat),
-            lng: parseFloat(data[0].lon)
-          }
+        const coords = await response.json()
+        if (coords.lat && coords.lng) {
           console.log('Coordenadas encontradas:', coords)
           return coords
         }
       }
       
-      console.warn('Nenhuma coordenada encontrada para o CEP:', cepLimpo)
+      console.warn('Nenhuma coordenada encontrada para o CEP:', cep)
     } catch (error) {
       console.error('Erro ao geocodificar CEP:', error)
     }
@@ -306,6 +366,8 @@ export default function UnitPage() {
           <LocationMap 
             onLocationSelect={handleLocationSelect}
             navigateToCoords={selectedUnitCoords}
+            filteredUnits={unidadesRaw}
+            showAllUnits={false}
           />
         </div>
       </div>

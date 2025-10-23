@@ -6,6 +6,8 @@ export interface SelectedFiltersState {
   especialidade: number | null;
   categoria: string | null;
   disponibilidade: number | null; // 0 ou 1 como retorna da API
+  distanciaRaio: number; // Raio em km (5, 10, 15, 20, 25)
+  unidadeProxima: boolean | null; // Se deve buscar unidade mais próxima
 }
 
 interface FiltrosContextType {
@@ -20,6 +22,8 @@ export function FiltrosProvider({ children }: { children: ReactNode }) {
     especialidade: null,
     categoria: null,
     disponibilidade: null,
+    distanciaRaio: 10, // Valor padrão de 10km
+    unidadeProxima: null,
   });
 
   function setFilter<K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) {
