@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './UnitInfo.module.css'
 import Specialty from '../specialty/specialty'
-import { getUnidadesById } from "../../api/unidade"
 import { formatWaitTime } from '../../utils/timeFormatter'
 
 interface UnitInfoProps {
@@ -49,20 +48,41 @@ export default function UnitInfo({ unitId }: UnitInfoProps) {
     async function fetchUnitData() {
       try {
         setLoading(true)
-        const data = await getUnidadesById(unitId)
+        
+        console.log('🔍 UnitInfo: Buscando dados para unitId:', unitId)
+        
+        // Fazer fetch diretamente para evitar problemas com Server Actions
+        const response = await fetch(`https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/${unitId}`)
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
+        const data = await response.json()
+        console.log('🔍 UnitInfo: Resposta completa da API:', data)
         
         if (data.status) {
-          console.log('Dados da unidade recebidos:', data.unidadeDeSaude)
-          setUnitData(data.unidadeDeSaude)
+          console.log('🔍 UnitInfo: Dados da unidade recebidos:', data.unidadesDeSaude)
+          // A API retorna um array, então pegamos o primeiro elemento
+          const unidadeData = Array.isArray(data.unidadesDeSaude) ? data.unidadesDeSaude[0] : data.unidadesDeSaude
+          console.log('🔍 UnitInfo: Dados processados da unidade:', unidadeData)
+          setUnitData(unidadeData)
+        } else {
+          console.error('🔍 UnitInfo: API retornou status false:', data)
         }
       } catch (error) {
-        console.error('Erro ao buscar dados da unidade:', error)
+        console.error('🔍 UnitInfo: Erro ao buscar dados da unidade:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchUnitData()
+    if (unitId) {
+      fetchUnitData()
+    } else {
+      console.log('🔍 UnitInfo: unitId é null/undefined, não fazendo fetch')
+      setLoading(false)
+    }
   }, [unitId])
 
   if (loading) {

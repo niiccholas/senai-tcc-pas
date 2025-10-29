@@ -4,8 +4,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
-import { getUnidades } from '../api/unidade';
-import { filtrar } from '../api/filtro';
 import { useFiltros } from '../context/FiltroContext';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
@@ -67,27 +65,42 @@ export default function UnitPage() {
           console.log('Aplicando filtros via API:', selectedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
-          let filtrosParaAPI = Object.fromEntries(
-            Object.entries(selectedFilters).filter(([key, value]) => 
-              value !== null && !['disponibilidade', 'distanciaRaio', 'unidadeProxima'].includes(key)
-            )
-          )
+          let filtrosParaAPI: any = {}
+          
+          if (selectedFilters.especialidade !== null) {
+            filtrosParaAPI.especialidade = selectedFilters.especialidade
+          }
+          
+          if (selectedFilters.categoria !== null) {
+            filtrosParaAPI.categoria = selectedFilters.categoria
+          }
           
           console.log('Filtros para API:', filtrosParaAPI)
           
           try {
-            const response = await filtrar(filtrosParaAPI)
-            console.log('Resposta completa da API filtrar:', response)
+            // Fazer fetch direto para evitar problemas com Server Actions
+            const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/filtrar', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(filtrosParaAPI)
+            })
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            
+            const responseData = await response.json()
+            console.log('Resposta completa da API filtrar:', responseData)
             console.log('Status da resposta:', response.status)
-            console.log('Unidades na resposta:', response.unidadesDeSaude)
+            console.log('Unidades na resposta:', responseData.unidadesDeSaude)
             
             // Tentar diferentes estruturas de resposta
-            if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
-              unidadesData = response.unidadesDeSaude
-            } else if (response.data && Array.isArray(response.data)) {
-              unidadesData = response.data
-            } else if (Array.isArray(response)) {
-              unidadesData = response
+            if (responseData.unidadesDeSaude && Array.isArray(responseData.unidadesDeSaude)) {
+              unidadesData = responseData.unidadesDeSaude
+            } else if (responseData.data && Array.isArray(responseData.data)) {
+              unidadesData = responseData.data
+            } else if (Array.isArray(responseData)) {
+              unidadesData = responseData
             } else {
               console.log('Estrutura de resposta da API filtrar não reconhecida')
               unidadesData = []
@@ -98,25 +111,32 @@ export default function UnitPage() {
           }
         } else {
           console.log('Carregando todas as unidades')
-          const response = await getUnidades()
-          console.log('Resposta completa da API getUnidades:', response)
+          // Fazer fetch direto para evitar problemas com Server Actions
+          const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/')
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
+          
+          const responseData = await response.json()
+          console.log('Resposta completa da API getUnidades:', responseData)
 
           // Tentar diferentes estruturas de resposta
-          if (response.unidadesDeSaude && Array.isArray(response.unidadesDeSaude)) {
-            unidadesData = response.unidadesDeSaude
-            console.log('✅ Usando response.unidadesDeSaude')
-          } else if (response.unidades && Array.isArray(response.unidades)) {
-            unidadesData = response.unidades
-            console.log('✅ Usando response.unidades')
-          } else if (Array.isArray(response)) {
-            unidadesData = response
-            console.log('✅ Usando response direto (array)')
-          } else if (response.data && Array.isArray(response.data)) {
-            unidadesData = response.data
+          if (responseData.unidadesDeSaude && Array.isArray(responseData.unidadesDeSaude)) {
+            unidadesData = responseData.unidadesDeSaude
+            console.log('✅ Usando responseData.unidadesDeSaude')
+          } else if (responseData.unidades && Array.isArray(responseData.unidades)) {
+            unidadesData = responseData.unidades
+            console.log('✅ Usando responseData.unidades')
+          } else if (Array.isArray(responseData)) {
+            unidadesData = responseData
+            console.log('✅ Usando responseData direto (array)')
+          } else if (responseData.data && Array.isArray(responseData.data)) {
+            unidadesData = responseData.data
             console.log('✅ Usando response.data')
           } else {
             console.log('⚠️ Estrutura de resposta não reconhecida, usando array vazio')
-            console.log('Estrutura recebida:', Object.keys(response))
+            console.log('Estrutura recebida:', Object.keys(responseData))
             unidadesData = []
           }
 
@@ -164,20 +184,27 @@ export default function UnitPage() {
           return hours * 60 + minutes + seconds / 60
         }
 
-        const unidadesFormatadas = unidadesData.map((unidade: any) => {
-          console.log('Transformando unidade:', unidade.nome, 'Tempo:', unidade.tempo_espera_geral)
-          return {
-            id: String(unidade.id),
-            name: unidade.nome,
-            waitTimeGeneral: unidade.tempo_espera_geral || '-'
-          }
-        }).sort((a, b) => {
-          // Ordenar por tempo de espera (menor primeiro)
-          const tempoA = timeToMinutes(a.waitTimeGeneral)
-          const tempoB = timeToMinutes(b.waitTimeGeneral)
-          console.log(`Comparando: ${a.name} (${a.waitTimeGeneral} -> ${tempoA.toFixed(1)}min) vs ${b.name} (${b.waitTimeGeneral} -> ${tempoB.toFixed(1)}min)`)
-          return tempoA - tempoB
-        })
+        const unidadesFormatadas = unidadesData
+          .filter((unidade: any) => unidade.id != null && unidade.nome) // Filtrar unidades sem ID ou nome
+          .map((unidade: any, index: number) => {
+            console.log('Transformando unidade:', unidade.nome, 'ID:', unidade.id, 'Tempo:', unidade.tempo_espera_geral)
+            return {
+              id: String(unidade.id),
+              name: unidade.nome,
+              waitTimeGeneral: unidade.tempo_espera_geral || '-'
+            }
+          })
+          .filter((unidade, index, array) => {
+            // Remover duplicatas baseadas no ID
+            return array.findIndex(u => u.id === unidade.id) === index
+          })
+          .sort((a, b) => {
+            // Ordenar por tempo de espera (menor primeiro)
+            const tempoA = timeToMinutes(a.waitTimeGeneral)
+            const tempoB = timeToMinutes(b.waitTimeGeneral)
+            console.log(`Comparando: ${a.name} (${a.waitTimeGeneral} -> ${tempoA.toFixed(1)}min) vs ${b.name} (${b.waitTimeGeneral} -> ${tempoB.toFixed(1)}min)`)
+            return tempoA - tempoB
+          })
 
         console.log('Unidades formatadas e ordenadas:', unidadesFormatadas.map(u => `${u.name}: ${u.waitTimeGeneral}`))
         setUnidades(unidadesFormatadas)
@@ -267,35 +294,43 @@ export default function UnitPage() {
 
   const handleLearnMore = async (unitId: string) => {
     try {
-      console.log('Buscando dados da unidade:', unitId)
+      console.log('🔍 handleLearnMore: Iniciando busca para unitId:', unitId)
+      console.log('🔍 handleLearnMore: Tipo do unitId:', typeof unitId)
       
       const response = await fetch(`https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/${unitId}`)
       const data = await response.json()
       
-      if (data.status && data.unidadeDeSaude) {
-        const unidade = data.unidadeDeSaude
-        console.log('Dados da unidade:', unidade)
+      console.log('🔍 handleLearnMore: Resposta da API:', data)
+      
+      if (data.status && data.unidadesDeSaude) {
+        // A API retorna um array, então pegamos o primeiro elemento
+        const unidade = Array.isArray(data.unidadesDeSaude) ? data.unidadesDeSaude[0] : data.unidadesDeSaude
+        console.log('🔍 handleLearnMore: Dados da unidade:', unidade)
         
         if (unidade.local?.endereco?.[0]?.cep) {
           const cep = unidade.local.endereco[0].cep
-          console.log('CEP da unidade:', cep)
+          console.log('🔍 handleLearnMore: CEP da unidade:', cep)
           
           const coords = await geocodeByCEP(cep)
           
           if (coords) {
-            console.log('Navegando para:', unidade.nome, coords)
+            console.log('🔍 handleLearnMore: Navegando para:', unidade.nome, coords)
             setSelectedUnitCoords(coords)
           } else {
-            console.error('Não foi possível obter coordenadas para o CEP:', cep)
+            console.error('🔍 handleLearnMore: Não foi possível obter coordenadas para o CEP:', cep)
           }
         } else {
-          console.error('CEP não encontrado nos dados da unidade')
+          console.error('🔍 handleLearnMore: CEP não encontrado nos dados da unidade')
         }
+      } else {
+        console.error('🔍 handleLearnMore: API não retornou dados válidos:', data)
       }
       
+      console.log('🔍 handleLearnMore: Definindo selectedUnitId como:', unitId)
       setSelectedUnitId(unitId)
     } catch (error) {
-      console.error('Erro ao buscar dados da unidade:', error)
+      console.error('🔍 handleLearnMore: Erro ao buscar dados da unidade:', error)
+      console.log('🔍 handleLearnMore: Definindo selectedUnitId mesmo com erro:', unitId)
       setSelectedUnitId(unitId)
     }
   }
@@ -308,6 +343,8 @@ export default function UnitPage() {
   console.log('Estado atual das unidades:', unidades)
   console.log('Loading:', loading)
   console.log('Número de unidades:', unidades.length)
+  console.log('🔍 selectedUnitId atual:', selectedUnitId)
+  console.log('🔍 isUnitDivVisible:', isUnitDivVisible)
   
 
   return (
