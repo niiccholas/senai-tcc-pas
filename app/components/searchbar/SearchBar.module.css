@@ -1,14 +1,24 @@
+.searchContainer {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .searchbox {
     display: flex;
     background-color: #298BE6;
     flex-direction: row;
     border-radius: 30px;
-    width: 90%;
+    width: 100%;
     height: 40px;
+    min-height: 40px;
     justify-content: center;
     align-items: center;
     gap: 5px;
     margin-block: 1.5vh;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .searchbox button{
@@ -31,9 +41,219 @@
     outline: none;
     background: none;
     color: white;
+    flex: 1;
+    min-width: 0;
 }
 
 .searchbox input::placeholder{
     color: white;
     font-size: 24px;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 4px;
+}
+
+.dropdownItem {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
+}
+
+.unitName {
+    font-weight: 600;
+    color: #134879;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.unitAddress {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.3;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .searchContainer {
+        width: 95%;
+        max-width: 500px;
+    }
+    
+    .searchbox {
+        height: 38px;
+        margin-block: 1.2vh;
+    }
+    
+    .searchbox input {
+        font-size: 20px;
+    }
+    
+    .searchbox input::placeholder {
+        font-size: 20px;
+    }
+    
+    .unitName {
+        font-size: 15px;
+    }
+    
+    .unitAddress {
+        font-size: 13px;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .searchContainer {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .searchbox {
+        height: 36px;
+        margin-block: 1vh;
+        border-radius: 25px;
+        padding: 0 8px;
+    }
+    
+    .searchbox button {
+        width: 8%;
+        min-width: 30px;
+    }
+    
+    .searchbox input {
+        font-size: 18px;
+        height: 28px;
+    }
+    
+    .searchbox input::placeholder {
+        font-size: 18px;
+    }
+    
+    .dropdown {
+        max-height: 250px;
+        margin-top: 2px;
+    }
+    
+    .dropdownItem {
+        padding: 10px 12px;
+    }
+    
+    .unitName {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    
+    .unitAddress {
+        font-size: 12px;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .searchContainer {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .searchbox {
+        height: 34px;
+        margin-block: 0.8vh;
+        border-radius: 20px;
+        padding: 0 6px;
+        gap: 3px;
+    }
+    
+    .searchbox button {
+        width: 10%;
+        min-width: 28px;
+    }
+    
+    .searchbox input {
+        font-size: 16px;
+        height: 26px;
+    }
+    
+    .searchbox input::placeholder {
+        font-size: 16px;
+    }
+    
+    .dropdown {
+        max-height: 200px;
+        border-radius: 6px;
+    }
+    
+    .dropdownItem {
+        padding: 8px 10px;
+    }
+    
+    .unitName {
+        font-size: 13px;
+    }
+    
+    .unitAddress {
+        font-size: 11px;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .searchContainer {
+        max-width: 80%;
+    }
+    
+    .searchbox {
+        height: 45px;
+        margin-block: 2vh;
+    }
+    
+    .searchbox input {
+        font-size: 26px;
+        height: 35px;
+    }
+    
+    .searchbox input::placeholder {
+        font-size: 26px;
+    }
+    
+    .unitName {
+        font-size: 17px;
+    }
+    
+    .unitAddress {
+        font-size: 15px;
+    }
 }

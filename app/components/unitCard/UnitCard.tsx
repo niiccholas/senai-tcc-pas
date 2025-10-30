@@ -2,6 +2,7 @@
 
 import React from 'react'
 import styles from './UnitCard.module.css'
+import { formatWaitTime } from '../../utils/timeFormatter'
 
 interface UnitCardProps {
   id: string
@@ -27,7 +28,7 @@ export default function UnitCard({ id, name, waitTimeGeneral, onLearnMore }: Uni
                     <div className={styles.waitBox}>
                         <span className={styles.waitLabel}>Tempo de espera</span>
                         <span className={styles.waitValue}>
-                            <b>{waitTimeGeneral ?? '-'}</b> 
+                            <b>{formatWaitTime(waitTimeGeneral)}</b> 
                         </span>
                     </div>
                 </div>

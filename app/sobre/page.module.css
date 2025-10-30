@@ -1,0 +1,151 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 7vh 20vw 5vh;
+    color: var(--cor-primaria-texto);
+    gap: 8vh;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.label,.content{
+    width: 100%;
+    color: #1E5FA3;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    font-size: 36px;
+    font-weight: 700;
+    gap: 2.5vh;
+    border-bottom: #8CC6FF solid 3px;
+    padding-bottom: 2.5vh;
+    text-align: center;
+}
+
+.label img {
+    height: 14vh;
+    max-height: 120px;
+    width: auto;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    height: auto;
+    font-size: 24px;
+    font-weight: 500;
+    padding-bottom: 7vh;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .main {
+        padding: 6vh 15vw 4vh;
+        gap: 6vh;
+    }
+    
+    .label {
+        font-size: 32px;
+        gap: 2vh;
+        padding-bottom: 2vh;
+    }
+    
+    .label img {
+        height: 12vh;
+        max-height: 100px;
+    }
+    
+    .content {
+        font-size: 22px;
+        gap: 2.5vh;
+        padding-bottom: 6vh;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .main {
+        padding: 4vh 8vw 3vh;
+        gap: 4vh;
+    }
+    
+    .label {
+        font-size: 28px;
+        gap: 1.5vh;
+        padding-bottom: 1.5vh;
+        border-bottom-width: 2px;
+    }
+    
+    .label img {
+        height: 10vh;
+        max-height: 80px;
+    }
+    
+    .content {
+        font-size: 20px;
+        gap: 2vh;
+        padding-bottom: 4vh;
+        text-align: left;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .main {
+        padding: 3vh 5vw 2vh;
+        gap: 3vh;
+    }
+    
+    .label {
+        font-size: 24px;
+        gap: 1vh;
+        padding-bottom: 1vh;
+    }
+    
+    .label img {
+        height: 8vh;
+        max-height: 60px;
+    }
+    
+    .content {
+        font-size: 18px;
+        gap: 1.5vh;
+        padding-bottom: 3vh;
+        line-height: 1.5;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .main {
+        padding: 8vh 25vw 6vh;
+        gap: 10vh;
+    }
+    
+    .label {
+        font-size: 40px;
+        gap: 3vh;
+        padding-bottom: 3vh;
+    }
+    
+    .label img {
+        height: 16vh;
+        max-height: 140px;
+    }
+    
+    .content {
+        font-size: 26px;
+        gap: 3.5vh;
+        padding-bottom: 8vh;
+    }
+}

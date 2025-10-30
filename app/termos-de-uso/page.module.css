@@ -1,0 +1,297 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 7vh 20vw 5vh;
+    color: var(--cor-primaria-texto);
+    gap: 3vh;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.label,.content{
+    width: 100%;
+    color: #1E5FA3;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    font-size: 1.8rem;
+    font-weight: 700;
+    gap: 2.5vh;
+    border-bottom: #8CC6FF solid 3px;
+    padding-bottom: 2.5vh;
+    text-align: center;
+}
+
+.label img {
+    height: 14vh;
+    max-height: 120px;
+    width: auto;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+    height: auto;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2vh;
+    padding-bottom: 7vh;
+}
+
+.list section {
+    width: 100%;
+}
+
+.list section h2 {
+    color: #1E5FA3;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 1vh 0;
+}
+
+.list ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.list ul li {
+    color: #1E5FA3;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5vh;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.list ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #1E5FA3;
+    font-weight: bold;
+}
+
+.list ul ul {
+    margin-top: 0.5vh;
+    margin-left: 1rem;
+}
+
+.list ul ul li {
+    font-size: 0.875rem;
+    padding-left: 1rem;
+}
+
+.list ul ul li::before {
+    content: '◦';
+    color: #1E5FA3;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .main {
+        padding: 6vh 15vw 4vh;
+        gap: 2.5vh;
+    }
+    
+    .label {
+        font-size: 1.6rem;
+        gap: 2vh;
+        padding-bottom: 2vh;
+    }
+    
+    .label img {
+        height: 12vh;
+        max-height: 100px;
+    }
+    
+    .content {
+        font-size: 1.3rem;
+        gap: 2.5vh;
+    }
+    
+    .list {
+        gap: 1.5vh;
+        padding-bottom: 6vh;
+    }
+    
+    .list section h2 {
+        font-size: 1.1rem;
+    }
+    
+    .list ul li {
+        font-size: 0.9rem;
+    }
+    
+    .list ul ul li {
+        font-size: 0.8rem;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .main {
+        padding: 4vh 8vw 3vh;
+        gap: 2vh;
+    }
+    
+    .label {
+        font-size: 1.4rem;
+        gap: 1.5vh;
+        padding-bottom: 1.5vh;
+        border-bottom-width: 2px;
+    }
+    
+    .label img {
+        height: 10vh;
+        max-height: 80px;
+    }
+    
+    .content {
+        font-size: 1.2rem;
+        gap: 2vh;
+        text-align: left;
+    }
+    
+    .list {
+        gap: 1.2vh;
+        padding-bottom: 4vh;
+    }
+    
+    .list section h2 {
+        font-size: 1rem;
+        margin-bottom: 0.8vh;
+    }
+    
+    .list ul li {
+        font-size: 0.85rem;
+        margin-bottom: 0.4vh;
+        padding-left: 1.2rem;
+    }
+    
+    .list ul ul {
+        margin-left: 0.8rem;
+    }
+    
+    .list ul ul li {
+        font-size: 0.75rem;
+        padding-left: 0.8rem;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .main {
+        padding: 3vh 5vw 2vh;
+        gap: 1.5vh;
+    }
+    
+    .label {
+        font-size: 1.2rem;
+        gap: 1vh;
+        padding-bottom: 1vh;
+    }
+    
+    .label img {
+        height: 8vh;
+        max-height: 60px;
+    }
+    
+    .content {
+        font-size: 1.1rem;
+        gap: 1.5vh;
+    }
+    
+    .list {
+        gap: 1vh;
+        padding-bottom: 3vh;
+    }
+    
+    .list section h2 {
+        font-size: 0.9rem;
+        margin-bottom: 0.6vh;
+    }
+    
+    .list ul li {
+        font-size: 0.8rem;
+        margin-bottom: 0.3vh;
+        padding-left: 1rem;
+        line-height: 1.4;
+    }
+    
+    .list ul ul {
+        margin-left: 0.6rem;
+        margin-top: 0.3vh;
+    }
+    
+    .list ul ul li {
+        font-size: 0.7rem;
+        padding-left: 0.6rem;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .main {
+        padding: 8vh 25vw 6vh;
+        gap: 4vh;
+    }
+    
+    .label {
+        font-size: 2rem;
+        gap: 3vh;
+        padding-bottom: 3vh;
+    }
+    
+    .label img {
+        height: 16vh;
+        max-height: 140px;
+    }
+    
+    .content {
+        font-size: 1.6rem;
+        gap: 3.5vh;
+    }
+    
+    .list {
+        gap: 2.5vh;
+        padding-bottom: 8vh;
+    }
+    
+    .list section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.2vh;
+    }
+    
+    .list ul li {
+        font-size: 1.1rem;
+        margin-bottom: 0.6vh;
+        padding-left: 1.8rem;
+    }
+    
+    .list ul ul {
+        margin-left: 1.2rem;
+    }
+    
+    .list ul ul li {
+        font-size: 1rem;
+        padding-left: 1.2rem;
+    }
+}

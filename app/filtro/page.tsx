@@ -26,6 +26,8 @@ export default function FilterPage(){
         setFilter('especialidade', null)
         setFilter('categoria', null)
         setFilter('disponibilidade', null)
+        setFilter('distanciaRaio', 10)
+        setFilter('unidadeProxima', null)
     }
 
     useEffect(() => {
@@ -62,7 +64,7 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Especialidades</h2>
                         <div className="specialty-list">
                             
-                            <Filtro items={especialidades} tipo="especialidade" maxVisible={6} />
+                            <Filtro items={especialidades} tipo="especialidade" maxVisible={7} />
 
                         </div>
                     </div>
@@ -76,30 +78,56 @@ export default function FilterPage(){
                             </ul>
                         </div>
                     </div>
-
                 </div>
 
                 <div className={styles.section2}>
                     <div id="area-radius" className={styles.filterList}>
                         <h2 className={styles.subtitle}>Localização</h2>
+                        
+                        <div className={styles.locationOptions}>
+                            <IconText 
+                                id="unidade-proxima" 
+                                lightImg="https://file.garden/aOx43sIeICuTJI2s/Place%20Marker.png" 
+                                name="Unidade mais próxima" 
+                                tipo="unidadeProxima"
+                            />
+                        </div>
 
-                                   {/* CÓDIGO A SER ARRUMADO NA SPRINT 3 */}
-                        {/*                             
-                        <ul>
-                            <IconText id={"Unidade mais próxima"} lightImg="images/placemarker.png" name="Unidade mais próxima" tipo="unidadeProxima"/> 
-                 
-                            <IconText id={"Distância"} lightImg="images/depth.png" name="Distância" tipo="distancia"/>
-                        </ul> */
-                        }
-
-                        <div className="randius-bar"></div>
+                        <div className={styles.distanceFilter}>
+                            <div className={styles.distanceHeader}>
+                                <img 
+                                    src="https://file.garden/aOx43sIeICuTJI2s/Depth.png" 
+                                    alt="Distância" 
+                                    className={styles.distanceIcon}
+                                />
+                                <span className={styles.distanceLabel}>Distância</span>
+                            </div>
+                            
+                            <div className={styles.sliderContainer}>
+                                <input
+                                    type="range"
+                                    min="5"
+                                    max="25"
+                                    step="5"
+                                    value={selectedFilters.distanciaRaio}
+                                    onChange={(e) => setFilter('distanciaRaio', parseInt(e.target.value))}
+                                    className={styles.distanceSlider}
+                                />
+                                <div className={styles.sliderLabels}>
+                                    <span>5km</span>
+                                    <span>10km</span>
+                                    <span>15km</span>
+                                    <span>20km</span>
+                                    <span>25km</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="public-units" className={styles.filterList}>
                         <h2 className={styles.subtitle}>Unidades Públicas</h2>
                         <div id="unity-list">
-                            
-                            <Filtro items={categorias} tipo="categoria" maxVisible={7} />
+                            <Filtro items={categorias} tipo="categoria" maxVisible={4} />
                         
                         </div>
                     </div>

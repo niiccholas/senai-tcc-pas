@@ -66,3 +66,22 @@ nav a{
 .navigation img{
     height: 5vh;
 }
+
+.navigation{
+    gap: 4vw;
+}
+
+.usericon{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}

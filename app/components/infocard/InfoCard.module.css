@@ -2,24 +2,37 @@
     padding-block: 2vh;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 100%;
     height: auto;
     justify-content: center;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin-bottom: 20px;
 }
 
 .infocard p{
     font-size: 24px;
     font-weight: 500;
-    text-align:flex-start;
+    text-align: left;
     color: #094175;
+    line-height: 1.4;
+    margin: 0 0 10px 0;
+    word-wrap: break-word;
 }
 
 .infocard img{
     width: 100%;
     height: auto;
-    border-radius: 30px;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 20px;
     cursor: pointer;
-    padding-bottom: 2vh;
+    margin-bottom: 2vh;
+    transition: transform 0.2s ease;
+}
+
+.infocard img:hover{
+    transform: scale(1.02);
 }
 
 .buttonsContainer{
@@ -39,6 +52,7 @@
     width: 100%;
     height: auto;
     align-items: center;
+    justify-content: flex-start;
     outline: none;
     background-color: #298BE6;
     border-radius: 10px;
@@ -46,7 +60,16 @@
     font-size: 24px;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
-    color: white
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.moreInfo:hover{
+    background-color: #2176c7;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(41, 139, 230, 0.3);
 }
 
 .otherInfo span,
@@ -65,9 +88,174 @@
     gap: 1vh;
 }
 
-
-.unitList {
-    list-style-type: none; 
+.unitList{
+    list-style-type: none;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px){
+    .infocard{
+        width: 90%;
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+    
+    .infocard p{
+        font-size: 22px;
+    }
+    
+    .infocard img{
+        max-height: 450px;
+        border-radius: 18px;
+    }
+    
+    .moreInfo{
+        font-size: 22px;
+        padding: 2.2vh;
+    }
+    
+    .buttonsContainer{
+        gap: 18px;
+        padding-block: 2.5vh;
+    }
+    
+    .otherInfo,
+    .locationInfo,
+    .campaignDates{
+        gap: 0.8vh;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px){
+    .infocard{
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+    }
+    
+    .infocard p{
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    
+    .infocard img{
+        max-height: 350px;
+        border-radius: 15px;
+        margin-bottom: 1.5vh;
+    }
+    
+    .moreInfo{
+        font-size: 20px;
+        padding: 2vh;
+        border-radius: 8px;
+    }
+    
+    .buttonsContainer{
+        gap: 15px;
+        padding-block: 2vh;
+    }
+    
+    .otherInfo,
+    .locationInfo,
+    .campaignDates{
+        gap: 0.6vh;
+    }
+    
+    .otherInfo span,
+    .locationInfo span,
+    .campaignDates span{
+        font-size: 16px;
+        line-height: 1.4;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px){
+    .infocard{
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+    }
+    
+    .infocard p{
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+    
+    .infocard img{
+        max-height: 250px;
+        border-radius: 12px;
+        margin-bottom: 1vh;
+    }
+    
+    .moreInfo{
+        font-size: 18px;
+        padding: 1.8vh;
+        gap: 8px;
+    }
+    
+    .buttonsContainer{
+        gap: 12px;
+        padding-block: 1.5vh;
+    }
+    
+    .otherInfo,
+    .locationInfo,
+    .campaignDates{
+        gap: 0.4vh;
+    }
+    
+    .otherInfo span,
+    .locationInfo span,
+    .campaignDates span{
+        font-size: 14px;
+        line-height: 1.3;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px){
+    .infocard{
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    
+    .infocard p{
+        font-size: 26px;
+        margin-bottom: 12px;
+    }
+    
+    .infocard img{
+        border-radius: 25px;
+    }
+    
+    .moreInfo{
+        font-size: 26px;
+        padding: 2.6vh;
+        gap: 12px;
+    }
+    
+    .buttonsContainer{
+        gap: 25px;
+        padding-block: 3.5vh;
+    }
+    
+    .otherInfo,
+    .locationInfo,
+    .campaignDates{
+        gap: 1.2vh;
+    }
+    
+    .otherInfo span,
+    .locationInfo span,
+    .campaignDates span{
+        font-size: 18px;
+    }
 }

@@ -3,7 +3,7 @@
   flex-direction: row;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* Impede scroll da página principal */
+  overflow: hidden; 
 }
 
 .unitDiv {
@@ -15,10 +15,9 @@
   border-top-right-radius: 1vh; 
   box-shadow: 3px 0px 3px 0px #f1f1f1;
   animation: slideIn 0.4s ease-out;
-  overflow: hidden; /* Garante que o conteúdo não vaze */
+  overflow: hidden; 
 }
 
-/* Animação de entrada da unitDiv */
 @keyframes slideIn {
   from {
     transform: translateX(-100%);
@@ -35,19 +34,23 @@
   flex-direction: column;
   width: 95%;
   height: 100%;
-  overflow-y: auto; /* Scroll apenas na lista */
+  scrollbar-color: transparent transparent;
+  overflow-y: auto; 
   overflow-x: hidden;
   padding: 1rem;
   gap: 1rem;
 }
 
-/* Estilo da scrollbar para unitList */
+.unitList:hover {
+  scrollbar-color: #888 transparent;
+}
+
 .unitList::-webkit-scrollbar {
   width: 8px;
 }
 
 .unitList::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
   border-radius: 10px;
 }
 
@@ -77,19 +80,21 @@
   display: flex;
   flex-direction: column;
   width: 70%;
-  height: 100vh; /* Altura fixa */
+  height: 100%;
   position: relative;
-  overflow: hidden; /* Impede que o mapa role */
+  overflow: hidden;
+  transition: width 0.3s ease;
 }
 
 .unitMapFull {
-  width: 100%;
+  width: 100% !important;
+  transition: width 0.3s ease;
 }
 
 .showUnitList {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 2.5vh;
+  left: 1.5vw;
   background: white;
   border: 2px solid #134879;
   border-radius: 8px;
@@ -112,25 +117,21 @@
   }
 }
 
-/* Efeito hover no botão */
 .showUnitList:hover {
   transform: scale(1.05);
 }
 
-/* Estilo para o SearchBar sobreposto */
 .searchBarOverlay {
   position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  min-width: 400px;
-  width: 70%;
-  max-width: 90%;
+  width: 90%;
+  max-width: 800px;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
-/* Container do mapa que ocupa todo o espaço */
 .mapContainer {
   position: absolute;
   top: 0;
@@ -139,4 +140,180 @@
   bottom: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+  .unitDiv {
+    width: 35%;
+  }
+  
+  .unitMap {
+    width: 65%;
+  }
+  
+  .searchBarOverlay {
+    top: 15px;
+    width: 85%;
+    max-width: 700px;
+  }
+  
+  .showUnitList {
+    top: 2vh;
+    left: 1vw;
+  }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .unitDiv {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .unitMap {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .unitMapFull {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .searchBarOverlay {
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 500px;
+  }
+  
+  .showUnitList {
+    top: 1.5vh;
+    left: 3vw;
+    padding: 6px;
+  }
+  
+  .closeUnitList {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+  }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+  .unitDiv {
+    height: 60%;
+    border-radius: 15px 15px 0 0;
+  }
+  
+  .unitList {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .searchBarOverlay {
+    width: 95%;
+    max-width: 400px;
+  }
+  
+  .showUnitList {
+    top: 1vh;
+    left: 2vw;
+    padding: 4px;
+  }
+  
+  .closeUnitList {
+    width: 35px;
+    height: 35px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+/* Animação para slide up em mobile */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+  .unitDiv {
+    width: 25%;
+  }
+  
+  .unitMap {
+    width: 75%;
+  }
+  
+  .searchBarOverlay {
+    width: 85%;
+    max-width: 900px;
+    top: 25px;
+  }
+  
+  .showUnitList {
+    top: 3vh;
+    left: 2vw;
+    padding: 10px;
+  }
+}
+
+/* Ajustes para orientação landscape em dispositivos móveis */
+@media (max-width: 768px) and (orientation: landscape) {
+  .unitDiv {
+    width: 40%;
+    height: 100%;
+    position: relative;
+    border-radius: 0 20px 20px 0;
+    animation: slideIn 0.4s ease-out;
+  }
+  
+  .unitMap {
+    width: 60%;
+  }
+  
+  .main {
+    flex-direction: row;
+  }
+  
+  .closeUnitList {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 5%;
+    height: auto;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
 }

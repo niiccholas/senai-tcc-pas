@@ -11,9 +11,7 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  min-width: 400px;
-  width: 70%;
-  max-width: 800px;
+  width: 100%;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
   animation: fadeInDown 0.5s ease-out;
 }
@@ -45,23 +43,103 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #134879;
   font-size: 1.5rem;
   font-weight: 600;
+  background-color: #f3f4f6;
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
   .searchBarOverlay {
-    min-width: 300px;
-    width: 90%;
     top: 15px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .mapLoading {
+    font-size: 1.3rem;
   }
 }
 
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+  .main {
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .searchBarOverlay {
+    top: 10px;
+    width: 100%;
+    max-width: 100%;
+    transform: translateX(-50%);
+  }
+  
+  .mapLoading {
+    font-size: 1.2rem;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+/* Responsividade para smartphones pequenos */
 @media (max-width: 480px) {
   .searchBarOverlay {
-    width: 95%;
-    min-width: unset;
+    top: 8px;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .mapLoading {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+  .searchBarOverlay {
+    top: 30px;
+    max-width: 100%;
+  }
+  
+  .mapLoading {
+    font-size: 1.8rem;
+  }
+}
+
+/* Ajustes para orientação landscape em dispositivos móveis */
+@media (max-width: 768px) and (orientation: landscape) {
+  .searchBarOverlay {
+    top: 5px;
+    max-width: 100%;
+  }
+  
+  .mapLoading {
+    font-size: 1rem;
+    padding: 10px;
   }
 }

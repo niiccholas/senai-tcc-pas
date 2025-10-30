@@ -2,6 +2,7 @@
 
 import React from 'react'
 import styles from './Specialty.module.css'
+import { formatWaitTime } from '../../utils/timeFormatter'
 
 interface SpecialtyProps {
   id: string
@@ -20,7 +21,7 @@ export default function Specialty({ id, name, waitTime }: SpecialtyProps) {
         </svg>
         <div>
           <span className={styles.label}>Tempo de espera</span>
-          <span className={styles.time}>{waitTime || 'N/A'}</span>
+          <span className={styles.time}>{formatWaitTime(waitTime) || 'N/A'}</span>
         </div>
       </div>
     </div>

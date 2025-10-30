@@ -27,3 +27,74 @@
     height: 2.5vh;
     object-fit: contain;
 }
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .verMaisMenos span {
+        font-size: 13px;
+    }
+    
+    .verMaisMenos img {
+        height: 2.2vh;
+    }
+    
+    .verMaisMenos {
+        padding: 7px 10px;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .filtroList {
+        gap: 0.8vh;
+    }
+    
+    .verMaisMenos {
+        padding: 6px 8px;
+        gap: 6px;
+    }
+    
+    .verMaisMenos span {
+        font-size: 12px;
+    }
+    
+    .verMaisMenos img {
+        height: 2vh;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .filtroList {
+        gap: 0.6vh;
+    }
+    
+    .verMaisMenos {
+        padding: 5px 6px;
+        gap: 4px;
+    }
+    
+    .verMaisMenos span {
+        font-size: 11px;
+    }
+    
+    .verMaisMenos img {
+        height: 1.8vh;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .verMaisMenos {
+        padding: 10px 15px;
+        gap: 10px;
+    }
+    
+    .verMaisMenos span {
+        font-size: 16px;
+    }
+    
+    .verMaisMenos img {
+        height: 3vh;
+    }
+}

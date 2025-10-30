@@ -4,6 +4,7 @@ import L, { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styles from './LocationMap.module.css'
 import { getUnidades } from '../../api/unidade'
+import { formatWaitTime } from '../../utils/timeFormatter'
 
 // Fix para ícones do Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
@@ -51,6 +52,8 @@ export interface UnidadeLocation {
 export interface LocationMapProps {
   onLocationSelect?: (address: string, lat: number, lng: number) => void
   navigateToCoords?: { lat: number; lng: number } | null
+  filteredUnits?: any[] // Unidades já filtradas para mostrar no mapa
+  showAllUnits?: boolean // Se true, busca todas as unidades (para página /mapa)
 }
 
 // Componente para controlar navegação
@@ -60,7 +63,7 @@ function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; ln
   useEffect(() => {
     if (navigateToCoords) {
       console.log('MapUpdater: navegando para', navigateToCoords)
-      map.flyTo([navigateToCoords.lat, navigateToCoords.lng], 17, {
+      map.flyTo([navigateToCoords.lat, navigateToCoords.lng], 19, {
         animate: true,
         duration: 2
       })
@@ -69,7 +72,7 @@ function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; ln
   return null
 }
 
-const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToCoords }) => {
+const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToCoords, filteredUnits, showAllUnits = false }) => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; address: string } | null>(null)
   const [mapCenter, setMapCenter] = useState<[number, number]>([-23.5505, -46.6333])
   const [unidadesLocations, setUnidadesLocations] = useState<UnidadeLocation[]>([])
@@ -79,20 +82,14 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
 
   const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      const cepLimpo = cep.replace(/\D/g, '')
-      console.log('Geocodificando CEP:', cepLimpo)
+      console.log('Geocodificando CEP:', cep)
       
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&country=Brazil&postalcode=${cepLimpo}&limit=1`
-      )
+      // Usar nossa API server-side para evitar CORS
+      const response = await fetch(`/api/geocoding?cep=${encodeURIComponent(cep)}`)
       
       if (response.ok) {
-        const data = await response.json()
-        if (data.length > 0) {
-          const coords = {
-            lat: parseFloat(data[0].lat),
-            lng: parseFloat(data[0].lon)
-          }
+        const coords = await response.json()
+        if (coords.lat && coords.lng) {
           console.log('✅ Coordenadas encontradas:', coords)
           return coords
         }
@@ -122,7 +119,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
         
         // Centralizar o mapa na localização do usuário
         if (mapInstance) {
-          mapInstance.flyTo([latitude, longitude], 15, {
+          mapInstance.flyTo([latitude, longitude], 17, {
             animate: true,
             duration: 2
           })
@@ -131,12 +128,12 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
         setIsLocating(false)
       },
       async () => {
-        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP' })
+        setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'Jandira, SP' })
         setMapCenter([defaultLat, defaultLng])
         
         // Centralizar no padrão se não conseguir localização
         if (mapInstance) {
-          mapInstance.flyTo([defaultLat, defaultLng], 12, {
+          mapInstance.flyTo([defaultLat, defaultLng], 15, {
             animate: true,
             duration: 2
           })
@@ -148,56 +145,81 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
     )
   }
 
+  const processUnidadesData = async (unidadesData: any[]) => {
+    const unidadesComLocalizacao: UnidadeLocation[] = []
+    
+    for (const unidade of unidadesData) {
+      if (unidade.local?.endereco?.[0]?.cep) {
+        const cep = unidade.local.endereco[0].cep
+        const endereco = unidade.local.endereco[0]
+        const enderecoCompleto = `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade}`
+        
+        console.log(`🔍 Processando: ${unidade.nome} - CEP: ${cep}`)
+        const coords = await geocodeByCEP(cep)
+        
+        if (coords) {
+          console.log(`✓ ${unidade.nome} geocodificado:`, coords)
+          unidadesComLocalizacao.push({
+            id: unidade.id,
+            lat: coords.lat,
+            lng: coords.lng,
+            address: enderecoCompleto,
+            nome: unidade.nome,
+            telefone: unidade.telefone,
+            disponibilidade_24h: unidade.disponibilidade_24h === 1,
+            categoria: unidade.categoria?.categoria?.[0]?.nome || 'Não informado',
+            especialidades: unidade.especialidades?.especialidades?.map((esp: any) => esp.nome) || [],
+            tempo_espera_geral: unidade.tempo_espera_geral || '-'
+          })
+        } else {
+          console.warn(`Não foi possível geocodificar ${unidade.nome}`)
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 1000))
+      }
+    }
+    
+    console.log(`Total: ${unidadesComLocalizacao.length} unidades no mapa`)
+    setUnidadesLocations(unidadesComLocalizacao)
+  }
+
   const fetchUnidadesLocations = async () => {
     try {
-      console.log('Buscando unidades...')
+      console.log('Buscando todas as unidades...')
       const response = await getUnidades()
       
       if (response.status && response.unidadesDeSaude) {
-        const unidadesComLocalizacao: UnidadeLocation[] = []
-        
-        for (const unidade of response.unidadesDeSaude) {
-          if (unidade.local?.endereco?.[0]?.cep) {
-            const cep = unidade.local.endereco[0].cep
-            const endereco = unidade.local.endereco[0]
-            const enderecoCompleto = `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade}`
-            
-            console.log(`🔍 Processando: ${unidade.nome} - CEP: ${cep}`)
-            const coords = await geocodeByCEP(cep)
-            
-            if (coords) {
-              console.log(`✓ ${unidade.nome} geocodificado:`, coords)
-              unidadesComLocalizacao.push({
-                id: unidade.id,
-                lat: coords.lat,
-                lng: coords.lng,
-                address: enderecoCompleto,
-                nome: unidade.nome,
-                telefone: unidade.telefone,
-                disponibilidade_24h: unidade.disponibilidade_24h === 1,
-                categoria: unidade.categoria?.categoria?.[0]?.nome || 'Não informado',
-                especialidades: unidade.especialidades?.especialidades?.map((esp: any) => esp.nome) || []
-              })
-            } else {
-              console.warn(`Não foi possível geocodificar ${unidade.nome}`)
-            }
-            
-            await new Promise(resolve => setTimeout(resolve, 1000))
-          }
-        }
-        
-        console.log(`Total: ${unidadesComLocalizacao.length} unidades no mapa`)
-        setUnidadesLocations(unidadesComLocalizacao)
+        await processUnidadesData(response.unidadesDeSaude)
       }
     } catch (error) {
       console.error('Erro ao buscar unidades:', error)
     }
   }
 
+  const processFilteredUnits = async () => {
+    if (filteredUnits && filteredUnits.length > 0) {
+      console.log('Processando unidades filtradas para o mapa:', filteredUnits.length)
+      await processUnidadesData(filteredUnits)
+    } else {
+      console.log('Nenhuma unidade filtrada, limpando mapa')
+      setUnidadesLocations([])
+    }
+  }
+
   useEffect(() => {
     getUserLocation()
-    fetchUnidadesLocations()
-  }, [])
+    
+    // Se showAllUnits for true (página /mapa), busca todas as unidades
+    // Se filteredUnits for fornecido (página /unidades), usa apenas as filtradas
+    if (showAllUnits) {
+      fetchUnidadesLocations()
+    } else if (filteredUnits !== undefined) {
+      processFilteredUnits()
+    } else {
+      // Fallback: se nenhuma das condições acima, busca todas
+      fetchUnidadesLocations()
+    }
+  }, [showAllUnits, filteredUnits])
 
   // Log quando navigateToCoords muda
   useEffect(() => {
@@ -209,7 +231,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   // Centralizar mapa quando a instância do mapa e localização estiverem disponíveis
   useEffect(() => {
     if (mapInstance && userLocation && !isLocating) {
-      mapInstance.flyTo([userLocation.lat, userLocation.lng], 15, {
+      mapInstance.flyTo([userLocation.lat, userLocation.lng], 17, {
         animate: true,
         duration: 2
       })
@@ -227,7 +249,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   const handleMarkerClick = (lat: number, lng: number, nome: string) => {
     console.log(`Clique no pin: ${nome}`)
     if (mapInstance) {
-      mapInstance.flyTo([lat, lng], 17, {
+      mapInstance.flyTo([lat, lng], 19, {
         animate: true,
         duration: 1.5
       })
@@ -257,7 +279,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
       <div className={styles.mapArea}>
         <MapContainer 
           center={mapCenter as LatLngExpression} 
-          zoom={12} 
+          zoom={15} 
           style={{ height: '100%', width: '100%' }}
           zoomControl={false}
         >
@@ -296,7 +318,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
                 <Popup>
                   <div className={styles.popupContent}>
                     <p className={styles.popupTitle}>{unidade.nome}</p>
-                    <p className={styles.popupText}><strong>Tempo de espera</strong> {unidade.tempo_espera_geral}</p>
+                    <p className={styles.popupText}><span>Tempo de espera: </span> {formatWaitTime(unidade.tempo_espera_geral)}</p>
                   </div>
                 </Popup>
               </Marker>

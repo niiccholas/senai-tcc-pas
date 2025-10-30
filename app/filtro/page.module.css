@@ -4,14 +4,16 @@
     align-items: center;
     gap: 2vh;
     min-height: 100vh;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 30px 20px;
+    box-sizing: border-box;
 }
 
 .main ul{
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .title {
@@ -42,18 +44,23 @@
 }
 
 .filterCard {
-    display: flex;  
+    display: flex;
     flex-direction: row;
     width: 70%;
+    max-width: 1000px;
     min-height: 70%;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 40px;
 }
 
 .section1, .section2 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    font-size: 1.25rem;
+    color: black;
+    margin-top: 5px;
 }
 
 .section1 {
@@ -74,7 +81,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
     gap: 50px;
 }
 
@@ -89,4 +96,309 @@
     font-weight: 700;
     cursor: pointer;
     align-self:center;
+}
+
+/* Estilos para o filtro de localização */
+.locationOptions {
+    margin-bottom: 20px;
+}
+
+.distanceFilter {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.distanceHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.distanceIcon {
+    height: 2.5vh
+}
+
+.distanceLabel {
+    font-size: 1.5rem;
+    color: black;
+    font-weight: 300;
+}
+
+.sliderContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.distanceSlider {
+    width: 100%;
+    height: 2px;
+    border-radius: 3px;
+    background: #0B2A46;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.distanceSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0B2A46;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.distanceSlider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0B2A46;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.sliderLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    color: black;
+    margin-top: 5px;
+}
+
+.sliderLabels span {
+    font-weight: 300;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 1024px) {
+    .main {
+        padding: 25px 15px;
+        gap: 1.8vh;
+    }
+    
+    .title {
+        font-size: 28px;
+    }
+    
+    .subtitle {
+        font-size: 2.1vh;
+    }
+    
+    .text {
+        font-size: 22px;
+    }
+    
+    .filterCard {
+        width: 80%;
+        gap: 30px;
+    }
+    
+    .section1,
+    .section2 {
+        gap: 50px;
+    }
+    
+    .optionRow ul {
+        gap: 40px;
+    }
+    
+    .sendFilter {
+        width: 180px;
+        height: 32px;
+        font-size: 15px;
+    }
+    
+    .distanceLabel {
+        font-size: 1.3rem;
+    }
+    
+    .sliderLabels {
+        font-size: 1.1rem;
+    }
+}
+
+/* Responsividade para smartphones */
+@media (max-width: 768px) {
+    .main {
+        padding: 20px 10px;
+        gap: 1.5vh;
+    }
+    
+    .title {
+        font-size: 24px;
+        text-align: center;
+    }
+    
+    .subtitle {
+        font-size: 1.8vh;
+        text-align: center;
+    }
+    
+    .text {
+        font-size: 20px;
+    }
+    
+    .filterCard {
+        flex-direction: column;
+        width: 95%;
+        gap: 25px;
+        align-items: center;
+    }
+    
+    .section1,
+    .section2 {
+        width: 100%;
+        gap: 30px;
+    }
+    
+    .optionRow ul {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .availabilityCheckbox {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .sendFilter {
+        width: 160px;
+        height: 40px;
+        font-size: 14px;
+        margin-top: 20px;
+    }
+    
+    .distanceLabel {
+        font-size: 1.2rem;
+    }
+    
+    .sliderLabels {
+        font-size: 1rem;
+    }
+    
+    .distanceIcon {
+        height: 2vh;
+    }
+}
+
+/* Responsividade para smartphones pequenos */
+@media (max-width: 480px) {
+    .main {
+        padding: 15px 8px;
+        gap: 1.2vh;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+    
+    .subtitle {
+        font-size: 1.6vh;
+    }
+    
+    .text {
+        font-size: 18px;
+    }
+    
+    .filterCard {
+        width: 100%;
+        gap: 20px;
+    }
+    
+    .section1,
+    .section2 {
+        gap: 25px;
+    }
+    
+    .filterList {
+        gap: 8px;
+    }
+    
+    .optionRow ul {
+        gap: 12px;
+    }
+    
+    .sendFilter {
+        width: 140px;
+        height: 36px;
+        font-size: 13px;
+    }
+    
+    .distanceLabel {
+        font-size: 1.1rem;
+    }
+    
+    .sliderLabels {
+        font-size: 0.9rem;
+    }
+    
+    .distanceIcon {
+        height: 1.8vh;
+    }
+    
+    .distanceSlider::-webkit-slider-thumb {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .distanceSlider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Responsividade para telas muito grandes */
+@media (min-width: 1440px) {
+    .main {
+        padding: 40px 30px;
+        gap: 2.5vh;
+    }
+    
+    .title {
+        font-size: 36px;
+    }
+    
+    .subtitle {
+        font-size: 2.5vh;
+    }
+    
+    .text {
+        font-size: 26px;
+    }
+    
+    .filterCard {
+        width: 60%;
+        max-width: 1200px;
+        gap: 50px;
+    }
+    
+    .section1,
+    .section2 {
+        gap: 80px;
+    }
+    
+    .optionRow ul {
+        gap: 60px;
+    }
+    
+    .sendFilter {
+        width: 220px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .distanceLabel {
+        font-size: 1.6rem;
+    }
+    
+    .sliderLabels {
+        font-size: 1.4rem;
+    }
 }

@@ -1,6 +1,9 @@
 .icontext{
     display: flex;
     align-items: center;
+    width: fit-content;
+    padding-inline: 0.3vw;
+    padding-block: 0.1vh;
     gap: 0.5vw;
 }
 
