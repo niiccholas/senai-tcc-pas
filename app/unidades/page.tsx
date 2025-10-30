@@ -170,6 +170,13 @@ export default function UnitPage() {
           unidadesData = []
         }
         
+        // Se os itens estiverem dentro de arrays individuais, extrair o primeiro elemento
+        if (unidadesData.length > 0 && Array.isArray(unidadesData[0])) {
+          console.log('Extraindo itens de arrays aninhados...')
+          unidadesData = unidadesData.map((item: any) => item[0]);
+          console.log('Dados após extração:', unidadesData);
+        }
+        
         // Função para converter tempo "HH:MM:SS" para minutos totais
         const timeToMinutes = (timeStr: string): number => {
           if (!timeStr || timeStr === '-') return Infinity

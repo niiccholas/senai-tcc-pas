@@ -128,7 +128,6 @@
   transform: translateX(-50%);
   z-index: 1000;
   width: 90%;
-  max-width: 800px;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
@@ -276,8 +275,7 @@
   }
   
   .searchBarOverlay {
-    width: 85%;
-    max-width: 900px;
+    width: 100%;
     top: 25px;
   }
   
