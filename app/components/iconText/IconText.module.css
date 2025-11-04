@@ -6,12 +6,12 @@
     padding-block: 0.1vh;
     gap: 0.5vw;
     transition: background-color 0.2s;
+    color: var(--cor-texto-principal);
 }
 
 .input{
     display: none;
     flex-direction: row;
-    min-height: 4vh;
     max-height: 8vh;
     width:fit-content;
     justify-content: flex-start;
@@ -21,7 +21,7 @@
 }
 
 .icontext:hover{
-    background-color: #e6e6e6;
+    background-color: var(--cor-hover-sutil);
     border-radius: 4px;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .icontext.selected {
-    color: #007bff;
-    background-color: #e6e6e6;
+    color: var(--cor-primaria);
+    background-color: var(--cor-hover-sutil);
     border-radius: 4px;
 }
 

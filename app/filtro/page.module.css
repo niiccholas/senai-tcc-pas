@@ -72,24 +72,8 @@
     gap: 70px;
 }
 
-.filterList {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.optionRow ul {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 50px;
-}
-
 .sendFilter {
-    width: 200px;
-    height: 35px;
-    background-color: var(--cor-primaria);
+    background-color: var(--cor-primaria-escura);
     color: var(--cor-texto-claro);
     border: none;
     border-radius: 30px;
@@ -174,6 +158,12 @@
 .sliderLabels span {
     font-weight: 300;
 }
+
+.optionRow ul{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+ }
 
 /* Responsividade para tablets */
 @media (max-width: 1024px) {
@@ -384,12 +374,19 @@
         gap: 50px;
     }
     
+    .filterList {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
     .section1,
     .section2 {
         gap: 80px;
     }
     
     .optionRow ul {
+        flex-direction: row;
         gap: 60px;
     }
     

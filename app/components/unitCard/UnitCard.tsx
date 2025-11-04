@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { useTheme } from '../../context/ThemeContext'
 import styles from './UnitCard.module.css'
 import { formatWaitTime } from '../../utils/timeFormatter'
 
@@ -12,6 +13,7 @@ interface UnitCardProps {
 }
 
 export default function UnitCard({ id, name, waitTimeGeneral, onLearnMore }: UnitCardProps) {
+  const { isDark } = useTheme()
   const handleLearnMoreClick = () => onLearnMore?.(id)
 
   return (
@@ -22,7 +24,7 @@ export default function UnitCard({ id, name, waitTimeGeneral, onLearnMore }: Uni
         <div className={styles.lowerDiv}>
                 <div className={styles.waitContainer}>
                     <div className={styles.clockIcon}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#ffffff" : "#000000"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-clock-icon lucide-clock"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
                     </div>
 
                     <div className={styles.waitBox}>

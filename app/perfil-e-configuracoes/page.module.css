@@ -5,8 +5,10 @@
     width: 98vw;
     padding-block: 4vh;
     padding-inline: 6vw;
-    color: var(--cor-primaria);
+    color: var(--cor-texto-principal);
+    background-color: var(--cor-fundo-principal);
     gap: 4vw;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .systemSettings{
@@ -50,6 +52,7 @@
 .options ul{
     padding-inline: 0.3vw;
     padding-block: 0.2vh;
+    width: fit-content;
     transition: background-color 0.2s;
 }
 
@@ -82,7 +85,7 @@
 }
 
 .personalData{
-    background-color: var(--cor-fundo-secundario);
+    background-color: var(--cor-fundo-card-perfil);
     display: flex;
     flex-direction: column;
     height: 60%;
@@ -114,6 +117,14 @@
     height: 90%;
 }
 
+.registrationInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    gap: 2.5vw;
+}
+
 .label{
     display: flex;
     flex-direction: column;
@@ -132,7 +143,7 @@
 }
 
 .registrationData{
-    background-color: var(--cor-fundo-secundario);
+    background-color: var(--cor-fundo-card-perfil);
     display: flex;
     flex-direction: column;
     height: 40%;
@@ -147,17 +158,50 @@
 .registrationContent{
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     height: 80%;
-    justify-content: space-between;
+    width: 100%;
+    gap: 2vh;
 }
 
-.registrationInfo{
-    display: flex;
-    flex-direction: row;    
-    align-items: center;
-    height: fit-content;
-    width: 100%;
-    gap: 2.5vw;
+/* Cores específicas para textos no modo escuro */
+[data-theme="dark"] .personalContent *,
+[data-theme="dark"] .personalContent h1,
+[data-theme="dark"] .personalContent h2,
+[data-theme="dark"] .personalContent h3,
+[data-theme="dark"] .personalContent h4,
+[data-theme="dark"] .personalContent h5,
+[data-theme="dark"] .personalContent h6,
+[data-theme="dark"] .personalContent p,
+[data-theme="dark"] .personalContent span,
+[data-theme="dark"] .personalContent div,
+[data-theme="dark"] .personalContent li,
+[data-theme="dark"] .personalContent label,
+[data-theme="dark"] .registrationContent *,
+[data-theme="dark"] .registrationContent h1,
+[data-theme="dark"] .registrationContent h2,
+[data-theme="dark"] .registrationContent h3,
+[data-theme="dark"] .registrationContent h4,
+[data-theme="dark"] .registrationContent h5,
+[data-theme="dark"] .registrationContent h6,
+[data-theme="dark"] .registrationContent p,
+[data-theme="dark"] .registrationContent span,
+[data-theme="dark"] .registrationContent div,
+[data-theme="dark"] .registrationContent li,
+[data-theme="dark"] .registrationContent label {
+    color: #B3D3F6 !important;
+}
+
+/* Inputs também devem ter a cor específica */
+[data-theme="dark"] .personalContent input,
+[data-theme="dark"] .registrationContent input {
+    color: #B3D3F6 !important;
+}
+
+/* Placeholders com a mesma cor mas mais transparente */
+[data-theme="dark"] .personalContent input::placeholder,
+[data-theme="dark"] .registrationContent input::placeholder {
+    color: rgba(179, 211, 246, 0.7) !important;
 }
 
 .registrationInfo img{
@@ -201,6 +245,44 @@
     opacity: 0.8;
 }
 
+/* === ESTILOS DO TEMA === */
+.themeOption {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content !important;
+    cursor: pointer;
+    padding-inline: 0.3vw !important;
+    padding-block: 0.2vh !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    gap: 0.5vw;
+}
+
+
+
+.themeOption:hover {
+    width: fit-content !important;
+    background-color: var(--cor-hover-sutil) !important;
+}
+
+.themeToggle {
+    display: flex;
+    align-items: center;
+}
+
+.themeToggle img{
+    width: 1.5vw;
+    height: auto;
+    min-width: 16px;
+}
+
+.themeLabel {
+    font-size: 0.9rem;
+    color: var(--cor-texto-secundario);
+    font-weight: 400;
+}
+
 /* Responsividade para tablets */
 @media (max-width: 1024px) {
     .main {
@@ -228,6 +310,8 @@
     }
     
     .registrationInfo {
+        display: flex;
+        flex-direction: row;
         gap: 2vw;
     }
     

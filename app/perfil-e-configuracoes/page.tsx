@@ -1,6 +1,49 @@
+"use client";
+
+import { useTheme } from "../context/ThemeContext";
 import styles from "./page.module.css";
 
 export default function ProfileSettingsPage(){
+    const { theme, toggleTheme, isDark } = useTheme();
+    
+    // URLs dos ícones para cada tema
+    const iconUrls = {
+        // Dados pessoais
+        userVerification: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/user-verification%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Client%20Management.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        idCard: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/id-card%20(1)%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Identification%20Documents.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        worldwide: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/worldwide%20(1)%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Earth%20Planet.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        calendar: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/calendar%20(1)%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Calendar.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        mom: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/mom%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/User.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        // Dados de cadastro
+        mail: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/mail%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Email.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        pin: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/pin%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Location.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        telephone: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/telephone%201.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Phone.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        }
+    };
+    
     return(
         <main className={styles.main}>
             <div className={styles.systemSettings}>
@@ -8,8 +51,13 @@ export default function ProfileSettingsPage(){
                     <div className={styles.photo}>
                         <img src="null" alt="" />
                     </div> 
-                        <ul>Tema</ul>
-                        <ul>Idioma</ul>
+                        <ul className={styles.themeOption} onClick={toggleTheme}>
+                            <span>Tema</span>
+                            <div className={styles.themeToggle}>
+                                {isDark ? <img src="https://file.garden/aOx43sIeICuTJI2s/Vector.png" alt="" /> :
+                                 <img src="https://file.garden/aOx43sIeICuTJI2s/Moon%20and%20Stars.png" alt="" />}
+                            </div>
+                        </ul>
                         <ul>
                             <a href="mailto:contato@pas.gov.br?subject=Dúvida sobre o sistema PAS&body=Olá, gostaria de entrar em contato sobre...">Contato</a>
                         </ul>
@@ -24,7 +72,7 @@ export default function ProfileSettingsPage(){
                     <div className={styles.personalContent}>
                         <ul>
                             <div className={styles.personalInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/user-verification%201.png" alt="" />
+                                <img src={isDark ? iconUrls.userVerification.dark : iconUrls.userVerification.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Nome completo</p>
                                     <span>Jair Messias Bolsonaro</span>
@@ -33,7 +81,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.personalInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/id-card%20(1)%201.png" alt="" />
+                                <img src={isDark ? iconUrls.idCard.dark : iconUrls.idCard.light} alt="" />
                                 <div className={styles.label}>
                                     <p>CPF</p>
                                     <span>123.456.789-00</span>
@@ -42,7 +90,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.personalInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/worldwide%20(1)%201.png" alt="" />
+                                <img src={isDark ? iconUrls.worldwide.dark : iconUrls.worldwide.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Naturalidade</p>
                                     <span>Barueri/SP</span>
@@ -51,7 +99,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.personalInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/calendar%20(1)%201.png" alt="" />
+                                <img src={isDark ? iconUrls.calendar.dark : iconUrls.calendar.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Nascimento</p>
                                     <span>10/10/2007</span>
@@ -60,7 +108,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.personalInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/mom%201.png" alt="" />
+                                <img src={isDark ? iconUrls.mom.dark : iconUrls.mom.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Nome da Mãe</p>
                                     <span>Virgínia Fonseca</span>
@@ -74,7 +122,7 @@ export default function ProfileSettingsPage(){
                     <div className={styles.registrationContent}>
                         <ul>
                             <div className={styles.registrationInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/mail%201.png" alt="" />
+                                <img src={isDark ? iconUrls.mail.dark : iconUrls.mail.light} alt="" />
                                 <div className={styles.label}>
                                     <p>E-mail</p>
                                     <input placeholder="exemploemail@email.com"/>
@@ -83,7 +131,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.registrationInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/pin%201.png" alt="" />
+                                <img src={isDark ? iconUrls.pin.dark : iconUrls.pin.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Endereço</p>
                                     <input placeholder="Rua Cabreira de Paula, 879"/>
@@ -92,7 +140,7 @@ export default function ProfileSettingsPage(){
                         </ul>
                         <ul>
                             <div className={styles.registrationInfo}>
-                                <img src="https://file.garden/aOx43sIeICuTJI2s/telephone%201.png" alt="" />
+                                <img src={isDark ? iconUrls.telephone.dark : iconUrls.telephone.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Telefone</p>
                                     <input placeholder="(11) 44002-8922"/>

@@ -68,12 +68,138 @@
     --cor-badge-selecionado: #28a745;
 }
 
-body, html{
+/* === TEMA ESCURO === */
+[data-theme="dark"] {
+    /* === CORES PRINCIPAIS (baseadas nas screenshots) === */
+    --cor-primaria: #2563eb;
+    --cor-primaria-escura: #094175;
+    --cor-secundaria: #3b82f6;
+    --cor-terciaria: #60a5fa;
+    
+    /* === CORES DE TEXTO === */
+    --cor-texto-principal: #ffffff;
+    --cor-texto-secundario: #e5e7eb;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-escuro: #f9fafb;
+    
+    /* === CORES DE FUNDO === */
+    --cor-fundo-principal: #00172B;
+    --cor-fundo-secundario: #1e293b;
+    --cor-fundo-card-perfil: #094175;
+    --cor-fundo-card: #334155;
+    --cor-fundo-overlay: rgba(15, 23, 42, 0.95);
+    
+    /* === CORES DE SISTEMA === */
+    --cor-sucesso: #10b981;
+    --cor-sucesso-escura: #059669;
+    --cor-sucesso-clara: #34d399;
+    --cor-sucesso-fundo: #064e3b;
+    
+    --cor-erro: #ef4444;
+    --cor-erro-clara: #f87171;
+    --cor-erro-botao: #dc2626;
+    
+    --cor-aviso: #f59e0b;
+    --cor-aviso-escura: #d97706;
+    --cor-aviso-texto: #fbbf24;
+    --cor-aviso-borda: #92400e;
+    --cor-aviso-fundo: #451a03;
+    
+    /* === CORES DE BORDA === */
+    --cor-borda-principal: #475569;
+    --cor-borda-input: #64748b;
+    --cor-borda-clara: #334155;
+    --cor-borda-escura: #94a3b8;
+    
+    /* === CORES DE SOMBRA === */
+    --cor-sombra-leve: rgba(0, 0, 0, 0.4);
+    --cor-sombra-media: rgba(0, 0, 0, 0.5);
+    --cor-sombra-forte: rgba(0, 0, 0, 0.6);
+    --cor-sombra-muito-leve: rgba(0, 0, 0, 0.3);
+    --cor-sombra-azul: rgba(59, 130, 246, 0.4);
+    
+    /* === CORES DE HOVER E ESTADOS === */
+    --cor-hover-sutil: rgba(255, 255, 255, 0.1);
+    --cor-hover-azul: #60a5fa;
+    --cor-hover-azul-claro: #1e40af;
+    
+    /* === CORES DE SCROLLBAR === */
+    --cor-scrollbar: #6b7280;
+    --cor-scrollbar-hover: #9ca3af;
+    --cor-scrollbar-track: transparent;
+    
+    /* === CORES ESPECÍFICAS === */
+    --cor-placeholder: #d1d5db;
+    --cor-navegacao: #d1d5db;
+    --cor-badge-selecionado: #10b981;
+}
+
+body, html {
     width: 100%;
 }
 
 body {
     font-family: 'Rubik', sans-serif;
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-principal);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Garantir que TODOS os textos sejam brancos no modo escuro */
+[data-theme="dark"] *,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div,
+[data-theme="dark"] li,
+[data-theme="dark"] ul,
+[data-theme="dark"] ol,
+[data-theme="dark"] label,
+[data-theme="dark"] strong,
+[data-theme="dark"] b,
+[data-theme="dark"] em,
+[data-theme="dark"] i {
+    color: #ffffff !important;
+}
+
+/* Exceções para elementos que precisam manter cores específicas */
+[data-theme="dark"] svg,
+[data-theme="dark"] img,
+[data-theme="dark"] input[type="range"],
+[data-theme="dark"] .map-container,
+[data-theme="dark"] .leaflet-container {
+    color: initial !important;
+}
+
+/* Placeholders também devem ser brancos */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Links devem ser brancos também */
+[data-theme="dark"] a {
+    color: #ffffff !important;
+}
+
+/* Botões devem manter texto branco */
+[data-theme="dark"] button {
+    color: #ffffff !important;
+}
+
+/* Inputs também devem ter texto branco */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] textarea {
+    color: #ffffff !important;
+    background-color: transparent !important;
 }
 
 header {

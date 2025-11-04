@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { FiltrosProvider } from './context/FiltroContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Header from './components/Header'
 import './global.css'
 
@@ -15,14 +16,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@100;200;300;400;500;600;700&display=swap"></link>
         </head>
         
-      <FiltrosProvider>
-      <body className="rubik.className">
-        <Header />
+      <ThemeProvider>
+        <FiltrosProvider>
+          <body className="rubik.className">
+            <Header />
 
-        {children}
+            {children}
 
-      </body>
-      </FiltrosProvider>
+          </body>
+        </FiltrosProvider>
+      </ThemeProvider>
     </html>
   )
 }

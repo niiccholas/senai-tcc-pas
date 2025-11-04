@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useFiltros } from "../../context/FiltroContext";
+import { useTheme } from "../../context/ThemeContext";
 import styles from "./IconText.module.css"
 
 interface IconTextProps {
@@ -14,6 +15,7 @@ interface IconTextProps {
 
 export default function IconText({ tipo, id, name, lightImg, darkImg }: IconTextProps) {
   const { selectedFilters, setFilter } = useFiltros();
+  const { isDark } = useTheme();
 
   // Verificação de segurança
   if (!tipo) {
@@ -58,7 +60,7 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
         readOnly
         style={ {display: "none"} }
       />
-      <img src={lightImg}/>
+      <img src={isDark && darkImg && darkImg.trim() !== "" ? darkImg : lightImg}/>
       <span>{name}</span>
     </div>
   );

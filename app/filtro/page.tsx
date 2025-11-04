@@ -7,14 +7,38 @@ import Filtro from "../components/filtro/Filtro"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
 import { useFiltros } from "../context/FiltroContext"
+import { useTheme } from "../context/ThemeContext"
 import styles from "./page.module.css"
 
 export default function FilterPage(){
     const router = useRouter()
     const { selectedFilters, setFilter } = useFiltros()
+    const { isDark } = useTheme()
     const [categorias, setCategorias] = useState([])
     const [especialidades, setEspecialidades] = useState([])
     const [loading, setLoading] = useState(true)
+    
+    // URLs dos ícones para cada tema
+    const iconUrls = {
+        // Atendimento 24h
+        done: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/Done.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/darkdone.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        close: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/Close.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Closedark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        // Localização
+        placeMarker: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/Place%20Marker.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/PlaceMarkerdark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        },
+        depth: {
+            light: "https://file.garden/aOx43sIeICuTJI2s/Depth.png",
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Depthdark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+        }
+    };
 
     const handleFiltrar = () => {
         console.log('Filtros selecionados ao clicar em Filtrar:', selectedFilters)
@@ -73,8 +97,20 @@ export default function FilterPage(){
                         <h2 className={styles.subtitle}>Atendimento 24h</h2>
                         <div className={styles.optionRow}>
                             <ul>
-                                <IconText tipo="disponibilidade" id={1} name="Sim" lightImg="https://file.garden/aOx43sIeICuTJI2s/Done.png"/>
-                                <IconText tipo="disponibilidade" id={0} name="Não" lightImg="https://file.garden/aOx43sIeICuTJI2s/Close.png"/>
+                                <IconText 
+                                    tipo="disponibilidade" 
+                                    id={1} 
+                                    name="Sim" 
+                                    lightImg={iconUrls.done.light}
+                                    darkImg={iconUrls.done.dark}
+                                />
+                                <IconText 
+                                    tipo="disponibilidade" 
+                                    id={0} 
+                                    name="Não" 
+                                    lightImg={iconUrls.close.light}
+                                    darkImg={iconUrls.close.dark}
+                                />
                             </ul>
                         </div>
                     </div>
@@ -87,7 +123,8 @@ export default function FilterPage(){
                         <div className={styles.locationOptions}>
                             <IconText 
                                 id="unidade-proxima" 
-                                lightImg="https://file.garden/aOx43sIeICuTJI2s/Place%20Marker.png" 
+                                lightImg={iconUrls.placeMarker.light}
+                                darkImg={iconUrls.placeMarker.dark}
                                 name="Unidade mais próxima" 
                                 tipo="unidadeProxima"
                             />
@@ -96,7 +133,7 @@ export default function FilterPage(){
                         <div className={styles.distanceFilter}>
                             <div className={styles.distanceHeader}>
                                 <img 
-                                    src="https://file.garden/aOx43sIeICuTJI2s/Depth.png" 
+                                    src={isDark && iconUrls.depth.dark && iconUrls.depth.dark.trim() !== "" ? iconUrls.depth.dark : iconUrls.depth.light} 
                                     alt="Distância" 
                                     className={styles.distanceIcon}
                                 />
