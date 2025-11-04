@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L, { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styles from './LocationMap.module.css'
-import { getUnidades } from '../../api/unidade'
+// Removido import de getUnidades para evitar Server Action no cliente
 import { formatWaitTime } from '../../utils/timeFormatter'
 
 // Fix para ícones do Leaflet
@@ -28,7 +28,7 @@ const blueIcon = new L.Icon({
 })
 
 const greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
   iconSize: [35, 51],
   iconAnchor: [17, 51],
@@ -79,10 +79,20 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   const [isLocating, setIsLocating] = useState(false)
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null)
   const [selectedUnit, setSelectedUnit] = useState<{ nome: string; tempoEspera: string; lat: number; lng: number } | null>(null)
-
+  
+  // Cache para geocodificação
+  const geocodeCache = React.useRef(new Map<string, { lat: number; lng: number } | null>())
+  
   const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      console.log('Geocodificando CEP:', cep)
+      // Verificar se o CEP já foi geocodificado (cache)
+      const cachedCoords = geocodeCache.current.get(cep)
+      if (cachedCoords !== undefined) {
+        console.log('🎯 Cache hit para CEP:', cep)
+        return cachedCoords
+      }
+      
+      console.log('🔍 Geocodificando CEP:', cep)
       
       // Usar nossa API server-side para evitar CORS
       const response = await fetch(`/api/geocoding?cep=${encodeURIComponent(cep)}`)
@@ -91,11 +101,18 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
         const coords = await response.json()
         if (coords.lat && coords.lng) {
           console.log('✅ Coordenadas encontradas:', coords)
+          // Salvar no cache
+          geocodeCache.current.set(cep, coords)
           return coords
         }
       }
+      
+      // Salvar resultado negativo no cache para evitar tentativas repetidas
+      geocodeCache.current.set(cep, null)
     } catch (error) {
       console.error('❌ Erro ao geocodificar CEP:', error)
+      // Salvar erro no cache
+      geocodeCache.current.set(cep, null)
     }
     return null
   }
@@ -145,54 +162,104 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
     )
   }
 
-  const processUnidadesData = async (unidadesData: any[]) => {
-    const unidadesComLocalizacao: UnidadeLocation[] = []
+  // Função para processar em lotes com concorrência limitada
+  const processInBatches = async <T, R>(
+    items: T[],
+    processor: (item: T) => Promise<R>,
+    batchSize: number = 5
+  ): Promise<R[]> => {
+    const results: R[] = []
     
-    for (const unidade of unidadesData) {
-      if (unidade.local?.endereco?.[0]?.cep) {
-        const cep = unidade.local.endereco[0].cep
-        const endereco = unidade.local.endereco[0]
-        const enderecoCompleto = `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade}`
-        
-        console.log(`🔍 Processando: ${unidade.nome} - CEP: ${cep}`)
-        const coords = await geocodeByCEP(cep)
-        
-        if (coords) {
-          console.log(`✓ ${unidade.nome} geocodificado:`, coords)
-          unidadesComLocalizacao.push({
-            id: unidade.id,
-            lat: coords.lat,
-            lng: coords.lng,
-            address: enderecoCompleto,
-            nome: unidade.nome,
-            telefone: unidade.telefone,
-            disponibilidade_24h: unidade.disponibilidade_24h === 1,
-            categoria: unidade.categoria?.categoria?.[0]?.nome || 'Não informado',
-            especialidades: unidade.especialidades?.especialidades?.map((esp: any) => esp.nome) || [],
-            tempo_espera_geral: unidade.tempo_espera_geral || '-'
-          })
-        } else {
-          console.warn(`Não foi possível geocodificar ${unidade.nome}`)
-        }
-        
-        await new Promise(resolve => setTimeout(resolve, 1000))
-      }
+    for (let i = 0; i < items.length; i += batchSize) {
+      const batch = items.slice(i, i + batchSize)
+      const batchResults = await Promise.all(batch.map(processor))
+      results.push(...batchResults)
     }
     
-    console.log(`Total: ${unidadesComLocalizacao.length} unidades no mapa`)
-    setUnidadesLocations(unidadesComLocalizacao)
+    return results
+  }
+
+  const processUnidadesData = async (unidadesData: any[]) => {
+    console.log(`🚀 Processando ${unidadesData.length} unidades com paralelização...`)
+    const startTime = Date.now()
+    
+    // Filtrar apenas unidades com CEP válido
+    const unidadesComCEP = unidadesData.filter(unidade => 
+      unidade.local?.endereco?.[0]?.cep
+    )
+
+    // Processar unidades em lotes de 5 (concorrência controlada)
+    const processUnidade = async (unidade: any): Promise<UnidadeLocation | null> => {
+      const cep = unidade.local.endereco[0].cep
+      const endereco = unidade.local.endereco[0]
+      const enderecoCompleto = `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade}`
+      
+      const coords = await geocodeByCEP(cep)
+      
+      if (coords) {
+        return {
+          id: unidade.id,
+          lat: coords.lat,
+          lng: coords.lng,
+          address: enderecoCompleto,
+          nome: unidade.nome,
+          telefone: unidade.telefone,
+          disponibilidade_24h: unidade.disponibilidade_24h === 1,
+          categoria: unidade.categoria?.categoria?.[0]?.nome || 'Não informado',
+          especialidades: unidade.especialidades?.especialidades?.map((esp: any) => esp.nome) || [],
+          tempo_espera_geral: unidade.tempo_espera_geral || '-'
+        }
+      }
+      
+      return null
+    }
+
+    try {
+      const results = await processInBatches(unidadesComCEP, processUnidade, 5)
+      const unidadesComLocalizacao = results.filter(Boolean) as UnidadeLocation[]
+      const endTime = Date.now()
+      
+      console.log(`✅ Geocodificação concluída em ${(endTime - startTime) / 1000}s`)
+      console.log(`📍 ${unidadesComLocalizacao.length}/${unidadesComCEP.length} unidades geocodificadas`)
+      
+      setUnidadesLocations(unidadesComLocalizacao)
+    } catch (error) {
+      console.error('❌ Erro no processamento paralelo:', error)
+      setUnidadesLocations([])
+    }
   }
 
   const fetchUnidadesLocations = async () => {
     try {
-      console.log('Buscando todas as unidades...')
-      const response = await getUnidades()
+      console.log('🔍 Buscando todas as unidades via fetch direto...')
       
-      if (response.status && response.unidadesDeSaude) {
-        await processUnidadesData(response.unidadesDeSaude)
+      // Fazer fetch direto para evitar Server Action no cliente
+      const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      console.log('📦 Resposta da API:', data)
+      
+      // Tentar diferentes estruturas de resposta
+      let unidadesData = []
+      if (data.unidadesDeSaude && Array.isArray(data.unidadesDeSaude)) {
+        unidadesData = data.unidadesDeSaude
+      } else if (data.unidades && Array.isArray(data.unidades)) {
+        unidadesData = data.unidades
+      } else if (Array.isArray(data)) {
+        unidadesData = data
+      }
+      
+      if (unidadesData.length > 0) {
+        await processUnidadesData(unidadesData)
+      } else {
+        console.warn('⚠️ Nenhuma unidade encontrada na resposta')
       }
     } catch (error) {
-      console.error('Erro ao buscar unidades:', error)
+      console.error('❌ Erro ao buscar unidades:', error)
     }
   }
 
