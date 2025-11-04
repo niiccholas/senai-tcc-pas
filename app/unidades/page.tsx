@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { useFiltros } from '../context/FiltroContext';
+import { useTheme } from '../context/ThemeContext';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
 import SearchBar from '../components/searchbar/SearchBar';
@@ -16,6 +17,7 @@ const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
 
 export default function UnitPage() {
   const { selectedFilters } = useFiltros()
+  const { isDark } = useTheme()
   const searchParams = useSearchParams()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [unidadesRaw, setUnidadesRaw] = useState<any[]>([]) // Dados brutos para o mapa
@@ -404,7 +406,7 @@ export default function UnitPage() {
             </div>
           )}
           <button className={styles.closeUnitList} onClick={toggleUnitDiv} type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134879" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#ffffff" : "#134879"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x">
               <path d="M18 6 6 18"/>
               <path d="m6 6 12 12"/>
             </svg>
@@ -418,7 +420,7 @@ export default function UnitPage() {
         
         {!isUnitDivVisible && (
           <button className={styles.showUnitList} onClick={toggleUnitDiv} type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134879" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#ffffff" : "#134879"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu">
               <line x1="4" x2="20" y1="12" y2="12"/>
               <line x1="4" x2="20" y1="6" y2="6"/>
               <line x1="4" x2="20" y1="18" y2="18"/>

@@ -60,7 +60,7 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
         readOnly
         style={ {display: "none"} }
       />
-      <img src={isDark && darkImg ? darkImg : lightImg}/>
+      <img src={isDark && darkImg && darkImg.trim() !== "" ? darkImg : lightImg}/>
       <span>{name}</span>
     </div>
   );

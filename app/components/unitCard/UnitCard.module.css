@@ -5,7 +5,6 @@
     border-bottom: 3px solid var(--cor-borda-principal);
     margin-inline: 1vw;
     padding-block: 16px;
-    background: var(--cor-fundo-card);
     width: 100%;
     box-sizing: border-box;
     transition: all 0.2s ease;
@@ -231,11 +230,6 @@
 
 /* Hover effects para desktop */
 @media (hover: hover) {
-    .unitCard:hover {
-        background: var(--cor-fundo-secundario);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px var(--cor-sombra-leve);
-    }
     
     .learnMoreBtn:hover {
         background: var(--cor-hover-azul);
