@@ -5,6 +5,7 @@
     padding-inline: 0.3vw;
     padding-block: 0.1vh;
     gap: 0.5vw;
+    transition: background-color 0.2s;
 }
 
 .input{

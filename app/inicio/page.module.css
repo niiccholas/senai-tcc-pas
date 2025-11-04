@@ -9,7 +9,7 @@
 }
 
 .main h1 {
-    color: #0B2A46;
+    color: var(--cor-primaria);
     font-size: 32px;
     font-weight: bold;
     padding-top: 20px;

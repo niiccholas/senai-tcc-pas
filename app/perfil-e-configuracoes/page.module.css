@@ -5,7 +5,7 @@
     width: 98vw;
     padding-block: 4vh;
     padding-inline: 6vw;
-    color: var(--cor-primaria-texto);
+    color: var(--cor-primaria);
     gap: 4vw;
 }
 
@@ -20,20 +20,22 @@
 .systemSettings button{
     width: 10vw;
     height: 4vh;
-    border: #FB2D2D 1.5px solid;
-    color: #FB2D2D;
+    border: var(--cor-erro-botao) 1.5px solid;
+    color: var(--cor-erro-botao);
     font-size: 16px;
     font-weight: 700;
     outline: none;
     background-color: transparent;
     border-radius: 1.25rem;
     box-shadow: 0px 4px 4px 0px #0000001e;
+    transition: background-color 0.2s;
 }
 
 .systemSettings button:hover{
-    background-color: #FB2D2D;
-    color: white;
-    transform: translateY(-1px);
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
+    transform: translateY(-1px) ;
+    transition: background-color 0.2s;;
 }
 
 .options{
@@ -42,25 +44,27 @@
     gap: 1.5vh;
     font-size: 20px;
     font-weight: 500;
-    color: #19416A;
+    color: var(--cor-primaria);
 }
 
 .options ul{
     padding-inline: 0.3vw;
     padding-block: 0.2vh;
+    transition: background-color 0.2s;
 }
 
 .options ul:hover{
-    background-color: #00000011;
+    background-color: var(--cor-hover-sutil);
     padding-inline: 0.3vw;
     padding-block: 0.2vh;
     width: fit-content;
     border-radius: 5px;
+    transition: background-color 0.2s;
 }
 
 .options a{
     text-decoration: none;
-    color: #19416A;
+    color: var(--cor-primaria);
 }
 
 .photo{
@@ -78,7 +82,7 @@
 }
 
 .personalData{
-    background-color: #F6F6F6;
+    background-color: var(--cor-fundo-secundario);
     display: flex;
     flex-direction: column;
     height: 60%;
@@ -119,7 +123,7 @@
 .label p{
     font-weight: 400;
     font-size: 0.813rem;
-    color: #19416A;
+    color: var(--cor-primaria);
 }
 
 .label span{
@@ -128,7 +132,7 @@
 }
 
 .registrationData{
-    background-color: #F6F6F6;
+    background-color: var(--cor-fundo-secundario);
     display: flex;
     flex-direction: column;
     height: 40%;

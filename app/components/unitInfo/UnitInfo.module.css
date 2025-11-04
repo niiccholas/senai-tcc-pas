@@ -2,7 +2,9 @@
 .error {
   padding: 2rem;
   text-align: center;
-  color: #134E83;
+  justify-content: space-around;
+  width: 100%;
+  color: var(--cor-primaria-escura);
 }
 
 .unitCard {
@@ -13,7 +15,7 @@
   overflow-y: auto; /* Scroll no UnitInfo */
   overflow-x: hidden;
   padding: 1rem;
-  background: white;
+  background: var(--cor-fundo-card);
 }
 
 /* Estilo da scrollbar para unitCard */
@@ -22,17 +24,17 @@
 }
 
 .unitCard::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--cor-fundo-secundario);
   border-radius: 10px;
 }
 
 .unitCard::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--cor-scrollbar);
   border-radius: 10px;
 }
 
 .unitCard::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--cor-scrollbar-hover);
 }
 
 .generalInfo {
@@ -55,10 +57,40 @@
   color: transparent;
 }
 
+@media (max-width: 1024px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 150px;
+  }
+}
+
 .imgTitle h2 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--cor-texto-escuro);
   margin: 0;
   line-height: 1.3;
 }
@@ -89,13 +121,13 @@
 
 .label {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--cor-texto-secundario);
   font-weight: 500;
 }
 
 .element {
   font-size: 0.9rem;
-  color: #1a1a1a;
+  color: var(--cor-texto-escuro);
   font-weight: 500;
 }
 
@@ -103,10 +135,10 @@
   padding: 0.5rem;
   min-width: auto;
   width: 50%;
-  background: white;
-  border: 1px solid #134E83;
+  background: var(--cor-fundo-card);
+  border: 1px solid var(--cor-primaria-escura);
   border-radius: 0.3rem;
-  color: #134E83;
+  color: var(--cor-primaria-escura);
   font-size: 0.8rem;
   font-family: 'Rubik', sans-serif;
   font-weight: 500;
@@ -116,7 +148,7 @@
 }
 
 .specialtyBtn:hover {
-  background: #f0f7ff;
+  background: var(--cor-hover-azul-claro);
 }
 
 
@@ -130,6 +162,6 @@
 .noSpecialties {
   padding: 1rem;
   text-align: center;
-  color: #666;
+  color: var(--cor-texto-secundario);
   font-size: 0.9rem;
 }
