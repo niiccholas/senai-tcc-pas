@@ -7,6 +7,7 @@
 .verMaisMenos {
     display: flex;
     align-items: center;
+    width: fit-content;
     gap: 8px;
     cursor: pointer;
     padding: 8px 12px;

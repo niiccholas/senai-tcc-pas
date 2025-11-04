@@ -52,6 +52,7 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
+    padding-block: 3vh;
 }
 
 .section1, .section2 {
@@ -186,7 +187,8 @@
     }
     
     .subtitle {
-        font-size: 2.1vh;
+        font-size: 3.1vh;
+        text-align: flex-start;
     }
     
     .text {
@@ -203,8 +205,11 @@
         gap: 50px;
     }
     
+ 
     .optionRow ul {
-        gap: 40px;
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
     }
     
     .sendFilter {
@@ -235,8 +240,8 @@
     }
     
     .subtitle {
-        font-size: 1.8vh;
-        text-align: center;
+        font-size: 2.8vh;
+        text-align: flex-start;
     }
     
     .text {
@@ -257,13 +262,13 @@
     }
     
     .optionRow ul {
-        flex-direction: column;
+        flex-direction: row;
         gap: 15px;
         align-items: flex-start;
     }
     
     .availabilityCheckbox {
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
         gap: 10px;
     }
