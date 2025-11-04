@@ -31,10 +31,6 @@
     transition: transform 0.2s ease;
 }
 
-.infocard img:hover{
-    transform: scale(1.02);
-}
-
 .buttonsContainer{
     display: flex;
     flex-direction: column;
@@ -67,7 +63,6 @@
 }
 
 .moreInfo:hover{
-    background-color: var(--cor-hover-azul);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px var(--cor-sombra-azul);
 }

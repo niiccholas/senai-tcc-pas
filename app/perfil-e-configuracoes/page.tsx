@@ -1,6 +1,10 @@
+"use client";
+
+import { useTheme } from "../context/ThemeContext";
 import styles from "./page.module.css";
 
 export default function ProfileSettingsPage(){
+    const { theme, toggleTheme, isDark } = useTheme();
     return(
         <main className={styles.main}>
             <div className={styles.systemSettings}>
@@ -8,7 +12,13 @@ export default function ProfileSettingsPage(){
                     <div className={styles.photo}>
                         <img src="null" alt="" />
                     </div> 
-                        <ul>Tema</ul>
+                        <ul className={styles.themeOption} onClick={toggleTheme}>
+                            <span>Tema</span>
+                            <div className={styles.themeToggle}>
+                                {isDark ? <img src="https://file.garden/aOx43sIeICuTJI2s/Vector.png" alt="" /> :
+                                 <img src="https://file.garden/aOx43sIeICuTJI2s/Moon%20and%20Stars.png" alt="" />}
+                            </div>
+                        </ul>
                         <ul>Idioma</ul>
                         <ul>
                             <a href="mailto:contato@pas.gov.br?subject=Dúvida sobre o sistema PAS&body=Olá, gostaria de entrar em contato sobre...">Contato</a>
