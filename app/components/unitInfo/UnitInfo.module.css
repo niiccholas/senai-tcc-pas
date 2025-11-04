@@ -2,6 +2,8 @@
 .error {
   padding: 2rem;
   text-align: center;
+  justify-content: space-around;
+  width: 100%;
   color: #134E83;
 }
 
@@ -53,6 +55,36 @@
   object-fit: cover;
   border-radius: 8px;
   color: transparent;
+}
+
+@media (max-width: 1024px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .unitCard {
+    padding-top: 40px;
+  }
+
+  .imgTitle img {
+    height: 150px;
+  }
 }
 
 .imgTitle h2 {
