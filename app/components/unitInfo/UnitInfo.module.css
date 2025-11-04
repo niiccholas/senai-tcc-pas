@@ -15,7 +15,6 @@
   overflow-y: auto; /* Scroll no UnitInfo */
   overflow-x: hidden;
   padding: 1rem;
-  background: var(--cor-fundo-card);
 }
 
 /* Estilo da scrollbar para unitCard */

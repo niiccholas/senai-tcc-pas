@@ -15,7 +15,8 @@
   border-top-right-radius: 1vh; 
   box-shadow: 3px 0px 3px 0px #f1f1f1;
   animation: slideIn 0.4s ease-out;
-  overflow: hidden; 
+  overflow: hidden;
+  background-color: var(--cor-fundo-principal);
 }
 
 @keyframes slideIn {
@@ -95,15 +96,15 @@
   position: absolute;
   top: 2.5vh;
   left: 1.5vw;
-  background: white;
-  border: 2px solid #134879;
+  background: var(--cor-fundo-principal);
+  border: 2px solid var(--cor-primaria);
   border-radius: 8px;
   padding: 8px;
   cursor: pointer;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--cor-sombra-media);
   animation: fadeInScale 0.3s ease-out;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 @keyframes fadeInScale {
@@ -119,6 +120,8 @@
 
 .showUnitList:hover {
   transform: scale(1.05);
+  background: var(--cor-fundo-secundario);
+  border-color: var(--cor-terciaria);
 }
 
 .searchBarOverlay {
@@ -211,8 +214,8 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-borda-principal);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -220,6 +223,13 @@
     align-items: center;
     justify-content: center;
     z-index: 1001;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .closeUnitList:hover {
+    background: var(--cor-hover-sutil);
+    transform: scale(1.05);
   }
 }
 
