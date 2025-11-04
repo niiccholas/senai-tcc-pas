@@ -19,7 +19,6 @@ export default function ProfileSettingsPage(){
                                  <img src="https://file.garden/aOx43sIeICuTJI2s/Moon%20and%20Stars.png" alt="" />}
                             </div>
                         </ul>
-                        <ul>Idioma</ul>
                         <ul>
                             <a href="mailto:contato@pas.gov.br?subject=Dúvida sobre o sistema PAS&body=Olá, gostaria de entrar em contato sobre...">Contato</a>
                         </ul>
