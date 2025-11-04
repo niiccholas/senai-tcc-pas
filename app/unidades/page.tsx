@@ -6,6 +6,8 @@ import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { useFiltros } from '../context/FiltroContext';
 import { useTheme } from '../context/ThemeContext';
+import { useGeolocation } from '../hooks/useGeolocation';
+import { filterUnitsByDistance } from '../utils/geocoding';
 import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
 import UnitInfo from '../components/unitInfo/UnitInfo';
 import SearchBar from '../components/searchbar/SearchBar';
@@ -18,6 +20,7 @@ const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
 function UnitPageContent() {
   const { selectedFilters } = useFiltros()
   const { isDark } = useTheme()
+  const { userLocation, calculateDistance } = useGeolocation()
   const searchParams = useSearchParams()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
   const [unidadesRaw, setUnidadesRaw] = useState<any[]>([]) // Dados brutos para o mapa
@@ -35,6 +38,7 @@ function UnitPageContent() {
       setIsUnitDivVisible(true)
     }
   }, [searchParams])
+
 
   // Hook personalizado para debounce
   const useDebounce = (value: any, delay: number) => {
@@ -56,6 +60,8 @@ function UnitPageContent() {
   // Debounce dos filtros para evitar chamadas excessivas
   const debouncedFilters = useDebounce(selectedFilters, 300)
   
+
+  
   // Memoizar a chave dos filtros para evitar re-renders desnecessários
   const filterKey = useMemo(() => {
     return JSON.stringify(debouncedFilters)
@@ -65,25 +71,28 @@ function UnitPageContent() {
   useEffect(() => {
     console.log('=== useEffect executado ===')
     console.log('debouncedFilters:', debouncedFilters)
+    console.log('userLocation:', userLocation)
     
+    setLoading(true)
+    setShouldCenterFirstUnit(true)
+    
+    // Verificar se há filtros que precisam ser enviados para a API
+    const hasApiFilters = debouncedFilters.especialidade !== null || 
+                         debouncedFilters.categoria !== null || 
+                         debouncedFilters.disponibilidade !== null
+    
+    console.log('Tem filtros para API?', hasApiFilters)
+    console.log('Filtros detalhados:', {
+      especialidade: debouncedFilters.especialidade,
+      categoria: debouncedFilters.categoria,
+      disponibilidade: debouncedFilters.disponibilidade
+    })
+
     async function buscarUnidades() {
       try {
-        setLoading(true)
-        
-        // Verificar se há filtros aplicados (exceto disponibilidade, distanciaRaio e unidadeProxima que serão tratados localmente)
-        const temFiltrosAPI = debouncedFilters.especialidade !== null || 
-                             debouncedFilters.categoria !== null
-        
-        console.log('Tem filtros para API?', temFiltrosAPI)
-        console.log('Filtros detalhados:', {
-          especialidade: debouncedFilters.especialidade,
-          categoria: debouncedFilters.categoria,
-          disponibilidade: debouncedFilters.disponibilidade
-        })
-
         let unidadesData
 
-        if (temFiltrosAPI) {
+        if (hasApiFilters) {
           console.log('Aplicando filtros via API:', debouncedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
@@ -181,6 +190,32 @@ function UnitPageContent() {
           console.log('Unidades após filtro de disponibilidade:', unidadesData.length)
         }
 
+        // Aplicar filtro por distância se necessário
+        console.log('🔍 DEBUG FILTRO DISTÂNCIA:', {
+          userLocation,
+          unidadeProxima: selectedFilters.unidadeProxima,
+          distanciaRaio: debouncedFilters.distanciaRaio,
+          isArray: Array.isArray(unidadesData),
+          unidadesCount: unidadesData.length
+        })
+        
+        if (userLocation && selectedFilters.unidadeProxima && Array.isArray(unidadesData)) {
+          console.log('🎯 Aplicando filtro por distância')
+          unidadesData = await filterUnitsByDistance(
+            unidadesData,
+            userLocation,
+            debouncedFilters.distanciaRaio,
+            calculateDistance
+          )
+          console.log('✅ Unidades após filtro de distância:', unidadesData.length)
+        } else {
+          console.log('❌ Filtro de distância NÃO aplicado porque:', {
+            temUserLocation: !!userLocation,
+            temUnidadeProxima: !!selectedFilters.unidadeProxima,
+            temArray: Array.isArray(unidadesData)
+          })
+        }
+
         // Transformar dados para o formato esperado pelo UnitCard
         console.log('Dados antes da transformação:', unidadesData)
         console.log('É array?', Array.isArray(unidadesData))
@@ -255,7 +290,7 @@ function UnitPageContent() {
     }
 
     buscarUnidades()
-  }, [filterKey]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [filterKey, userLocation]) // Incluir userLocation para reprocessar quando localização chegar
 
   // useEffect para centralizar a primeira unidade quando necessário
   useEffect(() => {

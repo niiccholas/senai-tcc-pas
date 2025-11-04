@@ -17,7 +17,6 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
   const { selectedFilters, setFilter } = useFiltros();
   const { isDark } = useTheme();
 
-  // Verificação de segurança
   if (!tipo) {
     console.warn('IconText: tipo não definido para', name);
     return null;
@@ -25,7 +24,11 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
 
   // Garantir que a comparação seja feita com o mesmo tipo
   const idAsNumber = typeof id === 'string' ? parseInt(id, 10) : id;
-  const checked = selectedFilters[tipo] === idAsNumber;
+  
+  // Para unidadeProxima, usar lógica booleana
+  const checked = tipo === 'unidadeProxima' 
+    ? selectedFilters[tipo] === true 
+    : selectedFilters[tipo] === idAsNumber;
   
   console.log(`IconText ${name}:`, { tipo, id, idAsNumber, checked, selectedValue: selectedFilters[tipo] });
 
@@ -43,7 +46,12 @@ export default function IconText({ tipo, id, name, lightImg, darkImg }: IconText
       setFilter(tipo, null);
     } else {
       console.log('Selecionando...', { tipo, idAsNumber });
-      setFilter(tipo, idAsNumber);
+      // Para unidadeProxima, definir como true
+      if (tipo === 'unidadeProxima') {
+        setFilter(tipo, true);
+      } else {
+        setFilter(tipo, idAsNumber);
+      }
     }
   };
 
