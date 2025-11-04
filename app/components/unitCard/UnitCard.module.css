@@ -129,36 +129,39 @@
     }
     
     .unitName {
-        font-size: 20px;
+        font-size: 40px;
         margin-bottom: 10px;
     }
     
     .lowerDiv {
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
         gap: 12px;
         width: 100%;
     }
     
     .waitContainer {
-        width: 100%;
+        width: 60%;
         justify-content: flex-start;
     }
     
+
+
     .waitLabel {
-        font-size: 12px;
+        font-size: 25px;
     }
     
     .waitValue {
-        font-size: 13px;
+        font-size: 30px;
     }
     
     .learnMoreBtn {
         align-self: flex-end;
-        font-size: 14px;
-        padding: 8px 16px;
+        font-size: 20px;
+        padding: 18px 42px;
         min-height: 36px;
         margin-right: 0;
+        border-radius: 50px;
     }
 }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
@@ -15,7 +15,7 @@ const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
   loading: () => <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6' }}>Carregando mapa...</div>
 });
 
-export default function UnitPage() {
+function UnitPageContent() {
   const { selectedFilters } = useFiltros()
   const { isDark } = useTheme()
   const searchParams = useSearchParams()
@@ -438,5 +438,13 @@ export default function UnitPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function UnitPage() {
+  return (
+    <Suspense fallback={<div style={{ width: '100vw', height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Carregando...</div>}>
+      <UnitPageContent />
+    </Suspense>
   )
 }
