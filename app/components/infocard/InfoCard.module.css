@@ -14,7 +14,7 @@
     font-size: 24px;
     font-weight: 500;
     text-align: left;
-    color: #094175;
+    color: var(--cor-primaria-escura);
     line-height: 1.4;
     margin: 0 0 10px 0;
     word-wrap: break-word;
@@ -54,22 +54,22 @@
     align-items: center;
     justify-content: flex-start;
     outline: none;
-    background-color: #298BE6;
+    background-color: var(--cor-secundaria);
     border-radius: 10px;
     border: none;
     font-size: 24px;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
-    color: white;
+    color: var(--cor-texto-claro);
     cursor: pointer;
     transition: all 0.2s ease;
     box-sizing: border-box;
 }
 
 .moreInfo:hover{
-    background-color: #2176c7;
+    background-color: var(--cor-hover-azul);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(41, 139, 230, 0.3);
+    box-shadow: 0 4px 12px var(--cor-sombra-azul);
 }
 
 .otherInfo span,

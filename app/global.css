@@ -5,11 +5,67 @@
 }
 
 :root {
-    --cor-primaria-texto: #0B2A46;
-}
-  
-:root{
-    --cor-primaria-texto: #0B2A46;
+    /* === CORES PRINCIPAIS === */
+    --cor-primaria: #134879;
+    --cor-primaria-escura: #103e66;
+    --cor-secundaria: #298BE6;
+    --cor-terciaria: #8CC6FF;
+    
+    /* === CORES DE TEXTO === */
+    --cor-texto-principal: #000000;
+    --cor-texto-secundario: #4b5563;
+    --cor-texto-claro: #ffffff;
+    --cor-texto-escuro: #1a1a1a;
+    
+    /* === CORES DE FUNDO === */
+    --cor-fundo-principal: #ffffff;
+    --cor-fundo-secundario: #f6f6f6;
+    --cor-fundo-card: #ffffff;
+    --cor-fundo-overlay: rgba(255, 255, 255, 0.95);
+    
+    /* === CORES DE SISTEMA === */
+    --cor-sucesso: #10b981;
+    --cor-sucesso-escura: #059669;
+    --cor-sucesso-clara: #86efac;
+    --cor-sucesso-fundo: #f0fdf4;
+    
+    --cor-erro: #dc2626;
+    --cor-erro-clara: #ef4444;
+    --cor-erro-botao: #FB2D2D;
+    
+    --cor-aviso: #f97316;
+    --cor-aviso-escura: #ea580c;
+    --cor-aviso-texto: #c2410c;
+    --cor-aviso-borda: #fed7aa;
+    --cor-aviso-fundo: #fffbeb;
+    
+    /* === CORES DE BORDA === */
+    --cor-borda-principal: #e5e7eb;
+    --cor-borda-input: #d1d5db;
+    --cor-borda-clara: #f0f0f0;
+    --cor-borda-escura: #b7c1cc;
+    
+    /* === CORES DE SOMBRA === */
+    --cor-sombra-leve: rgba(0, 0, 0, 0.1);
+    --cor-sombra-media: rgba(0, 0, 0, 0.15);
+    --cor-sombra-forte: rgba(0, 0, 0, 0.2);
+    --cor-sombra-muito-leve: rgba(0, 0, 0, 0.05);
+    --cor-sombra-azul: rgba(41, 139, 230, 0.3);
+    
+    /* === CORES DE HOVER E ESTADOS === */
+    --cor-hover-sutil: rgba(0, 0, 0, 0.05);
+    --cor-hover-azul: #1d4ed8;
+    --cor-hover-azul-claro: #f0f7ff;
+    
+    /* === CORES DE SCROLLBAR === */
+    --cor-scrollbar: #888888;
+    --cor-scrollbar-hover: #555555;
+    --cor-scrollbar-track: transparent;
+    
+    /* === CORES ESPECÍFICAS === */
+    --cor-placeholder: #0a1b2c;
+    --cor-navegacao: #F9FAFB;
+    --cor-badge-selecionado: #28a745;
 }
 
 body, html{
@@ -23,7 +79,7 @@ body {
 header {
     height: 8%;
     display: flex;
-    background-color: #0B2A46;
+    background-color: var(--cor-primaria-escura);
     align-items: center;
 }
 
@@ -33,7 +89,7 @@ header svg{
 }
 
 .user-icon {
-    stroke: #ffffff !important;
+    stroke: var(--cor-texto-claro) !important;
 }
 
 nav{
@@ -49,7 +105,7 @@ nav a{
     font-size: 2.5vh;
     text-decoration: none;
     font-weight: 100;
-    color: #F9FAFB;
+    color: var(--cor-navegacao);
 }
 
 .logo img{
