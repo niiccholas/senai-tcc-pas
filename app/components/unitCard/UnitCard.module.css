@@ -73,6 +73,18 @@
     flex-shrink: 0;
 }
 
+/* Modo escuro - botão seguindo as screenshots */
+[data-theme="dark"] .learnMoreBtn {
+    background: var(--cor-primaria);
+    color: #ffffff;
+    border: none;
+}
+
+[data-theme="dark"] .learnMoreBtn:hover {
+    background: var(--cor-terciaria);
+    transform: translateY(-1px);
+}
+
 .learnMoreBtn:hover {
     background: var(--cor-hover-azul);
 }
