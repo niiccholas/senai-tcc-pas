@@ -34,45 +34,65 @@ export default function UnitPage() {
     }
   }, [searchParams])
 
+  // Hook personalizado para debounce
+  const useDebounce = (value: any, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState(value)
+    
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value)
+      }, delay)
+      
+      return () => {
+        clearTimeout(handler)
+      }
+    }, [value, delay])
+    
+    return debouncedValue
+  }
+
+  // Debounce dos filtros para evitar chamadas excessivas
+  const debouncedFilters = useDebounce(selectedFilters, 300)
+  
   // Memoizar a chave dos filtros para evitar re-renders desnecessários
   const filterKey = useMemo(() => {
-    return JSON.stringify(selectedFilters)
-  }, [selectedFilters])
+    return JSON.stringify(debouncedFilters)
+  }, [debouncedFilters])
 
   // useEffect para buscar unidades filtradas
   useEffect(() => {
     console.log('=== useEffect executado ===')
-    console.log('selectedFilters:', selectedFilters)
+    console.log('debouncedFilters:', debouncedFilters)
     
     async function buscarUnidades() {
       try {
         setLoading(true)
         
         // Verificar se há filtros aplicados (exceto disponibilidade, distanciaRaio e unidadeProxima que serão tratados localmente)
-        const temFiltrosAPI = selectedFilters.especialidade !== null || 
-                             selectedFilters.categoria !== null
+        const temFiltrosAPI = debouncedFilters.especialidade !== null || 
+                             debouncedFilters.categoria !== null
         
         console.log('Tem filtros para API?', temFiltrosAPI)
         console.log('Filtros detalhados:', {
-          especialidade: selectedFilters.especialidade,
-          categoria: selectedFilters.categoria,
-          disponibilidade: selectedFilters.disponibilidade
+          especialidade: debouncedFilters.especialidade,
+          categoria: debouncedFilters.categoria,
+          disponibilidade: debouncedFilters.disponibilidade
         })
 
         let unidadesData
 
         if (temFiltrosAPI) {
-          console.log('Aplicando filtros via API:', selectedFilters)
+          console.log('Aplicando filtros via API:', debouncedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
           let filtrosParaAPI: any = {}
           
-          if (selectedFilters.especialidade !== null) {
-            filtrosParaAPI.especialidade = selectedFilters.especialidade
+          if (debouncedFilters.especialidade !== null) {
+            filtrosParaAPI.especialidade = debouncedFilters.especialidade
           }
           
-          if (selectedFilters.categoria !== null) {
-            filtrosParaAPI.categoria = selectedFilters.categoria
+          if (debouncedFilters.categoria !== null) {
+            filtrosParaAPI.categoria = debouncedFilters.categoria
           }
           
           console.log('Filtros para API:', filtrosParaAPI)
@@ -144,13 +164,13 @@ export default function UnitPage() {
         }
 
         // Aplicar filtro de disponibilidade localmente se necessário
-        if (selectedFilters.disponibilidade !== null && Array.isArray(unidadesData)) {
-          console.log('Aplicando filtro de disponibilidade local:', selectedFilters.disponibilidade)
+        if (debouncedFilters.disponibilidade !== null && Array.isArray(unidadesData)) {
+          console.log('Aplicando filtro de disponibilidade local:', debouncedFilters.disponibilidade)
           unidadesData = unidadesData.filter((unidade: any) => {
-            if (selectedFilters.disponibilidade === 1) {
+            if (debouncedFilters.disponibilidade === 1) {
               // Filtrar apenas unidades 24h (disponibilidade_24h === 1)
               return unidade.disponibilidade_24h === 1
-            } else if (selectedFilters.disponibilidade === 0) {
+            } else if (debouncedFilters.disponibilidade === 0) {
               // Filtrar apenas unidades não 24h (disponibilidade_24h === 0)
               return unidade.disponibilidade_24h === 0
             }
