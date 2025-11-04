@@ -3,16 +3,16 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
-  border-left: 4px solid #134E83;
+  border-left: 4px solid var(--cor-primaria-escura);
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--cor-sombra-leve);
   width: 100%;
 }
 
 .specialtyName {
   font-size: 1rem;
   font-weight: 600;
-  color: #134E83;
+  color: var(--cor-primaria-escura);
   margin: 0;
 }
 
@@ -36,12 +36,12 @@
 
 .label {
   font-size: 0.7rem;
-  color: #666;
+  color: var(--cor-texto-secundario);
   font-weight: 400;
 }
 
 .time {
   font-size: 0.85rem;
-  color: #1a1a1a;
+  color: var(--cor-texto-escuro);
   font-weight: 600;
 }

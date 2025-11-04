@@ -1,9 +1,9 @@
 .divInput{
     height: 6vh;
     width: 100%;
-    border: 3px solid #8CC6FF;
+    border: 3px solid var(--cor-terciaria);
     border-radius: 1vw;
-    box-shadow: 0px 6px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 6px 5px var(--cor-sombra-forte);
     display: flex;
     align-items: center;
 }
@@ -22,7 +22,7 @@
 }
 
 .divInput span{
-    color: black;
+    color: var(--cor-texto-principal);
     opacity: 65%;
     font-weight: 600
 }
