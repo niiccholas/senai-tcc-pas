@@ -77,9 +77,9 @@ function UnitPageContent() {
     setShouldCenterFirstUnit(true)
     
     // Verificar se há filtros que precisam ser enviados para a API
+    // Nota: disponibilidade é tratada localmente, não via API
     const hasApiFilters = debouncedFilters.especialidade !== null || 
-                         debouncedFilters.categoria !== null || 
-                         debouncedFilters.disponibilidade !== null
+                         debouncedFilters.categoria !== null
     
     console.log('Tem filtros para API?', hasApiFilters)
     console.log('Filtros detalhados:', {
