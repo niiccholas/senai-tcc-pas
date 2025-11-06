@@ -10,9 +10,16 @@ export interface SelectedFiltersState {
   unidadeProxima: boolean | null; // Se deve buscar unidade mais próxima
 }
 
+export interface UserLocation {
+  lat: number;
+  lng: number;
+}
+
 interface FiltrosContextType {
   selectedFilters: SelectedFiltersState;
   setFilter: <K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) => void;
+  userLocation: UserLocation | null;
+  setUserLocation: (location: UserLocation | null) => void;
 }
 
 const FiltrosContext = createContext<FiltrosContextType | undefined>(undefined);
@@ -25,6 +32,8 @@ export function FiltrosProvider({ children }: { children: ReactNode }) {
     distanciaRaio: 10, // Valor padrão de 10km
     unidadeProxima: null,
   });
+
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
 
   function setFilter<K extends keyof SelectedFiltersState>(tipo: K, valor: SelectedFiltersState[K]) {
     console.log('=== SETFILTER DEBUG ===');
@@ -40,7 +49,7 @@ export function FiltrosProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <FiltrosContext.Provider value={{ selectedFilters, setFilter }}>
+    <FiltrosContext.Provider value={{ selectedFilters, setFilter, userLocation, setUserLocation }}>
       {children}
     </FiltrosContext.Provider>
   )
