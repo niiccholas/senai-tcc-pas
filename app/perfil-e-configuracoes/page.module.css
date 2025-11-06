@@ -70,11 +70,54 @@
     color: var(--cor-primaria);
 }
 
-.photo{
+
+
+.photo {
+    position: relative;
     display: flex;
     width: 100%;
+}
+
+.photo img{
+    width: 100%;
+    height: auto;
     border-radius: 30px;
     box-shadow: 0px 4px 4px 0px #00000041;
+}
+
+.editablePhoto {
+    cursor: pointer;
+}
+
+.editablePhoto:hover {
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.photoOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.editablePhoto:hover .photoOverlay {
+    opacity: 1;
+}
+
+.photoOverlay span {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
 }
 
 .accountSettings{
@@ -224,7 +267,7 @@
 }
 
 .label input::placeholder{
-    color: #0a1b2c;
+    background-color: transparent;
     font-weight: 300;
     font-size: 1.125rem;
 }
@@ -537,5 +580,247 @@
     
     .label input::placeholder {
         font-size: 1.3rem;
+    }
+}
+
+/* Responsividade para confirmação */
+@media (max-width: 768px) {
+    .confirmationBox {
+        min-width: 120px;
+        padding: 12px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 32px;
+        font-size: 13px;
+    }
+}
+
+/* Estilos para confirmação de logout */
+.logoutButton {
+    width: 10vw;
+    height: 4vh;
+    border: var(--cor-erro-botao) 1.5px solid;
+    color: var(--cor-erro-botao);
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    background-color: transparent;
+    border-radius: 1.25rem;
+    box-shadow: 0px 4px 4px 0px #0000001e;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.logoutButton:hover {
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
+    transform: translateY(-1px);
+    transition: background-color 0.2s;
+}
+
+.confirmationBox {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 2px solid var(--cor-terciaria);
+    border-radius: 12px;
+    background-color: var(--cor-fundo-principal);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+    align-items: center;
+}
+
+.cancelButton {
+    width: 100%;
+    height: 36px;
+    border: none;
+    color: var(--cor-texto-principal);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelButton:hover {
+    background-color: var(--cor-terciaria);
+    color: var(--cor-texto-claro);
+}
+
+.confirmButton {
+    width: 100%;
+    height: 36px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    background-color: #dc3545;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.confirmButton:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Responsividade para confirmação */
+@media (max-width: 768px) {
+    .confirmationBox {
+        min-width: 120px;
+        padding: 12px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 32px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmationBox {
+        min-width: 100px;
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 30px;
+        font-size: 12px;
+    }
+}
+
+/* Estilos para edição de dados */
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.sectionHeader h4 {
+    margin: 0;
+}
+
+.editButton {
+    padding: 0.5vh 1vw;
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.editButton:hover {
+    background-color: var(--cor-hover-azul);
+}
+
+.editActions {
+    display: flex;
+    gap: 8px;
+}
+
+.cancelButton{
+    padding: 0.5vh 1vw;
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.editActions{
+    padding: 0.5vh 1vw;
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-terciaria);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.editActions .cancelButton:hover {
+    background-color: var(--cor-terciaria);
+    color: var(--cor-texto-claro);
+}
+
+.saveButton {
+    padding: 0.5vh 1vw;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+    background-color: #218838;
+}
+
+.saveButton:disabled,
+.editActions .cancelButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.editableInput {
+    background-color: var(--cor-fundo-principal) !important;
+}
+
+.editableInput:focus {
+    outline: none;
+}
+
+/* Responsividade para edição */
+@media (max-width: 768px) {
+    .sectionHeader {
+        flex-direction: column;
+        gap: 1vh;
+        align-items: stretch;
+    }
+    
+    .editActions {
+        justify-content: center;
+    }
+    
+    .editButton,
+    .editActions .cancelButton,
+    .saveButton {
+        font-size: 13px;
+        padding: 0.8vh 2vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .editActions {
+        flex-direction: column;
+        gap: 1vh;
+    }
+    
+    .editButton,
+    .editActions .cancelButton,
+    .saveButton {
+        font-size: 12px;
+        padding: 1vh 3vw;
+        width: 100%;
     }
 }
