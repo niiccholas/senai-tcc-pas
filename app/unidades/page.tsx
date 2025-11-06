@@ -85,7 +85,9 @@ function UnitPageContent() {
     console.log('Filtros detalhados:', {
       especialidade: debouncedFilters.especialidade,
       categoria: debouncedFilters.categoria,
-      disponibilidade: debouncedFilters.disponibilidade
+      disponibilidade: debouncedFilters.disponibilidade,
+      unidadeProxima: debouncedFilters.unidadeProxima,
+      distanciaRaio: debouncedFilters.distanciaRaio
     })
 
     async function buscarUnidades() {
@@ -93,20 +95,23 @@ function UnitPageContent() {
         let unidadesData
 
         if (hasApiFilters) {
-          console.log('Aplicando filtros via API:', debouncedFilters)
+          console.log('📡 Aplicando filtros via API:', debouncedFilters)
           
           // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
           let filtrosParaAPI: any = {}
           
           if (debouncedFilters.especialidade !== null) {
             filtrosParaAPI.especialidade = debouncedFilters.especialidade
+            console.log('📡 Adicionando especialidade ao filtro API:', debouncedFilters.especialidade)
           }
           
           if (debouncedFilters.categoria !== null) {
             filtrosParaAPI.categoria = debouncedFilters.categoria
+            console.log('📡 Adicionando categoria ao filtro API:', debouncedFilters.categoria)
           }
           
-          console.log('Filtros para API:', filtrosParaAPI)
+          console.log('📡 Filtros finais para API:', filtrosParaAPI)
+          console.log('📡 JSON que será enviado:', JSON.stringify(filtrosParaAPI))
           
           try {
             // Fazer fetch direto para evitar problemas com Server Actions
@@ -174,32 +179,51 @@ function UnitPageContent() {
           console.log('Dados das unidades extraídos:', unidadesData)
         }
 
+        // IMPORTANTE: Extrair objetos de arrays aninhados ANTES de aplicar filtros locais
+        console.log('🔧 Verificando estrutura dos dados...')
+        if (Array.isArray(unidadesData) && unidadesData.length > 0) {
+          console.log('🔧 Primeiro item:', unidadesData[0])
+          console.log('🔧 É array?', Array.isArray(unidadesData[0]))
+          
+          if (Array.isArray(unidadesData[0])) {
+            console.log('🔧 Extraindo objetos de arrays aninhados...')
+            unidadesData = unidadesData.map((item: any) => Array.isArray(item) ? item[0] : item)
+            console.log('🔧 Dados após extração:', unidadesData)
+            console.log('🔧 Primeiro item após extração:', unidadesData[0])
+          }
+        }
+
         // Aplicar filtro de disponibilidade localmente se necessário
         if (debouncedFilters.disponibilidade !== null && Array.isArray(unidadesData)) {
-          console.log('Aplicando filtro de disponibilidade local:', debouncedFilters.disponibilidade)
+          console.log('🕐 Aplicando filtro de disponibilidade local:', debouncedFilters.disponibilidade)
+          console.log('🕐 Unidades ANTES do filtro de disponibilidade:', unidadesData.length)
+          
+          const unidadesAntes = unidadesData.length
           unidadesData = unidadesData.filter((unidade: any) => {
-            if (debouncedFilters.disponibilidade === 1) {
-              // Filtrar apenas unidades 24h (disponibilidade_24h === 1)
-              return unidade.disponibilidade_24h === 1
-            } else if (debouncedFilters.disponibilidade === 0) {
-              // Filtrar apenas unidades não 24h (disponibilidade_24h === 0)
-              return unidade.disponibilidade_24h === 0
+            const resultado = debouncedFilters.disponibilidade === 1 
+              ? unidade.disponibilidade_24h === 1
+              : debouncedFilters.disponibilidade === 0 
+                ? unidade.disponibilidade_24h === 0
+                : true
+            
+            if (!resultado) {
+              console.log(`🕐 Unidade "${unidade.nome}" filtrada (disponibilidade_24h: ${unidade.disponibilidade_24h})`)
             }
-            return true
+            return resultado
           })
-          console.log('Unidades após filtro de disponibilidade:', unidadesData.length)
+          console.log(`🕐 Unidades DEPOIS do filtro de disponibilidade: ${unidadesData.length} (removidas: ${unidadesAntes - unidadesData.length})`)
         }
 
         // Aplicar filtro por distância se necessário
         console.log('🔍 DEBUG FILTRO DISTÂNCIA:', {
           userLocation,
-          unidadeProxima: selectedFilters.unidadeProxima,
+          unidadeProxima: debouncedFilters.unidadeProxima,
           distanciaRaio: debouncedFilters.distanciaRaio,
           isArray: Array.isArray(unidadesData),
           unidadesCount: unidadesData.length
         })
         
-        if (userLocation && selectedFilters.unidadeProxima && Array.isArray(unidadesData)) {
+        if (userLocation && debouncedFilters.unidadeProxima && Array.isArray(unidadesData)) {
           console.log('🎯 Aplicando filtro por distância')
           unidadesData = await filterUnitsByDistance(
             unidadesData,
@@ -211,11 +235,19 @@ function UnitPageContent() {
         } else {
           console.log('❌ Filtro de distância NÃO aplicado porque:', {
             temUserLocation: !!userLocation,
-            temUnidadeProxima: !!selectedFilters.unidadeProxima,
+            temUnidadeProxima: !!debouncedFilters.unidadeProxima,
             temArray: Array.isArray(unidadesData)
           })
         }
 
+        // Resumo final dos filtros aplicados
+        console.log('=== RESUMO DOS FILTROS APLICADOS ===')
+        console.log('✅ Filtros API (especialidade/categoria):', hasApiFilters ? 'SIM' : 'NÃO')
+        console.log('✅ Filtro disponibilidade:', debouncedFilters.disponibilidade !== null ? `SIM (${debouncedFilters.disponibilidade})` : 'NÃO')
+        console.log('✅ Filtro distância:', (userLocation && debouncedFilters.unidadeProxima) ? `SIM (${debouncedFilters.distanciaRaio}km)` : 'NÃO')
+        console.log('📊 Total de unidades após todos os filtros:', Array.isArray(unidadesData) ? unidadesData.length : 0)
+        console.log('=====================================')
+        
         // Transformar dados para o formato esperado pelo UnitCard
         console.log('Dados antes da transformação:', unidadesData)
         console.log('É array?', Array.isArray(unidadesData))
@@ -225,13 +257,6 @@ function UnitPageContent() {
         if (!Array.isArray(unidadesData)) {
           console.log('unidadesData não é um array, convertendo...')
           unidadesData = []
-        }
-        
-        // Se os itens estiverem dentro de arrays individuais, extrair o primeiro elemento
-        if (unidadesData.length > 0 && Array.isArray(unidadesData[0])) {
-          console.log('Extraindo itens de arrays aninhados...')
-          unidadesData = unidadesData.map((item: any) => item[0]);
-          console.log('Dados após extração:', unidadesData);
         }
         
         // Função para converter tempo "HH:MM:SS" para minutos totais
