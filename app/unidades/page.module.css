@@ -40,6 +40,7 @@
   overflow-x: hidden;
   padding: 1rem;
   gap: 1rem;
+  flex-shrink: 1;
 }
 
 .unitList:hover {
@@ -175,7 +176,7 @@
   
   .unitDiv {
     width: 100%;
-    height: 50%;
+    max-height: 60vh;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -184,6 +185,10 @@
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
     animation: slideUp 0.4s ease-out;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--cor-fundo-principal);
   }
   
   .unitMap {
@@ -225,24 +230,54 @@
     z-index: 1001;
     cursor: pointer;
     transition: all 0.2s ease;
+    flex-shrink: 0;
   }
   
   .closeUnitList:hover {
     background: var(--cor-hover-sutil);
     transform: scale(1.05);
   }
+  
+  .unitList {
+    width: 100%;
+    flex: 0 1 auto;
+    max-height: calc(60vh - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem;
+    padding-top: 50px;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 /* Responsividade para smartphones pequenos */
 @media (max-width: 480px) {
   .unitDiv {
-    height: 60%;
+    max-height: 70vh;
     border-radius: 15px 15px 0 0;
+    overflow: hidden;
+    background-color: var(--cor-fundo-principal);
+    display: flex;
+    flex-direction: column;
   }
   
   .unitList {
+    width: 100%;
+    flex: 0 1 auto;
+    max-height: calc(70vh - 70px);
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0.5rem;
+    padding-top: 50px;
     gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .closeUnitList {
+    flex-shrink: 0;
   }
   
   .searchBarOverlay {
