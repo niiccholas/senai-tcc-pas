@@ -23,12 +23,20 @@ export default function SearchBar() {
   const [results, setResults] = useState<Unidade[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [isFilterActive, setIsFilterActive] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
+
+  // Verificar se está na página de filtro ao carregar
+  useEffect(() => {
+    setIsFilterActive(window.location.pathname === "/filtro")
+  }, [])
 
   const handleFilterClick = () => {
     if (window.location.pathname === "/filtro") {
+      setIsFilterActive(false)
       router.back() 
     } else {
+      setIsFilterActive(true)
       router.push("/filtro")
     }
   }
@@ -96,7 +104,7 @@ export default function SearchBar() {
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                viewBox="0 0 24 24" fill="none" stroke="#ffffff" 
                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" 
-               className="lucide lucide-chevron-down">
+               className={`lucide lucide-chevron-down ${!isFilterActive ? styles.rotated : ''}`}>
             <path d="m6 9 6 6 6-6"/>
           </svg>
         </button>

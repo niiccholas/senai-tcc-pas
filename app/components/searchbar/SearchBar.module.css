@@ -35,6 +35,14 @@
     cursor: pointer;
 }
 
+.filterbtn svg {
+    transition: transform 0.3s ease;
+}
+
+.rotated {
+    transform: rotate(180deg);
+}
+
 .searchbox input{
     font-size: 24px;
     height: 30px;

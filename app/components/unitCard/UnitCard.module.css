@@ -8,7 +8,36 @@
     width: 100%;
     box-sizing: border-box;
     transition: all 0.2s ease;
+    
+    /* Animação de entrada */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease-out forwards;
 }
+
+/* Keyframes para animação de entrada */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animação escalonada para múltiplos cards */
+.unitCard:nth-child(1) { animation-delay: 0.1s; }
+.unitCard:nth-child(2) { animation-delay: 0.2s; }
+.unitCard:nth-child(3) { animation-delay: 0.3s; }
+.unitCard:nth-child(4) { animation-delay: 0.4s; }
+.unitCard:nth-child(5) { animation-delay: 0.5s; }
+.unitCard:nth-child(6) { animation-delay: 0.6s; }
+.unitCard:nth-child(7) { animation-delay: 0.7s; }
+.unitCard:nth-child(8) { animation-delay: 0.8s; }
+.unitCard:nth-child(9) { animation-delay: 0.9s; }
+.unitCard:nth-child(10) { animation-delay: 1.0s; }
 
 .unitName {
     font-size: 24px;
