@@ -637,18 +637,18 @@
     width: 100%;
     height: 36px;
     border: none;
-    color: var(--cor-texto-principal);
+    color: var(--cor-texto-claro);
     font-size: 14px;
     font-weight: 500;
     outline: none;
-    background-color: transparent;
+    background-color: var(--cor-erro-botao);
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .cancelButton:hover {
-    background-color: var(--cor-terciaria);
+    background-color: var(--cor-erro-botao);
     color: var(--cor-texto-claro);
 }
 
@@ -718,7 +718,7 @@
     border: none;
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -729,25 +729,30 @@
 
 .editActions {
     display: flex;
+    border: none;
+    outline: none;
+    background: none;
     gap: 8px;
 }
 
 .cancelButton{
     padding: 0.5vh 1vw;
-    background-color: transparent;
-    color: var(--cor-texto-principal);
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .editActions{
-    padding: 0.5vh 1vw;
+    padding: 0.005vh 0.7vw;
     background-color: transparent;
     color: var(--cor-texto-principal);
-    border: 1px solid var(--cor-terciaria);
+    border: none;
+    outline: none;
+    background: none;
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
@@ -756,7 +761,11 @@
 }
 
 .editActions .cancelButton:hover {
-    background-color: var(--cor-terciaria);
+    color: var(--cor-texto-claro);
+}
+
+.cancelButton:hover {
+    background-color: #d12424;
     color: var(--cor-texto-claro);
 }
 
@@ -767,7 +776,7 @@
     border: none;
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -783,7 +792,9 @@
 }
 
 .editableInput {
-    background-color: var(--cor-fundo-principal) !important;
+    border: none;
+    outline: none;
+    background: none;
 }
 
 .editableInput:focus {
