@@ -7,6 +7,7 @@ import styles from './page.module.css'
 import { loginUsuario } from "../api/usuario"
 import React from 'react'
 import { useRouter } from "next/navigation"
+import { useUser } from "../context/UserContext"
 
 const Page: NextPage<{}> = ({}) => {
   const [cpf, setCpf] = React.useState("")
@@ -15,6 +16,7 @@ const Page: NextPage<{}> = ({}) => {
   const [loading, setLoading] = React.useState(false)
 
   const router = useRouter()
+  const { login } = useUser()
 
   async function handleLogin(formData: FormData) {
     setLoading(true)
@@ -26,6 +28,9 @@ const Page: NextPage<{}> = ({}) => {
       const data = await loginUsuario(rawCpf, senha)
 
       if (data.status) {
+        // Remove a senha dos dados antes de salvar
+        const { senha, ...userDataWithoutPassword } = data;
+        login(userDataWithoutPassword);
         router.push("/inicio")
       } else {
         alert("Login inválido")

@@ -22,6 +22,7 @@ export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState<Unidade[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const [isFilterActive, setIsFilterActive] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
@@ -66,6 +67,14 @@ export default function SearchBar() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSearchTerm(value)
+    setIsTyping(true)
+    
+    // Reset typing state after user stops typing for 300ms
+    const timeoutId = setTimeout(() => {
+      setIsTyping(false)
+    }, 300)
+    
+    return () => clearTimeout(timeoutId)
   }
 
   const handleUnitSelect = (unidade: Unidade) => {
@@ -121,11 +130,11 @@ export default function SearchBar() {
           type="button"
           disabled={isLoading}
         >
-          {isLoading ? (
+          {(isLoading || isTyping) ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                  viewBox="0 0 24 24" fill="none" stroke="#ffffff" 
                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                 className="animate-spin">
+                 className={styles.spin}>
               <path d="M21 12a9 9 0 11-6.219-8.56"/>
             </svg>
           ) : (

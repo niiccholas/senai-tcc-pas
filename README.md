@@ -209,29 +209,6 @@ O projeto é totalmente responsivo com breakpoints otimizados:
 
 ## 👥 Equipe de Desenvolvimento
 
-- **Desenvolvedor Principal**: [Vitor Paes Rodrigues](https://www.linkedin.com/in/vitor-paes-166b95295/)
+- **Desenvolvedor Principal**: [Vitor Paes Rodrigues](linkedin.com/in/vitorpaesrodrigues)
+- **Co-desenvolvedor**: [Nicolas Silva de Almeida](linkedin.com/in/nicolas-almeida-b53b16327)
 - **Instituição**: SENAI
-
-## 📄 Licença
-
-Este projeto foi desenvolvido como Trabalho de Conclusão de Curso (TCC) do SENAI.
-
-## 🤝 Contribuição
-
-Este é um projeto acadêmico, mas sugestões e melhorias são bem-vindas!
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📞 Contato
-
-- **Email**: [seu-email@exemplo.com]
-- **LinkedIn**: [seu-linkedin]
-- **GitHub**: [seu-github]
-
----
-
-**Desenvolvido com ❤️ para o TCC SENAI 2024**

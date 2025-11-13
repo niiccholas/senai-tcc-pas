@@ -70,12 +70,30 @@
     color: var(--cor-primaria);
 }
 
-.photo{
+
+
+.photo {
+    position: relative;
     display: flex;
     width: 100%;
+    max-height: 27vh;
+    height: 27vh;
+    overflow: hidden;
     border-radius: 30px;
     box-shadow: 0px 4px 4px 0px #00000041;
+    cursor: pointer;
 }
+
+.photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 30px;
+}
+
+
+
 
 .accountSettings{
     display: flex;
@@ -224,7 +242,7 @@
 }
 
 .label input::placeholder{
-    color: #0a1b2c;
+    background-color: transparent;
     font-weight: 300;
     font-size: 1.125rem;
 }
@@ -293,10 +311,16 @@
     .systemSettings {
         width: 25%;
         min-width: 180px;
+        justify-content: flex-start;
     }
     
     .accountSettings {
         width: 75%;
+    }
+    
+    .photo {
+        height: 20vh;
+        max-height: 30vh;
     }
     
     .personalInfo img,
@@ -318,6 +342,20 @@
     .options {
         font-size: 18px;
     }
+    
+    /* Ajustar estrutura dos tablets - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 2vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        width: auto;
+        min-width: 120px;
+    }
 }
 
 /* Responsividade para smartphones */
@@ -333,7 +371,7 @@
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         min-width: auto;
     }
     
@@ -351,7 +389,10 @@
     }
     
     .photo {
-        display: none;
+        height: 30vh;
+        max-height: 30vh;
+        margin-bottom: 2vh;
+        width: 100%;
     }
     
     .systemSettings button {
@@ -408,6 +449,19 @@
     .label input::placeholder {
         font-size: 1rem;
     }
+    
+    /* Estrutura dos smartphones - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        align-self: center;
+        width: 100%;
+    }
 }
 
 /* Responsividade para smartphones pequenos */
@@ -417,10 +471,11 @@
         gap: 2vh;
     }
     
-    .systemSettings {
-        flex-direction: column;
-        gap: 2vh;
-        align-items: stretch;
+    
+    .photo {
+        height: 20vh;
+        max-height: 20vh;
+        margin-bottom: 1.5vh;
     }
     
     .options {
@@ -433,11 +488,6 @@
         padding: 1vh 2vw;
     }
     
-    .systemSettings button {
-        width: 100%;
-        font-size: 13px;
-        padding: 1.5vh 3vw;
-    }
     
     .personalData,
     .registrationData {
@@ -482,6 +532,21 @@
     .label input::placeholder {
         font-size: 0.9rem;
     }
+    
+    /* Estrutura dos smartphones pequenos - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        align-self: flex-start;
+        width: auto;
+        min-width: 100px;
+        font-size: 12px;
+    }
 }
 
 /* Responsividade para telas muito grandes */
@@ -499,6 +564,11 @@
     
     .accountSettings {
         width: 82%;
+    }
+    
+    .photo {
+        height: 25vh;
+        max-height: 30vh;
     }
     
     .options {
@@ -537,5 +607,258 @@
     
     .label input::placeholder {
         font-size: 1.3rem;
+    }
+}
+
+/* Responsividade para confirmação */
+@media (max-width: 768px) {
+    .confirmationBox {
+        min-width: 120px;
+        padding: 12px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 32px;
+        font-size: 13px;
+    }
+}
+
+/* Estilos para confirmação de logout */
+.logoutButton {
+    width: 10vw;
+    height: 4vh;
+    border: var(--cor-erro-botao) 1.5px solid;
+    color: var(--cor-erro-botao);
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    background-color: transparent;
+    border-radius: 1.25rem;
+    box-shadow: 0px 4px 4px 0px #0000001e;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.logoutButton:hover {
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
+    transform: translateY(-1px);
+    transition: background-color 0.2s;
+}
+
+.confirmationBox {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 2px solid var(--cor-terciaria);
+    border-radius: 12px;
+    background-color: var(--cor-fundo-principal);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+    align-items: center;
+}
+
+.cancelButton {
+    width: 100%;
+    height: 36px;
+    border: none;
+    color: var(--cor-texto-claro);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    background-color: var(--cor-erro-botao);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelButton:hover {
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
+}
+
+.confirmButton {
+    width: 100%;
+    height: 36px;
+    border: none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    background-color: #dc3545;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.confirmButton:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* Responsividade para confirmação */
+@media (max-width: 768px) {
+    .confirmationBox {
+        min-width: 120px;
+        padding: 12px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 32px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmationBox {
+        min-width: 100px;
+        padding: 10px;
+        gap: 6px;
+    }
+    
+    .cancelButton,
+    .confirmButton {
+        height: 30px;
+        font-size: 12px;
+    }
+}
+
+/* Estilos para edição de dados */
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.sectionHeader h4 {
+    margin: 0;
+}
+
+.editButton {
+    padding: 0.5vh 1vw;
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.editButton:hover {
+    background-color: var(--cor-hover-azul);
+}
+
+.editActions {
+    display: flex;
+    border: none;
+    outline: none;
+    background: none;
+    gap: 8px;
+}
+
+.cancelButton{
+    padding: 0.5vh 1vw;
+    background-color: var(--cor-erro-botao);
+    color: var(--cor-texto-claro);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.editActions{
+    padding: 0.005vh 0.7vw;
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    border: none;
+    outline: none;
+    background: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.editActions .cancelButton:hover {
+    color: var(--cor-texto-claro);
+}
+
+.cancelButton:hover {
+    background-color: #d12424;
+    color: var(--cor-texto-claro);
+}
+
+.saveButton {
+    padding: 0.5vh 1vw;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.saveButton:hover {
+    background-color: #218838;
+}
+
+.saveButton:disabled,
+.editActions .cancelButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.editableInput {
+    border: none;
+    outline: none;
+    background: none;
+}
+
+.editableInput:focus {
+    outline: none;
+}
+
+/* Responsividade para edição */
+@media (max-width: 768px) {
+    .sectionHeader {
+        flex-direction: column;
+        gap: 1vh;
+        align-items: stretch;
+    }
+    
+    .editActions {
+        justify-content: center;
+    }
+    
+    .editButton,
+    .editActions .cancelButton,
+    .saveButton {
+        font-size: 13px;
+        padding: 0.8vh 2vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .editActions {
+        flex-direction: column;
+        gap: 1vh;
+    }
+    
+    .editButton,
+    .editActions .cancelButton,
+    .saveButton {
+        font-size: 12px;
+        padding: 1vh 3vw;
+        width: 100%;
     }
 }
