@@ -51,6 +51,7 @@ export interface UnidadeLocation {
 
 export interface LocationMapProps {
   onLocationSelect?: (address: string, lat: number, lng: number) => void
+  onUnitPinClick?: (unitId: string) => void
   navigateToCoords?: { lat: number; lng: number } | null
   filteredUnits?: any[] // Unidades já filtradas para mostrar no mapa
   showAllUnits?: boolean // Se true, busca todas as unidades (para página /mapa)
@@ -72,7 +73,7 @@ function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; ln
   return null
 }
 
-const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToCoords, filteredUnits, showAllUnits = false }) => {
+const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinClick, navigateToCoords, filteredUnits, showAllUnits = false }) => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; address: string } | null>(null)
   const [mapCenter, setMapCenter] = useState<[number, number]>([-23.5505, -46.6333])
   const [unidadesLocations, setUnidadesLocations] = useState<UnidadeLocation[]>([])
@@ -313,13 +314,18 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
   }
 
   // Função para dar zoom ao clicar no marker
-  const handleMarkerClick = (lat: number, lng: number, nome: string) => {
-    console.log(`Clique no pin: ${nome}`)
+  const handleMarkerClick = (lat: number, lng: number, nome: string, unitId: number) => {
+    console.log(`Clique no pin: ${nome} (ID: ${unitId})`)
     if (mapInstance) {
       mapInstance.flyTo([lat, lng], 19, {
         animate: true,
         duration: 1.5
       })
+    }
+    
+    // Chamar callback se fornecido
+    if (onUnitPinClick) {
+      onUnitPinClick(String(unitId))
     }
   }
 
@@ -379,7 +385,7 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, navigateToC
                 position={[unidade.lat, unidade.lng] as LatLngExpression}
                 icon={selected ? greenIcon : blueIcon}
                 eventHandlers={{
-                  click: () => handleMarkerClick(unidade.lat, unidade.lng, unidade.nome)
+                  click: () => handleMarkerClick(unidade.lat, unidade.lng, unidade.nome, unidade.id)
                 }}
               >
                 <Popup>

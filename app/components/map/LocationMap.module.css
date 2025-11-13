@@ -284,21 +284,30 @@
 
 /* Popup styles */
 .popupContent {
-  text-align: flex-start;
+  text-align: left;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  padding: 8px;
+  border-radius: 4px;
 }
 
 .popupTitle {
   font-weight: 600;
   font-size: 1rem;
+  color: #000000 !important;
+  margin-bottom: 4px;
 }
 
 .popupText {
   font-weight: 400;
   font-size: 0.875rem;
+  color: #000000 !important;
+  margin: 0;
 }
 
 .popupText span {
   font-weight: 600;
+  color: #000000 !important;
 }
 
 
