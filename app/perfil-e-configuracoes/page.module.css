@@ -76,49 +76,24 @@
     position: relative;
     display: flex;
     width: 100%;
+    max-height: 27vh;
+    height: 27vh;
+    overflow: hidden;
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px 0px #00000041;
+    cursor: pointer;
 }
 
 .photo img{
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     border-radius: 30px;
-    box-shadow: 0px 4px 4px 0px #00000041;
 }
 
-.editablePhoto {
-    cursor: pointer;
-}
 
-.editablePhoto:hover {
-    opacity: 0.8;
-    transition: opacity 0.2s;
-}
 
-.photoOverlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 30px;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.editablePhoto:hover .photoOverlay {
-    opacity: 1;
-}
-
-.photoOverlay span {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-}
 
 .accountSettings{
     display: flex;
@@ -336,10 +311,16 @@
     .systemSettings {
         width: 25%;
         min-width: 180px;
+        justify-content: flex-start;
     }
     
     .accountSettings {
         width: 75%;
+    }
+    
+    .photo {
+        height: 20vh;
+        max-height: 30vh;
     }
     
     .personalInfo img,
@@ -361,6 +342,20 @@
     .options {
         font-size: 18px;
     }
+    
+    /* Ajustar estrutura dos tablets - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 2vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        width: auto;
+        min-width: 120px;
+    }
 }
 
 /* Responsividade para smartphones */
@@ -376,7 +371,7 @@
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         min-width: auto;
     }
     
@@ -394,7 +389,10 @@
     }
     
     .photo {
-        display: none;
+        height: 30vh;
+        max-height: 30vh;
+        margin-bottom: 2vh;
+        width: 100%;
     }
     
     .systemSettings button {
@@ -451,6 +449,19 @@
     .label input::placeholder {
         font-size: 1rem;
     }
+    
+    /* Estrutura dos smartphones - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        align-self: center;
+        width: 100%;
+    }
 }
 
 /* Responsividade para smartphones pequenos */
@@ -460,10 +471,11 @@
         gap: 2vh;
     }
     
-    .systemSettings {
-        flex-direction: column;
-        gap: 2vh;
-        align-items: stretch;
+    
+    .photo {
+        height: 20vh;
+        max-height: 20vh;
+        margin-bottom: 1.5vh;
     }
     
     .options {
@@ -476,11 +488,6 @@
         padding: 1vh 2vw;
     }
     
-    .systemSettings button {
-        width: 100%;
-        font-size: 13px;
-        padding: 1.5vh 3vw;
-    }
     
     .personalData,
     .registrationData {
@@ -525,6 +532,21 @@
     .label input::placeholder {
         font-size: 0.9rem;
     }
+    
+    /* Estrutura dos smartphones pequenos - botão desconectar embaixo da foto */
+    .systemSettings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5vh;
+    }
+    
+    .systemSettings button {
+        order: 2;
+        align-self: flex-start;
+        width: auto;
+        min-width: 100px;
+        font-size: 12px;
+    }
 }
 
 /* Responsividade para telas muito grandes */
@@ -542,6 +564,11 @@
     
     .accountSettings {
         width: 82%;
+    }
+    
+    .photo {
+        height: 25vh;
+        max-height: 30vh;
     }
     
     .options {

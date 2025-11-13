@@ -12,7 +12,7 @@ export interface User {
   cep: string;
   telefone: string;
   id: string;
-  foto?: string; // URL da foto de perfil (opcional)
+  foto_perfil?: string; // URL da foto de perfil (opcional)
 }
 
 interface UserContextType {
