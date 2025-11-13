@@ -40,6 +40,16 @@ export default function InfoCard({
   const [openDates, setOpenDates] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
+  // Verificar se há dados de localização
+  const hasLocationData = city && city.length > 0 && city.some(cidadeObj => 
+    cidadeObj.cidade && cidadeObj.cidade.trim() !== ""
+  );
+
+  // Verificar se há dados de datas
+  const hasDateData = (startDate && startDate.trim() !== "") || 
+                      (endDate && endDate.trim() !== "") || 
+                      (dayHours && dayHours.trim() !== "");
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
@@ -78,13 +88,15 @@ export default function InfoCard({
                 <p>Público-alvo: <span>{audience}</span></p>
               </div>
             )}
-            <button
-              className={styles.moreInfo}
-              onClick={() => setOpenLocation((prev) => !prev)}
-            >
-              Localização
-            </button>
-            {openLocation && (
+            {hasLocationData && (
+              <button
+                className={styles.moreInfo}
+                onClick={() => setOpenLocation((prev) => !prev)}
+              >
+                Localização
+              </button>
+            )}
+            {openLocation && hasLocationData && (
               <div className={styles.locationInfo}>
                 <p>
                   Disponível em: <span>{unitType}</span>
@@ -101,13 +113,15 @@ export default function InfoCard({
                 ))}
               </div>
             )}
-            <button
-              className={styles.moreInfo}
-              onClick={() => setOpenDates((prev) => !prev)}
-            >
-              Datas da campanha
-            </button>
-            {openDates && (
+            {hasDateData && (
+              <button
+                className={styles.moreInfo}
+                onClick={() => setOpenDates((prev) => !prev)}
+              >
+                Datas da campanha
+              </button>
+            )}
+            {openDates && hasDateData && (
               <div className={styles.campaignDates}>
                 <p>Início da campanha: <span>{startDate}</span></p>
                 <p>Término da campanha: <span>{endDate}</span></p>

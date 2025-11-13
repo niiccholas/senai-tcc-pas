@@ -77,10 +77,27 @@ export default function SearchBar() {
     return () => clearTimeout(timeoutId)
   }
 
-  const handleUnitSelect = (unidade: Unidade) => {
+  const handleUnitSelect = async (unidade: Unidade) => {
     setSearchTerm('')
     setShowDropdown(false)
-    router.push(`/unidades?unitId=${unidade.id}`)
+    
+    // Se estamos na página de unidades, navegar para a unidade e centralizar no mapa
+    if (window.location.pathname === "/unidades") {
+      // Usar URLSearchParams para manter outros parâmetros e adicionar unitId
+      const currentUrl = new URL(window.location.href)
+      currentUrl.searchParams.set('unitId', unidade.id.toString())
+      
+      // Atualizar a URL sem recarregar a página
+      window.history.pushState({}, '', currentUrl.toString())
+      
+      // Disparar evento personalizado para que a página de unidades saiba da mudança
+      window.dispatchEvent(new CustomEvent('unitSelected', { 
+        detail: { unitId: unidade.id.toString() } 
+      }))
+    } else {
+      // Se não estamos na página de unidades, navegar para lá
+      router.push(`/unidades?unitId=${unidade.id}`)
+    }
   }
 
   useEffect(() => {

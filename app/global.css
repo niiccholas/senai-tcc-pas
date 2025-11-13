@@ -172,7 +172,11 @@ body {
 [data-theme="dark"] img,
 [data-theme="dark"] input[type="range"],
 [data-theme="dark"] .map-container,
-[data-theme="dark"] .leaflet-container {
+[data-theme="dark"] .leaflet-container,
+[data-theme="dark"] .leaflet-popup,
+[data-theme="dark"] .leaflet-popup *,
+[data-theme="dark"] .leaflet-popup-content,
+[data-theme="dark"] .leaflet-popup-content * {
     color: initial !important;
 }
 

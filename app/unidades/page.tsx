@@ -424,6 +424,21 @@ function UnitPageContent() {
     }
   }
 
+  // Listener para evento de unidade selecionada via SearchBar
+  useEffect(() => {
+    const handleUnitSelected = (event: CustomEvent) => {
+      const { unitId } = event.detail
+      console.log('Evento unitSelected recebido:', unitId)
+      handleLearnMore(unitId)
+    }
+
+    window.addEventListener('unitSelected', handleUnitSelected as EventListener)
+    
+    return () => {
+      window.removeEventListener('unitSelected', handleUnitSelected as EventListener)
+    }
+  }, [])
+
   const handleLocationSelect = (address: string, lat: number, lng: number) => {
     console.log('Local selecionado:', { address, lat, lng })
   }
@@ -487,15 +502,14 @@ function UnitPageContent() {
             </svg>
           </button>
         )}
-        
-        <div className={styles.mapContainer}>
-          <LocationMap 
-            onLocationSelect={handleLocationSelect}
-            navigateToCoords={selectedUnitCoords}
-            filteredUnits={unidadesRaw}
-            showAllUnits={false}
-          />
-        </div>
+
+        <LocationMap 
+          onLocationSelect={handleLocationSelect}
+          onUnitPinClick={handleLearnMore}
+          navigateToCoords={selectedUnitCoords}
+          filteredUnits={unidadesRaw}
+          showAllUnits={false}
+        />
       </div>
     </main>
   )
