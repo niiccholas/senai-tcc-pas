@@ -471,7 +471,11 @@
         gap: 2vh;
     }
     
-    
+    .themeOption {
+        padding-inline: 1.7vw !important;
+        padding-block: 1vh !important;
+    }
+
     .photo {
         height: 20vh;
         max-height: 20vh;
@@ -542,9 +546,9 @@
     
     .systemSettings button {
         order: 2;
-        align-self: flex-start;
+        align-self: center;
         width: auto;
-        min-width: 100px;
+        min-width: 50%;
         font-size: 12px;
     }
 }
@@ -714,14 +718,20 @@
 
 @media (max-width: 480px) {
     .confirmationBox {
+        display: flex;
+        flex-direction: row-reverse; 
+        border: none;
+        box-shadow: none;
         min-width: 100px;
-        padding: 10px;
-        gap: 6px;
+        width: 60%;
+        align-self: center;
+        justify-content: space-between;
     }
     
     .cancelButton,
     .confirmButton {
-        height: 30px;
+        height: 60px;
+        min-width: 200px;
         font-size: 12px;
     }
 }
