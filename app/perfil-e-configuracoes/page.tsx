@@ -20,9 +20,16 @@ export default function ProfileSettingsPage(){
         email: '',
         cep: '',
         telefone: '',
-        foto: ''
+        foto_perfil: ''
     });
     const [isSaving, setIsSaving] = useState(false);
+    
+    // Estados para controle de erros
+    const [errors, setErrors] = useState({
+        email: '',
+        cep: '',
+        telefone: ''
+    });
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Redirecionar para login se não estiver logado (apenas após carregamento)
@@ -37,9 +44,9 @@ export default function ProfileSettingsPage(){
         if (user) {
             setEditData({
                 email: user.email || '',
-                cep: user.cep || '',
-                telefone: user.telefone || '',
-                foto: user.foto || ''
+                cep: user.cep ? formatCEP(user.cep) : '',
+                telefone: user.telefone ? formatTelefone(user.telefone) : '',
+                foto_perfil: user.foto_perfil || ''
             });
         }
     }, [user]);
@@ -64,6 +71,41 @@ export default function ProfileSettingsPage(){
     // Função para formatar CPF
     const formatCPF = (cpf: string) => {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    };
+
+    // Função para formatar telefone
+    const formatTelefone = (telefone: string) => {
+        // Remove tudo que não é número
+        const numbers = telefone.replace(/\D/g, '');
+        
+        // Aplica formatação baseada no tamanho
+        if (numbers.length <= 10) {
+            // Telefone fixo: (11) 1234-5678
+            return numbers.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+        } else {
+            // Celular: (11) 91234-5678
+            return numbers.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        }
+    };
+
+    // Função para formatar CEP
+    const formatCEP = (cep: string) => {
+        // Remove tudo que não é número
+        const numbers = cep.replace(/\D/g, '');
+        // Aplica formatação: 12345-678
+        return numbers.replace(/(\d{5})(\d{3})/, '$1-$2');
+    };
+
+    // Função para validar email
+    const validateEmail = (email: string) => {
+        if (!email) return ''; // Campo pode estar vazio
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email) ? '' : 'O email informado é inválido';
+    };
+
+    // Função para permitir apenas números
+    const onlyNumbers = (value: string) => {
+        return value.replace(/\D/g, '');
     };
 
     // Função para mostrar confirmação
@@ -94,33 +136,61 @@ export default function ProfileSettingsPage(){
         if (user) {
             setEditData({
                 email: user.email || '',
-                cep: user.cep || '',
-                telefone: user.telefone || '',
-                foto: user.foto || ''
+                cep: user.cep ? formatCEP(user.cep) : '',
+                telefone: user.telefone ? formatTelefone(user.telefone) : '',
+                foto_perfil: user.foto_perfil || ''
             });
         }
+        // Limpa erros
+        setErrors({
+            email: '',
+            cep: '',
+            telefone: ''
+        });
     };
 
     // Função para salvar alterações
     const handleSaveEdit = async () => {
         if (!user) return;
 
+        // Valida todos os campos antes de salvar
+        const emailError = validateEmail(editData.email);
+        
+        setErrors({
+            email: emailError,
+            cep: '',
+            telefone: ''
+        });
+
+        // Se há erros, não salva
+        if (emailError) {
+            return;
+        }
+
         setIsSaving(true);
         try {
-            const updatedUser = {
+            // Remove formatação antes de salvar
+            const cleanedData = {
                 ...user,
                 email: editData.email,
-                cep: editData.cep,
-                telefone: editData.telefone,
-                foto: editData.foto
+                cep: editData.cep.replace(/\D/g, ''), // Remove formatação do CEP
+                telefone: editData.telefone.replace(/\D/g, ''), // Remove formatação do telefone
+                foto_perfil: editData.foto_perfil
             };
 
-            await atualizarUsuario(user.id, updatedUser);
+            await atualizarUsuario(user.id, cleanedData);
             
             // Atualizar contexto com novos dados
-            login(updatedUser);
+            login(cleanedData);
             
             setIsEditing(false);
+            
+            // Limpa erros
+            setErrors({
+                email: '',
+                cep: '',
+                telefone: ''
+            });
         } catch (error) {
             console.error('Erro ao salvar:', error);
             alert('Erro ao salvar alterações. Tente novamente.');
@@ -131,9 +201,41 @@ export default function ProfileSettingsPage(){
 
     // Função para atualizar dados de edição
     const handleInputChange = (field: string, value: string) => {
+        let processedValue = value;
+        let error = '';
+
+        // Processa o valor baseado no campo
+        if (field === 'telefone') {
+            const numbersOnly = onlyNumbers(value);
+            // Limita a 11 dígitos
+            if (numbersOnly.length <= 11) {
+                processedValue = formatTelefone(numbersOnly);
+            } else {
+                return; // Não permite mais de 11 dígitos
+            }
+        } else if (field === 'cep') {
+            const numbersOnly = onlyNumbers(value);
+            // Limita a 8 dígitos
+            if (numbersOnly.length <= 8) {
+                processedValue = formatCEP(numbersOnly);
+            } else {
+                return; // Não permite mais de 8 dígitos
+            }
+        } else if (field === 'email') {
+            processedValue = value;
+            error = validateEmail(value);
+        }
+
+        // Atualiza os dados
         setEditData(prev => ({
             ...prev,
-            [field]: value
+            [field]: processedValue
+        }));
+
+        // Atualiza os erros
+        setErrors(prev => ({
+            ...prev,
+            [field]: error
         }));
     };
 
@@ -154,7 +256,7 @@ export default function ProfileSettingsPage(){
                 const result = e.target?.result as string;
                 setEditData(prev => ({
                     ...prev,
-                    foto: result
+                    foto_perfil: result
                 }));
             };
             reader.readAsDataURL(file);
@@ -213,9 +315,22 @@ export default function ProfileSettingsPage(){
         <main className={styles.main}>
             <div className={styles.systemSettings}>
                 <div className={styles.options}>
-                    <div className={styles.photo}>
-                    {isDark ? <img src="https://file.garden/aOx43sIeICuTJI2s/nophotodark.png" alt="" /> :
-                        <img src="https://file.garden/aOx43sIeICuTJI2s/nophotolight.png" alt="" />}
+                    <div className={styles.photo} onClick={handlePhotoClick}>
+                        {user?.foto_perfil ? (
+                            <img src={user.foto_perfil} alt="Foto de perfil" />
+                        ) : (
+                            isDark ? <img src="https://file.garden/aOx43sIeICuTJI2s/nophotodark.png" alt="Sem foto" /> :
+                            <img src="https://file.garden/aOx43sIeICuTJI2s/nophotolight.png" alt="Sem foto" />
+                        )}
+                        {isEditing && (
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileSelect}
+                                style={{ display: 'none' }}
+                            />
+                        )}
                     </div> 
                         <ul className={styles.themeOption} onClick={toggleTheme}>
                             <span>Tema</span>
@@ -320,9 +435,10 @@ export default function ProfileSettingsPage(){
                                 <img src={isDark ? iconUrls.mail.dark : iconUrls.mail.light} alt="" />
                                 <div className={styles.label}>
                                     <p>E-mail</p>
+                                    {errors.email && <span style={{color: 'red', fontSize: '12px', marginLeft: '10px'}}>* {errors.email}</span>}
                                     <input 
                                         value={isEditing ? editData.email : (user?.email || '')} 
-                                        placeholder="exemploemail@email.com" 
+                                        placeholder="*******" 
                                         readOnly={!isEditing}
                                         onChange={(e) => isEditing && handleInputChange('email', e.target.value)}
                                         className={isEditing ? styles.editableInput : ''}
@@ -334,13 +450,15 @@ export default function ProfileSettingsPage(){
                             <div className={styles.registrationInfo}>
                                 <img src={isDark ? iconUrls.pin.dark : iconUrls.pin.light} alt="" />
                                 <div className={styles.label}>
-                                    <p>Endereço</p>
+                                    <p>Endereço - CEP</p>
+                                    {errors.cep && <span style={{color: 'red', fontSize: '12px', marginLeft: '10px'}}>* {errors.cep}</span>}
                                     <input 
-                                        value={isEditing ? editData.cep : (user?.cep || '')} 
-                                        placeholder="CEP" 
+                                        value={isEditing ? editData.cep : (user?.cep ? formatCEP(user.cep) : '')} 
+                                        placeholder="*******" 
                                         readOnly={!isEditing}
                                         onChange={(e) => isEditing && handleInputChange('cep', e.target.value)}
                                         className={isEditing ? styles.editableInput : ''}
+                                        maxLength={9}
                                     />
                                 </div>
                             </div>
@@ -350,12 +468,14 @@ export default function ProfileSettingsPage(){
                                 <img src={isDark ? iconUrls.telephone.dark : iconUrls.telephone.light} alt="" />
                                 <div className={styles.label}>
                                     <p>Telefone</p>
+                                    {errors.telefone && <span style={{color: 'red', fontSize: '12px', marginLeft: '10px'}}>* {errors.telefone}</span>}
                                     <input 
-                                        value={isEditing ? editData.telefone : (user?.telefone || '')} 
-                                        placeholder="(11) 44002-8922" 
+                                        value={isEditing ? editData.telefone : (user?.telefone ? formatTelefone(user.telefone) : '')} 
+                                        placeholder="*******" 
                                         readOnly={!isEditing}
                                         onChange={(e) => isEditing && handleInputChange('telefone', e.target.value)}
                                         className={isEditing ? styles.editableInput : ''}
+                                        maxLength={15}
                                     />
                                 </div>
                             </div>
