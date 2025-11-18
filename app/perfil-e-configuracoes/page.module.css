@@ -551,6 +551,11 @@
         min-width: 50%;
         font-size: 12px;
     }
+
+    .editActions{
+        display: flex;
+        flex-direction: row;
+    }
 }
 
 /* Responsividade para telas muito grandes */
@@ -664,8 +669,18 @@
     align-items: center;
 }
 
+.saveButton{
+    width: 50%;
+    height: 36px;
+    border: none;
+    color: var(--cor-texto-claro);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+}
+
 .cancelButton {
-    width: 100%;
+    width: 50%;
     height: 36px;
     border: none;
     color: var(--cor-texto-claro);
@@ -860,7 +875,7 @@
 
 @media (max-width: 480px) {
     .editActions {
-        flex-direction: column;
+        flex-direction: row;
         gap: 1vh;
     }
     
@@ -869,6 +884,6 @@
     .saveButton {
         font-size: 12px;
         padding: 1vh 3vw;
-        width: 100%;
+        width: 50%;
     }
 }
