@@ -1,14 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
 import styles from './page.module.css';
 import SearchBar from '../components/searchbar/SearchBar';
-
-const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
-  ssr: false,
-  loading: () => <div className={styles.mapLoading}>Carregando mapa...</div>
-});
+import { LazyLocationMap } from '../components/LazyComponents';
 
 export default function MapaPage() {
   const handleLocationSelect = (address: string, lat: number, lng: number) => {
@@ -22,7 +17,7 @@ export default function MapaPage() {
       </div>
       
       <div className={styles.mapContainer}>
-        <LocationMap 
+        <LazyLocationMap 
           onLocationSelect={handleLocationSelect} 
           showAllUnits={true}
         />

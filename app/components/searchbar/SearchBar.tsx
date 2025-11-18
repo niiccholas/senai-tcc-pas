@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { getUnidadesByNome } from "../../api/unidade"
+import { useSearchHistory } from '../../context/SearchHistoryContext'
 import styles from './SearchBar.module.css'
 
 interface Unidade {
@@ -19,11 +20,13 @@ interface Unidade {
 
 export default function SearchBar() {
   const router = useRouter()
+  const { searchHistory, addToHistory } = useSearchHistory()
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState<Unidade[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
   const [isFilterActive, setIsFilterActive] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
@@ -46,10 +49,12 @@ export default function SearchBar() {
     if (!term.trim() || term.length < 2) {
       setResults([])
       setShowDropdown(false)
+      setShowHistory(false)
       return
     }
 
     setIsLoading(true)
+    setShowHistory(false)
     try {
       const data = await getUnidadesByNome(term)
       const unidades = data.unidadesDeSaude || []
@@ -78,8 +83,12 @@ export default function SearchBar() {
   }
 
   const handleUnitSelect = async (unidade: Unidade) => {
+    // Adicionar ao histórico
+    addToHistory(unidade.nome, 'unit', unidade.id)
+    
     setSearchTerm('')
     setShowDropdown(false)
+    setShowHistory(false)
     
     // Se estamos na página de unidades, navegar para a unidade e centralizar no mapa
     if (window.location.pathname === "/unidades") {
@@ -100,6 +109,28 @@ export default function SearchBar() {
     }
   }
 
+  const handleHistorySelect = (historyItem: any) => {
+    setSearchTerm(historyItem.query)
+    setShowHistory(false)
+    
+    if (historyItem.type === 'unit' && historyItem.unitId) {
+      // Navegar diretamente para a unidade
+      if (window.location.pathname === "/unidades") {
+        const currentUrl = new URL(window.location.href)
+        currentUrl.searchParams.set('unitId', historyItem.unitId.toString())
+        window.history.pushState({}, '', currentUrl.toString())
+        window.dispatchEvent(new CustomEvent('unitSelected', { 
+          detail: { unitId: historyItem.unitId.toString() } 
+        }))
+      } else {
+        router.push(`/unidades?unitId=${historyItem.unitId}`)
+      }
+    } else {
+      // Busca geral
+      searchUnidades(historyItem.query)
+    }
+  }
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       searchUnidades(searchTerm)
@@ -112,6 +143,7 @@ export default function SearchBar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowDropdown(false)
+        setShowHistory(false)
       }
     }
 
@@ -139,7 +171,13 @@ export default function SearchBar() {
           value={searchTerm}
           onChange={handleInputChange}
           placeholder="Procure por uma unidade de saúde..." 
-          onFocus={() => searchTerm.length >= 2 && results.length > 0 && setShowDropdown(true)}
+          onFocus={() => {
+            if (searchTerm.length >= 2 && results.length > 0) {
+              setShowDropdown(true)
+            } else if (searchTerm.length === 0 && searchHistory.length > 0) {
+              setShowHistory(true)
+            }
+          }}
         />
 
         <button
@@ -174,11 +212,59 @@ export default function SearchBar() {
               className={styles.dropdownItem}
               onClick={() => handleUnitSelect(unidade)}
             >
-              <div className={styles.unitName}>{unidade.nome}</div>
-              <div className={styles.unitAddress}>
-                {unidade.local?.endereco?.[0] && (
-                  `${unidade.local.endereco[0].logradouro}, ${unidade.local.endereco[0].bairro}`
-                )}
+              <div className={styles.itemIcon}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div className={styles.itemContent}>
+                <div className={styles.unitName}>{unidade.nome}</div>
+                <div className={styles.unitAddress}>
+                  {unidade.local?.endereco?.[0] && (
+                    `${unidade.local.endereco[0].logradouro}, ${unidade.local.endereco[0].bairro}`
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {showHistory && searchHistory.length > 0 && (
+        <div className={styles.dropdown}>
+          <div className={styles.historyHeader}>
+            <span>Buscas recentes</span>
+            <button 
+              className={styles.clearHistory}
+              onClick={() => {
+                // Implementar limpeza do histórico se necessário
+                setShowHistory(false)
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m18 6-12 12"/>
+                <path d="m6 6 12 12"/>
+              </svg>
+            </button>
+          </div>
+          {searchHistory.slice(0, 5).map((item) => (
+            <div 
+              key={item.id}
+              className={`${styles.dropdownItem} ${styles.historyItem}`}
+              onClick={() => handleHistorySelect(item)}
+            >
+              <div className={styles.itemIcon}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12,6 12,12 16,14"/>
+                </svg>
+              </div>
+              <div className={styles.itemContent}>
+                <div className={styles.unitName}>{item.query}</div>
+                <div className={styles.unitAddress}>
+                  {item.type === 'unit' ? 'Unidade de saúde' : 'Busca geral'} • {new Date(item.timestamp).toLocaleDateString()}
+                </div>
               </div>
             </div>
           ))}

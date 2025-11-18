@@ -6,6 +6,7 @@ import { getCategorias, getEspecialidades } from "../api/filtro"
 import Filtro from "../components/filtro/Filtro"
 import IconText from "../components/iconText/IconText"
 import SearchBar from "../components/searchbar/SearchBar"
+import { LazySavedFilters, LazyOnVisible } from "../components/LazyComponents"
 import { useFiltros } from "../context/FiltroContext"
 import { useTheme } from "../context/ThemeContext"
 import styles from "./page.module.css"
@@ -80,6 +81,11 @@ export default function FilterPage(){
         <main className={styles.main}>
             <SearchBar />
             <h1 className={styles.title}>SELECIONE O QUE PRECISA:</h1>
+            
+            {/* Filtros Salvos */}
+            <LazyOnVisible fallback={<div style={{ height: '60px', backgroundColor: 'var(--cor-fundo-secundario)', borderRadius: '8px', marginBottom: '20px' }} />}>
+                <LazySavedFilters onFilterLoad={() => console.log('Filtro carregado')} />
+            </LazyOnVisible>
             
             <div className={styles.filterCard}>
                 <div className={styles.section1}>

@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { FiltrosProvider } from './context/FiltroContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { UserProvider } from './context/UserContext'
+import { SearchHistoryProvider } from './context/SearchHistoryContext'
 import Header from './components/Header'
 import './global.css'
 
@@ -19,14 +20,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         
       <ThemeProvider>
         <UserProvider>
-          <FiltrosProvider>
-            <body className="rubik.className">
-              <Header />
+          <SearchHistoryProvider>
+            <FiltrosProvider>
+              <body className="rubik.className">
+                <Header />
 
-              {children}
+                {children}
 
-            </body>
-          </FiltrosProvider>
+              </body>
+            </FiltrosProvider>
+          </SearchHistoryProvider>
         </UserProvider>
       </ThemeProvider>
     </html>

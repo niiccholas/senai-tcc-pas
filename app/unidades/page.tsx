@@ -1,21 +1,21 @@
 'use client';
 
 import React, { useEffect, useState, useMemo, Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { useFiltros } from '../context/FiltroContext';
 import { useTheme } from '../context/ThemeContext';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { filterUnitsByDistance } from '../utils/geocoding';
-import UnitCard, { UnitCardProps } from '../components/unitCard/UnitCard';
-import UnitInfo from '../components/unitInfo/UnitInfo';
+import { LazyLocationMap, LazyUnitCard, LazyUnitInfo } from '../components/LazyComponents';
 import SearchBar from '../components/searchbar/SearchBar';
 
-const LocationMap = dynamic(() => import('../components/map/LocationMap'), {
-  ssr: false,
-  loading: () => <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6' }}>Carregando mapa...</div>
-});
+export interface UnitCardProps {
+  id: string;
+  name: string;
+  waitTimeGeneral: string;
+  onLearnMore?: (unitId: string) => void;
+}
 
 function UnitPageContent() {
   const { selectedFilters } = useFiltros()
@@ -273,14 +273,15 @@ function UnitPageContent() {
           return hours * 60 + minutes + seconds / 60
         }
 
-        const unidadesFormatadas = unidadesData
+        const unidadesFormatadas: UnitCardProps[] = unidadesData
           .filter((unidade: any) => unidade.id != null && unidade.nome) // Filtrar unidades sem ID ou nome
           .map((unidade: any, index: number) => {
             console.log('Transformando unidade:', unidade.nome, 'ID:', unidade.id, 'Tempo:', unidade.tempo_espera_geral)
             return {
               id: String(unidade.id),
               name: unidade.nome,
-              waitTimeGeneral: unidade.tempo_espera_geral || '-'
+              waitTimeGeneral: unidade.tempo_espera_geral || '-',
+              onLearnMore: handleLearnMore
             }
           })
           .filter((unidade, index, array) => {
@@ -456,7 +457,7 @@ function UnitPageContent() {
       {isUnitDivVisible && (
         <div className={styles.unitDiv}>
           {selectedUnitId ? (
-            <UnitInfo unitId={selectedUnitId} />
+            <LazyUnitInfo unitId={selectedUnitId} />
           ) : (
             <div className={styles.unitList}>
               {loading ? (
@@ -465,7 +466,7 @@ function UnitPageContent() {
                 </div>
               ) : unidades.length > 0 ? (
                 unidades.map((unidade) => (
-                  <UnitCard
+                  <LazyUnitCard
                     key={unidade.id}
                     id={unidade.id}
                     name={unidade.name}
@@ -484,6 +485,11 @@ function UnitPageContent() {
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#ffffff" : "#134879"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x">
               <path d="M18 6 6 18"/>
               <path d="m6 6 12 12"/>
+              <path d="M18 6 6 18"/>
+              <path d="m6 6 12 12"/>
+              <line x1="4" x2="20" y1="6" y2="6"/>
+              <line x1="4" x2="20" y1="12" y2="12"/>
+              <line x1="4" x2="20" y1="18" y2="18"/>
             </svg>
           </button>
         </div>
@@ -503,7 +509,7 @@ function UnitPageContent() {
           </button>
         )}
 
-        <LocationMap 
+        <LazyLocationMap 
           onLocationSelect={handleLocationSelect}
           onUnitPinClick={handleLearnMore}
           navigateToCoords={selectedUnitCoords}
