@@ -729,9 +729,9 @@
     }
     
     .cancelButton,
-    .confirmButton {
-        height: 60px;
-        min-width: 200px;
+    .saveButton {
+        height: 35px;
+        min-width: 45%;
         font-size: 12px;
     }
 }

@@ -120,11 +120,11 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
 
   const getUserLocation = async () => {
     setIsLocating(true)
-    const defaultLat = -23.5505
-    const defaultLng = -46.6333
+    const defaultLat = -23.528866
+    const defaultLng = -46.898228
     
     if (!navigator.geolocation) {
-      setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'São Paulo, SP' })
+      setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'Jandira, SP' })
       setIsLocating(false)
       return
     }
