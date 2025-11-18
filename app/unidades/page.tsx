@@ -23,14 +23,13 @@ function UnitPageContent() {
   const { userLocation, calculateDistance } = useGeolocation()
   const searchParams = useSearchParams()
   const [unidades, setUnidades] = useState<UnitCardProps[]>([])
-  const [unidadesRaw, setUnidadesRaw] = useState<any[]>([]) // Dados brutos para o mapa
+  const [unidadesRaw, setUnidadesRaw] = useState<any[]>([])
   const [isUnitDivVisible, setIsUnitDivVisible] = useState(true)
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null)
   const [selectedUnitCoords, setSelectedUnitCoords] = useState<{ lat: number; lng: number } | null>(null)
   const [loading, setLoading] = useState(false)
   const [shouldCenterFirstUnit, setShouldCenterFirstUnit] = useState(false)
 
-  // Verificar se há unitId na URL
   useEffect(() => {
     const unitIdFromUrl = searchParams.get('unitId')
     if (unitIdFromUrl) {
@@ -40,7 +39,6 @@ function UnitPageContent() {
   }, [searchParams])
 
 
-  // Hook personalizado para debounce
   const useDebounce = (value: any, delay: number) => {
     const [debouncedValue, setDebouncedValue] = useState(value)
     
@@ -57,17 +55,14 @@ function UnitPageContent() {
     return debouncedValue
   }
 
-  // Debounce dos filtros para evitar chamadas excessivas
   const debouncedFilters = useDebounce(selectedFilters, 300)
   
 
   
-  // Memoizar a chave dos filtros para evitar re-renders desnecessários
   const filterKey = useMemo(() => {
     return JSON.stringify(debouncedFilters)
   }, [debouncedFilters])
 
-  // useEffect para buscar unidades filtradas
   useEffect(() => {
     console.log('=== useEffect executado ===')
     console.log('debouncedFilters:', debouncedFilters)
@@ -76,8 +71,6 @@ function UnitPageContent() {
     setLoading(true)
     setShouldCenterFirstUnit(true)
     
-    // Verificar se há filtros que precisam ser enviados para a API
-    // Nota: disponibilidade é tratada localmente, não via API
     const hasApiFilters = debouncedFilters.especialidade !== null || 
                          debouncedFilters.categoria !== null
     
@@ -97,7 +90,6 @@ function UnitPageContent() {
         if (hasApiFilters) {
           console.log('📡 Aplicando filtros via API:', debouncedFilters)
           
-          // Criar objeto de filtros para a API (removendo valores null e campos tratados localmente)
           let filtrosParaAPI: any = {}
           
           if (debouncedFilters.especialidade !== null) {
@@ -107,14 +99,9 @@ function UnitPageContent() {
           
           if (debouncedFilters.categoria !== null) {
             filtrosParaAPI.categoria = debouncedFilters.categoria
-            console.log('📡 Adicionando categoria ao filtro API:', debouncedFilters.categoria)
           }
           
-          console.log('📡 Filtros finais para API:', filtrosParaAPI)
-          console.log('📡 JSON que será enviado:', JSON.stringify(filtrosParaAPI))
-          
           try {
-            // Fazer fetch direto para evitar problemas com Server Actions
             const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/filtrar', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -126,11 +113,7 @@ function UnitPageContent() {
             }
             
             const responseData = await response.json()
-            console.log('Resposta completa da API filtrar:', responseData)
-            console.log('Status da resposta:', response.status)
-            console.log('Unidades na resposta:', responseData.unidadesDeSaude)
             
-            // Tentar diferentes estruturas de resposta
             if (responseData.unidadesDeSaude && Array.isArray(responseData.unidadesDeSaude)) {
               unidadesData = responseData.unidadesDeSaude
             } else if (responseData.data && Array.isArray(responseData.data)) {
@@ -138,16 +121,12 @@ function UnitPageContent() {
             } else if (Array.isArray(responseData)) {
               unidadesData = responseData
             } else {
-              console.log('Estrutura de resposta da API filtrar não reconhecida')
               unidadesData = []
             }
           } catch (error) {
-            console.error('Erro ao chamar API filtrar:', error)
             unidadesData = []
           }
         } else {
-          console.log('Carregando todas as unidades')
-          // Fazer fetch direto para evitar problemas com Server Actions
           const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/')
           
           if (!response.ok) {
@@ -155,12 +134,9 @@ function UnitPageContent() {
           }
           
           const responseData = await response.json()
-          console.log('Resposta completa da API getUnidades:', responseData)
-
-          // Tentar diferentes estruturas de resposta
+          
           if (responseData.unidadesDeSaude && Array.isArray(responseData.unidadesDeSaude)) {
             unidadesData = responseData.unidadesDeSaude
-            console.log('✅ Usando responseData.unidadesDeSaude')
           } else if (responseData.unidades && Array.isArray(responseData.unidades)) {
             unidadesData = responseData.unidades
             console.log('✅ Usando responseData.unidades')
@@ -179,7 +155,6 @@ function UnitPageContent() {
           console.log('Dados das unidades extraídos:', unidadesData)
         }
 
-        // IMPORTANTE: Extrair objetos de arrays aninhados ANTES de aplicar filtros locais
         console.log('🔧 Verificando estrutura dos dados...')
         if (Array.isArray(unidadesData) && unidadesData.length > 0) {
           console.log('🔧 Primeiro item:', unidadesData[0])
@@ -193,7 +168,6 @@ function UnitPageContent() {
           }
         }
 
-        // Aplicar filtro de disponibilidade localmente se necessário
         if (debouncedFilters.disponibilidade !== null && Array.isArray(unidadesData)) {
           console.log('🕐 Aplicando filtro de disponibilidade local:', debouncedFilters.disponibilidade)
           console.log('🕐 Unidades ANTES do filtro de disponibilidade:', unidadesData.length)
@@ -214,7 +188,6 @@ function UnitPageContent() {
           console.log(`🕐 Unidades DEPOIS do filtro de disponibilidade: ${unidadesData.length} (removidas: ${unidadesAntes - unidadesData.length})`)
         }
 
-        // Aplicar filtro por distância se necessário
         console.log('🔍 DEBUG FILTRO DISTÂNCIA:', {
           userLocation,
           unidadeProxima: debouncedFilters.unidadeProxima,
@@ -240,7 +213,6 @@ function UnitPageContent() {
           })
         }
 
-        // Resumo final dos filtros aplicados
         console.log('=== RESUMO DOS FILTROS APLICADOS ===')
         console.log('✅ Filtros API (especialidade/categoria):', hasApiFilters ? 'SIM' : 'NÃO')
         console.log('✅ Filtro disponibilidade:', debouncedFilters.disponibilidade !== null ? `SIM (${debouncedFilters.disponibilidade})` : 'NÃO')
@@ -248,18 +220,15 @@ function UnitPageContent() {
         console.log('📊 Total de unidades após todos os filtros:', Array.isArray(unidadesData) ? unidadesData.length : 0)
         console.log('=====================================')
         
-        // Transformar dados para o formato esperado pelo UnitCard
         console.log('Dados antes da transformação:', unidadesData)
         console.log('É array?', Array.isArray(unidadesData))
         console.log('Comprimento de unidadesData:', Array.isArray(unidadesData) ? unidadesData.length : 'não é array')
         
-        // Garantir que unidadesData é um array
         if (!Array.isArray(unidadesData)) {
           console.log('unidadesData não é um array, convertendo...')
           unidadesData = []
         }
         
-        // Função para converter tempo "HH:MM:SS" para minutos totais
         const timeToMinutes = (timeStr: string): number => {
           if (!timeStr || timeStr === '-') return Infinity
           
@@ -274,7 +243,7 @@ function UnitPageContent() {
         }
 
         const unidadesFormatadas = unidadesData
-          .filter((unidade: any) => unidade.id != null && unidade.nome) // Filtrar unidades sem ID ou nome
+          .filter((unidade: any) => unidade.id != null && unidade.nome)
           .map((unidade: any, index: number) => {
             console.log('Transformando unidade:', unidade.nome, 'ID:', unidade.id, 'Tempo:', unidade.tempo_espera_geral)
             return {
@@ -284,11 +253,9 @@ function UnitPageContent() {
             }
           })
           .filter((unidade, index, array) => {
-            // Remover duplicatas baseadas no ID
             return array.findIndex(u => u.id === unidade.id) === index
           })
           .sort((a, b) => {
-            // Ordenar por tempo de espera (menor primeiro)
             const tempoA = timeToMinutes(a.waitTimeGeneral)
             const tempoB = timeToMinutes(b.waitTimeGeneral)
             console.log(`Comparando: ${a.name} (${a.waitTimeGeneral} -> ${tempoA.toFixed(1)}min) vs ${b.name} (${b.waitTimeGeneral} -> ${tempoB.toFixed(1)}min)`)
@@ -297,10 +264,9 @@ function UnitPageContent() {
 
         console.log('Unidades formatadas e ordenadas:', unidadesFormatadas.map(u => `${u.name}: ${u.waitTimeGeneral}`))
         setUnidades(unidadesFormatadas)
-        setUnidadesRaw(unidadesData) // Salvar dados brutos para o mapa
+        setUnidadesRaw(unidadesData)
         console.log('Estado unidades após setUnidades:', unidadesFormatadas.length)
         
-        // Marcar para centralizar a primeira unidade se houver unidades
         if (unidadesFormatadas.length > 0) {
           setShouldCenterFirstUnit(true)
         }
@@ -315,9 +281,8 @@ function UnitPageContent() {
     }
 
     buscarUnidades()
-  }, [filterKey, userLocation]) // Incluir userLocation para reprocessar quando localização chegar
+  }, [filterKey, userLocation])
 
-  // useEffect para centralizar a primeira unidade quando necessário
   useEffect(() => {
     const centerFirstUnit = async () => {
       if (shouldCenterFirstUnit && unidades.length > 0 && !selectedUnitId) {
@@ -363,7 +328,6 @@ function UnitPageContent() {
 
   const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      // Usar nossa API server-side para evitar CORS
       const response = await fetch(`/api/geocoding?cep=${encodeURIComponent(cep)}`)
       
       if (response.ok) {
@@ -392,7 +356,6 @@ function UnitPageContent() {
       console.log('🔍 handleLearnMore: Resposta da API:', data)
       
       if (data.status && data.unidadesDeSaude) {
-        // A API retorna um array, então pegamos o primeiro elemento
         const unidade = Array.isArray(data.unidadesDeSaude) ? data.unidadesDeSaude[0] : data.unidadesDeSaude
         console.log('🔍 handleLearnMore: Dados da unidade:', unidade)
         
@@ -424,7 +387,6 @@ function UnitPageContent() {
     }
   }
 
-  // Listener para evento de unidade selecionada via SearchBar
   useEffect(() => {
     const handleUnitSelected = (event: CustomEvent) => {
       const { unitId } = event.detail

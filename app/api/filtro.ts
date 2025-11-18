@@ -3,9 +3,9 @@
 export async function getCategorias() {
     const url = 'https://api-tcc-node-js-1.onrender.com/v1/pas/categoria'
 
-    const response = await fetch(url) // (aguarda) faz uma requisição pra url
+    const response = await fetch(url)
 
-    const data = await response.json() // espera o response executar o json com os dados
+    const data = await response.json()
 
     return data.categorias
 }
@@ -14,9 +14,9 @@ export async function getEspecialidades() {
 
     const url = 'https://api-tcc-node-js-1.onrender.com/v1/pas/especialidade'
 
-    const response = await fetch(url) // (aguarda) faz uma requisição pra url
+    const response = await fetch(url)
 
-    const data = await response.json() // espera o response executar o json com os dados
+    const data = await response.json()
 
     return data.especialidades
     

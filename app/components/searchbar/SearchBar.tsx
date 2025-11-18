@@ -27,7 +27,6 @@ export default function SearchBar() {
   const [isFilterActive, setIsFilterActive] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
 
-  // Verificar se está na página de filtro ao carregar
   useEffect(() => {
     setIsFilterActive(window.location.pathname === "/filtro")
   }, [])
@@ -53,7 +52,7 @@ export default function SearchBar() {
     try {
       const data = await getUnidadesByNome(term)
       const unidades = data.unidadesDeSaude || []
-      setResults(unidades.slice(0, 5)) 
+      setResults(unidades.slice(0, 5))
       setShowDropdown(unidades.length > 0)
     } catch (error) {
       console.error('Erro na busca:', error)
@@ -69,7 +68,6 @@ export default function SearchBar() {
     setSearchTerm(value)
     setIsTyping(true)
     
-    // Reset typing state after user stops typing for 300ms
     const timeoutId = setTimeout(() => {
       setIsTyping(false)
     }, 300)
@@ -81,21 +79,16 @@ export default function SearchBar() {
     setSearchTerm('')
     setShowDropdown(false)
     
-    // Se estamos na página de unidades, navegar para a unidade e centralizar no mapa
     if (window.location.pathname === "/unidades") {
-      // Usar URLSearchParams para manter outros parâmetros e adicionar unitId
       const currentUrl = new URL(window.location.href)
       currentUrl.searchParams.set('unitId', unidade.id.toString())
       
-      // Atualizar a URL sem recarregar a página
       window.history.pushState({}, '', currentUrl.toString())
       
-      // Disparar evento personalizado para que a página de unidades saiba da mudança
       window.dispatchEvent(new CustomEvent('unitSelected', { 
         detail: { unitId: unidade.id.toString() } 
       }))
     } else {
-      // Se não estamos na página de unidades, navegar para lá
       router.push(`/unidades?unitId=${unidade.id}`)
     }
   }

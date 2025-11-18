@@ -3,10 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L, { LatLngExpression } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import styles from './LocationMap.module.css'
-// Removido import de getUnidades para evitar Server Action no cliente
 import { formatWaitTime } from '../../utils/timeFormatter'
 
-// Fix para ícones do Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
 
 const redIcon = new L.Icon({
@@ -53,11 +51,10 @@ export interface LocationMapProps {
   onLocationSelect?: (address: string, lat: number, lng: number) => void
   onUnitPinClick?: (unitId: string) => void
   navigateToCoords?: { lat: number; lng: number } | null
-  filteredUnits?: any[] // Unidades já filtradas para mostrar no mapa
-  showAllUnits?: boolean // Se true, busca todas as unidades (para página /mapa)
+  filteredUnits?: any[]
+  showAllUnits?: boolean
 }
 
-// Componente para controlar navegação
 function MapUpdater({ navigateToCoords }: { navigateToCoords?: { lat: number; lng: number } | null }) {
   const map = useMap()
   
@@ -81,12 +78,10 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null)
   const [selectedUnit, setSelectedUnit] = useState<{ nome: string; tempoEspera: string; lat: number; lng: number } | null>(null)
   
-  // Cache para geocodificação
   const geocodeCache = React.useRef(new Map<string, { lat: number; lng: number } | null>())
   
   const geocodeByCEP = async (cep: string): Promise<{ lat: number; lng: number } | null> => {
     try {
-      // Verificar se o CEP já foi geocodificado (cache)
       const cachedCoords = geocodeCache.current.get(cep)
       if (cachedCoords !== undefined) {
         console.log('🎯 Cache hit para CEP:', cep)
@@ -95,24 +90,20 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
       
       console.log('🔍 Geocodificando CEP:', cep)
       
-      // Usar nossa API server-side para evitar CORS
       const response = await fetch(`/api/geocoding?cep=${encodeURIComponent(cep)}`)
       
       if (response.ok) {
         const coords = await response.json()
         if (coords.lat && coords.lng) {
           console.log('✅ Coordenadas encontradas:', coords)
-          // Salvar no cache
           geocodeCache.current.set(cep, coords)
           return coords
         }
       }
       
-      // Salvar resultado negativo no cache para evitar tentativas repetidas
       geocodeCache.current.set(cep, null)
     } catch (error) {
       console.error('❌ Erro ao geocodificar CEP:', error)
-      // Salvar erro no cache
       geocodeCache.current.set(cep, null)
     }
     return null
@@ -135,7 +126,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
         setUserLocation({ lat: latitude, lng: longitude, address: 'Sua localização' })
         setMapCenter([latitude, longitude])
         
-        // Centralizar o mapa na localização do usuário
         if (mapInstance) {
           mapInstance.flyTo([latitude, longitude], 17, {
             animate: true,
@@ -149,7 +139,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
         setUserLocation({ lat: defaultLat, lng: defaultLng, address: 'Jandira, SP' })
         setMapCenter([defaultLat, defaultLng])
         
-        // Centralizar no padrão se não conseguir localização
         if (mapInstance) {
           mapInstance.flyTo([defaultLat, defaultLng], 15, {
             animate: true,
@@ -163,7 +152,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
     )
   }
 
-  // Função para processar em lotes com concorrência limitada
   const processInBatches = async <T, R>(
     items: T[],
     processor: (item: T) => Promise<R>,
@@ -184,12 +172,10 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
     console.log(`🚀 Processando ${unidadesData.length} unidades com paralelização...`)
     const startTime = Date.now()
     
-    // Filtrar apenas unidades com CEP válido
     const unidadesComCEP = unidadesData.filter(unidade => 
       unidade.local?.endereco?.[0]?.cep
     )
 
-    // Processar unidades em lotes de 5 (concorrência controlada)
     const processUnidade = async (unidade: any): Promise<UnidadeLocation | null> => {
       const cep = unidade.local.endereco[0].cep
       const endereco = unidade.local.endereco[0]
@@ -234,7 +220,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
     try {
       console.log('🔍 Buscando todas as unidades via fetch direto...')
       
-      // Fazer fetch direto para evitar Server Action no cliente
       const response = await fetch('https://api-tcc-node-js-1.onrender.com/v1/pas/unidades/')
       
       if (!response.ok) {
@@ -244,7 +229,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
       const data = await response.json()
       console.log('📦 Resposta da API:', data)
       
-      // Tentar diferentes estruturas de resposta
       let unidadesData = []
       if (data.unidadesDeSaude && Array.isArray(data.unidadesDeSaude)) {
         unidadesData = data.unidadesDeSaude
@@ -277,26 +261,21 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
   useEffect(() => {
     getUserLocation()
     
-    // Se showAllUnits for true (página /mapa), busca todas as unidades
-    // Se filteredUnits for fornecido (página /unidades), usa apenas as filtradas
     if (showAllUnits) {
       fetchUnidadesLocations()
     } else if (filteredUnits !== undefined) {
       processFilteredUnits()
     } else {
-      // Fallback: se nenhuma das condições acima, busca todas
       fetchUnidadesLocations()
     }
   }, [showAllUnits, filteredUnits])
 
-  // Log quando navigateToCoords muda
   useEffect(() => {
     if (navigateToCoords) {
       console.log('Navegação solicitada para:', navigateToCoords)
     }
   }, [navigateToCoords])
 
-  // Centralizar mapa quando a instância do mapa e localização estiverem disponíveis
   useEffect(() => {
     if (mapInstance && userLocation && !isLocating) {
       mapInstance.flyTo([userLocation.lat, userLocation.lng], 17, {
@@ -313,7 +292,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
     return latMatch && lngMatch
   }
 
-  // Função para dar zoom ao clicar no marker
   const handleMarkerClick = (lat: number, lng: number, nome: string, unitId: number) => {
     console.log(`Clique no pin: ${nome} (ID: ${unitId})`)
     if (mapInstance) {
@@ -323,7 +301,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
       })
     }
     
-    // Chamar callback se fornecido
     if (onUnitPinClick) {
       onUnitPinClick(String(unitId))
     }
@@ -336,7 +313,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ onLocationSelect, onUnitPinCl
     </svg>
   )
 
-  // Componente interno para capturar instância do mapa
   function MapInstanceCapture() {
     const map = useMap()
     

@@ -5,25 +5,21 @@
 }
 
 :root {
-    /* === CORES PRINCIPAIS === */
     --cor-primaria: #134879;
     --cor-primaria-escura: #103e66;
     --cor-secundaria: #298BE6;
     --cor-terciaria: #8CC6FF;
     
-    /* === CORES DE TEXTO === */
     --cor-texto-principal: #000000;
     --cor-texto-secundario: #4b5563;
     --cor-texto-claro: #ffffff;
     --cor-texto-escuro: #1a1a1a;
     
-    /* === CORES DE FUNDO === */
     --cor-fundo-principal: #ffffff;
     --cor-fundo-secundario: #f6f6f6;
     --cor-fundo-card: #ffffff;
     --cor-fundo-overlay: rgba(255, 255, 255, 0.95);
     
-    /* === CORES DE SISTEMA === */
     --cor-sucesso: #10b981;
     --cor-sucesso-escura: #059669;
     --cor-sucesso-clara: #86efac;
@@ -39,57 +35,47 @@
     --cor-aviso-borda: #fed7aa;
     --cor-aviso-fundo: #fffbeb;
     
-    /* === CORES DE BORDA === */
     --cor-borda-principal: #e5e7eb;
     --cor-borda-input: #d1d5db;
     --cor-borda-clara: #f0f0f0;
     --cor-borda-escura: #b7c1cc;
     
-    /* === CORES DE SOMBRA === */
     --cor-sombra-leve: rgba(0, 0, 0, 0.1);
     --cor-sombra-media: rgba(0, 0, 0, 0.15);
     --cor-sombra-forte: rgba(0, 0, 0, 0.2);
     --cor-sombra-muito-leve: rgba(0, 0, 0, 0.05);
     --cor-sombra-azul: rgba(41, 139, 230, 0.3);
     
-    /* === CORES DE HOVER E ESTADOS === */
     --cor-hover-sutil: rgba(0, 0, 0, 0.05);
     --cor-hover-azul: #1d4ed8;
     --cor-hover-azul-claro: #f0f7ff;
     
-    /* === CORES DE SCROLLBAR === */
     --cor-scrollbar: #888888;
     --cor-scrollbar-hover: #555555;
     --cor-scrollbar-track: transparent;
     
-    /* === CORES ESPECÍFICAS === */
     --cor-placeholder: #0a1b2c;
     --cor-navegacao: #F9FAFB;
     --cor-badge-selecionado: #28a745;
 }
 
-/* === TEMA ESCURO === */
 [data-theme="dark"] {
-    /* === CORES PRINCIPAIS (baseadas nas screenshots) === */
     --cor-primaria: #2563eb;
     --cor-primaria-escura: #094175;
     --cor-secundaria: #3b82f6;
     --cor-terciaria: #60a5fa;
     
-    /* === CORES DE TEXTO === */
     --cor-texto-principal: #ffffff;
     --cor-texto-secundario: #e5e7eb;
     --cor-texto-claro: #ffffff;
     --cor-texto-escuro: #f9fafb;
     
-    /* === CORES DE FUNDO === */
     --cor-fundo-principal: #00172B;
     --cor-fundo-secundario: #1e293b;
     --cor-fundo-card-perfil: #094175;
     --cor-fundo-card: #334155;
     --cor-fundo-overlay: rgba(15, 23, 42, 0.95);
     
-    /* === CORES DE SISTEMA === */
     --cor-sucesso: #10b981;
     --cor-sucesso-escura: #059669;
     --cor-sucesso-clara: #34d399;
@@ -105,30 +91,25 @@
     --cor-aviso-borda: #92400e;
     --cor-aviso-fundo: #451a03;
     
-    /* === CORES DE BORDA === */
     --cor-borda-principal: #475569;
     --cor-borda-input: #64748b;
     --cor-borda-clara: #334155;
     --cor-borda-escura: #94a3b8;
     
-    /* === CORES DE SOMBRA === */
     --cor-sombra-leve: rgba(0, 0, 0, 0.4);
     --cor-sombra-media: rgba(0, 0, 0, 0.5);
     --cor-sombra-forte: rgba(0, 0, 0, 0.6);
     --cor-sombra-muito-leve: rgba(0, 0, 0, 0.3);
     --cor-sombra-azul: rgba(59, 130, 246, 0.4);
     
-    /* === CORES DE HOVER E ESTADOS === */
     --cor-hover-sutil: rgba(255, 255, 255, 0.1);
     --cor-hover-azul: #60a5fa;
     --cor-hover-azul-claro: #1e40af;
     
-    /* === CORES DE SCROLLBAR === */
     --cor-scrollbar: #6b7280;
     --cor-scrollbar-hover: #9ca3af;
     --cor-scrollbar-track: transparent;
     
-    /* === CORES ESPECÍFICAS === */
     --cor-placeholder: #d1d5db;
     --cor-navegacao: #d1d5db;
     --cor-badge-selecionado: #10b981;
@@ -145,7 +126,6 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Garantir que TODOS os textos sejam brancos no modo escuro */
 [data-theme="dark"] *,
 [data-theme="dark"] h1,
 [data-theme="dark"] h2,
@@ -167,7 +147,6 @@ body {
     color: #ffffff !important;
 }
 
-/* Exceções para elementos que precisam manter cores específicas */
 [data-theme="dark"] svg,
 [data-theme="dark"] img,
 [data-theme="dark"] input[type="range"],
@@ -180,23 +159,19 @@ body {
     color: initial !important;
 }
 
-/* Placeholders também devem ser brancos */
 [data-theme="dark"] input::placeholder,
 [data-theme="dark"] textarea::placeholder {
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Links devem ser brancos também */
 [data-theme="dark"] a {
     color: #ffffff !important;
 }
 
-/* Botões devem manter texto branco */
 [data-theme="dark"] button {
     color: #ffffff !important;
 }
 
-/* Inputs também devem ter texto branco */
 [data-theme="dark"] input[type="text"],
 [data-theme="dark"] input[type="email"],
 [data-theme="dark"] input[type="password"],

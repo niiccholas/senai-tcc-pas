@@ -18,25 +18,22 @@ export default function FilterPage(){
     const [especialidades, setEspecialidades] = useState([])
     const [loading, setLoading] = useState(true)
     
-    // URLs dos ícones para cada tema
     const iconUrls = {
-        // Atendimento 24h
         done: {
             light: "https://file.garden/aOx43sIeICuTJI2s/Done.png",
-            dark: "https://file.garden/aOx43sIeICuTJI2s/darkdone.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+            dark: "https://file.garden/aOx43sIeICuTJI2s/darkdone.png"
         },
         close: {
             light: "https://file.garden/aOx43sIeICuTJI2s/Close.png",
-            dark: "https://file.garden/aOx43sIeICuTJI2s/Closedark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Closedark.png"
         },
-        // Localização
         placeMarker: {
             light: "https://file.garden/aOx43sIeICuTJI2s/Place%20Marker.png",
-            dark: "https://file.garden/aOx43sIeICuTJI2s/PlaceMarkerdark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+            dark: "https://file.garden/aOx43sIeICuTJI2s/PlaceMarkerdark.png"
         },
         depth: {
             light: "https://file.garden/aOx43sIeICuTJI2s/Depth.png",
-            dark: "https://file.garden/aOx43sIeICuTJI2s/Depthdark.png" // COLOQUE AQUI A URL DO ÍCONE ESCURO
+            dark: "https://file.garden/aOx43sIeICuTJI2s/Depthdark.png"
         }
     };
 
