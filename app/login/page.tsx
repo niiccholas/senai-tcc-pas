@@ -82,9 +82,12 @@ const Page: NextPage<{}> = ({}) => {
           <span className={styles.checkmark}></span>
           <p className={styles.termos}>
             Li e aceito os{" "}
-            <span style={{ color: "#298BE6" }}>Termos de Uso</span>{" "}
-            e a{" "}
-            <span style={{ color: "#298BE6" }}>Política de Privacidade</span>
+            <span
+              style={{ color: "#298BE6", cursor: "pointer" }}
+              onClick={() => router.push("/termos-de-uso")}
+            >
+              Termos de Uso e Responsabilidade
+            </span>
           </p>
         </label>
 
