@@ -24,7 +24,7 @@ O PAS (Portal de Acesso à Saúde) é uma plataforma que permite aos usuários e
 - **React 19** - Biblioteca para interfaces de usuário
 - **TypeScript** - Superset JavaScript com tipagem estática
 - **CSS Modules** - Estilização com escopo local
-- **Leaflet** - Biblioteca para mapas interativos
+- **Open Street Map** - Biblioteca para mapas interativos
 
 ### Backend/API
 - **API REST** - Integração com backend Node.js
